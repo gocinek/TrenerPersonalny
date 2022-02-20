@@ -38,7 +38,7 @@ namespace TrenerPersonalny.Models
         public string PasswordHash { get; set; }
         [JsonIgnore]
         [Required]
-        public string PasswordSalt { get; set; }
+        public byte[] PasswordSalt { get; set; }
 
         [ForeignKey("rolesId")]
         [Required]

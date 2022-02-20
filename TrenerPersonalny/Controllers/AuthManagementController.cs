@@ -42,16 +42,16 @@ namespace TrenerPersonalny.Controllers
                     return BadRequest(new RegistrationResponse()
                     {
                         Errors = new List<string>()
-                {
-                    "Email jest już używany"
-                },
-                    Success = false
+                    {
+                        "Email jest już używany"
+                    },
+                        Success = false
                     });
                 }
 
                 var salt = HashPass.salt();
-                var newUser = new Client() { Email = user.Email, UserName = user.Email.Substring(0, user.Email.IndexOf("@")), PasswordHash = HashPass.hashPass(user.Pasword.ToString(), salt), PasswordSalt = Convert.ToBase64String(salt), rolesId = user.rolesId, Registered = DateTime.Today.ToString("d")  }; //, 
-                var isCreated = await _userManager.CreateAsync(newUser, user.Pasword);
+                var newUser = new Client() { Email = user.Email, UserName = user.Email.Substring(0, user.Email.IndexOf("@")), PasswordHash = HashPass.hashPass(user.Password.ToString(), salt), PasswordSalt = salt, rolesId = user.rolesId, Registered = DateTime.Today.ToString("d")  }; //, 
+                var isCreated = await _userManager.CreateAsync(newUser, user.Password);
                 if (isCreated.Succeeded)
                 {
                     var jwtToken = GenerateJwtToken(newUser);
@@ -75,11 +75,70 @@ namespace TrenerPersonalny.Controllers
             return BadRequest(new RegistrationResponse() { 
                 Errors = new List<string>()
                 {
-                    "niepoprawne dane"
+                    "error"
                 },
                     Success = false
             });
         } 
+
+        [HttpPost]
+        [Route("Login")]
+        public async Task<IActionResult> Login([FromBody] UserLoginRequest user)
+        {
+            if (ModelState.IsValid)
+            {
+                var existingUser = await _userManager.FindByEmailAsync(user.Email);
+                if(existingUser == null)
+                {
+                    return BadRequest(new RegistrationResponse()
+                    {
+                        Errors = new List<string>()
+                        {
+                            "Podany użytkownik nie istnieje"
+                        },
+                        Success = false
+                    });
+                }
+                                
+                var passHash = HashPass.hashPass(user.Password.ToString(), existingUser.PasswordSalt);
+                //var passHash2 = HashPass.hashPass(user.Password.ToString(), System.Text.Encoding.ASCII.GetBytes(existingUser.PasswordSalt));
+                var verifyPass = HashPass.VerifyPassword(user.Password, existingUser.PasswordHash, existingUser.PasswordSalt);
+           //     Console.WriteLine(passHash);
+             //   Console.WriteLine(existingUser.PasswordHash.ToString());
+                Console.WriteLine(verifyPass);
+                var isCorrect = await _userManager.CheckPasswordAsync(existingUser, HashPass.hashPass(user.Password, existingUser.PasswordSalt).ToString());
+                Console.WriteLine("" + isCorrect.ToString());
+                if (!verifyPass)
+                {
+                    return BadRequest(new RegistrationResponse()
+                    {
+                        Errors = new List<string>()
+                        {
+                            "Niepoprawne dane logowania"
+                        },
+                        Success = false
+                    });
+                }
+
+                var jwtToken = GenerateJwtToken(existingUser);
+
+                return Ok(new RegistrationResponse()
+                {
+                    Success = true,
+                    Token = jwtToken
+                });
+
+            } 
+
+            return BadRequest(new RegistrationResponse()
+            {
+                Errors = new List<string>()
+                {
+                    "error"
+                },
+                Success = false
+            });
+        }
 
         private string GenerateJwtToken(Client user)
         {
@@ -105,5 +164,6 @@ namespace TrenerPersonalny.Controllers
 
             return jwtToken;
         }
+                
     }
 }

@@ -8,7 +8,7 @@ using TrenerPersonalny.Data;
 namespace TrenerPersonalny.Migrations
 {
     [DbContext(typeof(ApiDbContext))]
-    [Migration("20220218091335_Adding auth")]
+    [Migration("20220218095001_Adding auth")]
     partial class Addingauth
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

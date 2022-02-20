@@ -30,8 +30,24 @@ namespace TrenerPersonalny.Configuration
             numBytesRequested: 256 / 8));
             
             return hashedPassword;
-        }     
-       
+        }
+
+        public static bool VerifyPassword(string enteredPassword, string storedPassword, byte[] salt)
+        {
+            string encryptedPassw = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+                password: enteredPassword,
+                salt: salt,
+                prf: KeyDerivationPrf.HMACSHA256,
+                iterationCount: 100000,
+                numBytesRequested: 256 / 8));
+            //encryptedPassw =  encryptedPassw.ToString();
+            Console.WriteLine(encryptedPassw.ToString());
+            Console.WriteLine(storedPassword.ToString());
+            return 
+                //String.Equals(encryptedPassw.ToString(), storedPassword.ToString());
+                encryptedPassw.ToString() == storedPassword.ToString();
+        }
+
 
     }
 }
