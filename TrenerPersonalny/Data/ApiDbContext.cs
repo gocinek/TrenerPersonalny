@@ -27,7 +27,7 @@ namespace TrenerPersonalny.Data
             base.OnModelCreating(builder);
             builder.Entity<Client>() //.Ignore(c => c.NormalizedEmail)
                                            .Ignore(c => c.EmailConfirmed)
-                                           // .Ignore(c => c.PasswordHash)
+                                           .Ignore(c => c.PasswordHash)
                                            .Ignore(c => c.PhoneNumberConfirmed)
                                            .Ignore(c => c.TwoFactorEnabled)
                                            .Ignore(c => c.LockoutEnd)

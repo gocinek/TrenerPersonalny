@@ -50,7 +50,7 @@ namespace TrenerPersonalny.Controllers
                 }
 
                 var salt = HashPass.salt();
-                var newUser = new Client() { Email = user.Email, UserName = user.Email.Substring(0, user.Email.IndexOf("@")), PasswordHash = HashPass.hashPass(user.Password.ToString(), salt), PasswordSalt = salt, rolesId = user.rolesId, Registered = DateTime.Today.ToString("d")  }; //, 
+                var newUser = new Client() { Email = user.Email, UserName = user.Email.Substring(0, user.Email.IndexOf("@")), Password = HashPass.hashPass(user.Password, salt), PasswordSalt = salt, rolesId = user.rolesId, Registered = DateTime.Today.ToString("d")  }; //, 
                 var isCreated = await _userManager.CreateAsync(newUser, user.Password);
                 if (isCreated.Succeeded)
                 {
@@ -99,15 +99,9 @@ namespace TrenerPersonalny.Controllers
                         Success = false
                     });
                 }
-                                
-                var passHash = HashPass.hashPass(user.Password.ToString(), existingUser.PasswordSalt);
-                //var passHash2 = HashPass.hashPass(user.Password.ToString(), System.Text.Encoding.ASCII.GetBytes(existingUser.PasswordSalt));
-                var verifyPass = HashPass.VerifyPassword(user.Password, existingUser.PasswordHash, existingUser.PasswordSalt);
-           //     Console.WriteLine(passHash);
-             //   Console.WriteLine(existingUser.PasswordHash.ToString());
-                Console.WriteLine(verifyPass);
-                var isCorrect = await _userManager.CheckPasswordAsync(existingUser, HashPass.hashPass(user.Password, existingUser.PasswordSalt).ToString());
-                Console.WriteLine("" + isCorrect.ToString());
+            
+                var verifyPass = HashPass.VerifyPassword(user.Password, existingUser.Password, existingUser.PasswordSalt);
+                var isCorrect = await _userManager.CheckPasswordAsync(existingUser, HashPass.hashPass(user.Password, existingUser.PasswordSalt));
                 if (!verifyPass)
                 {
                     return BadRequest(new RegistrationResponse()

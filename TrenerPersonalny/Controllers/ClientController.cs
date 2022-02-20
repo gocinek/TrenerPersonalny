@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TrenerPersonalny.Configuration;
 using TrenerPersonalny.Data;
 using TrenerPersonalny.Models;
 
@@ -28,7 +29,7 @@ namespace TrenerPersonalny.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetClient(String id)
+        public async Task<IActionResult> GetClient(string id)
         {
             var client = await _context.Client.FirstOrDefaultAsync(x => x.Id == id);
 
@@ -39,7 +40,7 @@ namespace TrenerPersonalny.Controllers
             return Ok(client);
         }
 
-        [HttpPost]
+     /*   [HttpPost]
         public async Task<IActionResult> CreateClient(Client data)
         {
             if (ModelState.IsValid)
@@ -50,7 +51,7 @@ namespace TrenerPersonalny.Controllers
                 return CreatedAtAction(nameof(CreateClient), new { data.Id }, data);
             }
             return new JsonResult("Coś poszło nie tak. Nie można dodać") { StatusCode = 500 };
-        }
+        }*/
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateClient(string id, Client data)
@@ -66,14 +67,15 @@ namespace TrenerPersonalny.Controllers
             {
                 return NotFound();
             }
-
             existClient.LastName = data.LastName;
             existClient.FirstName = data.FirstName;
             existClient.Email = data.Email;
             existClient.Gender = data.Gender;
             existClient.Language = data.Language;
             existClient.Nationality = data.Nationality;
-            existClient.PasswordHash = data.PasswordHash;
+            var saltPass = HashPass.salt();
+            existClient.Password = HashPass.hashPass(data.Password, saltPass);
+            existClient.PasswordSalt = saltPass;
             existClient.PhoneNumber = data.PhoneNumber;
             existClient.ProfileImg = data.ProfileImg;
             existClient.Registered = data.Registered;

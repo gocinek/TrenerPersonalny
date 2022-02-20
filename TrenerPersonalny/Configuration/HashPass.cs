@@ -41,11 +41,11 @@ namespace TrenerPersonalny.Configuration
                 iterationCount: 100000,
                 numBytesRequested: 256 / 8));
             //encryptedPassw =  encryptedPassw.ToString();
-            Console.WriteLine(encryptedPassw.ToString());
-            Console.WriteLine(storedPassword.ToString());
+        //    Console.WriteLine(encryptedPassw.ToString());
+        //   Console.WriteLine(storedPassword.ToString());
             return 
                 //String.Equals(encryptedPassw.ToString(), storedPassword.ToString());
-                encryptedPassw.ToString() == storedPassword.ToString();
+                encryptedPassw == storedPassword;
         }
 
 

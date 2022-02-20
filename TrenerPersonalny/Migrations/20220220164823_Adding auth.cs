@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TrenerPersonalny.Migrations
 {
@@ -66,9 +67,10 @@ namespace TrenerPersonalny.Migrations
                     ProfileImg = table.Column<string>(type: "TEXT", maxLength: 255, nullable: true),
                     Language = table.Column<string>(type: "TEXT", maxLength: 25, nullable: true),
                     Nationality = table.Column<string>(type: "TEXT", maxLength: 25, nullable: true),
-                    PasswordHash = table.Column<string>(type: "TEXT", nullable: false),
-                    PasswordSalt = table.Column<string>(type: "TEXT", nullable: false),
+                    Password = table.Column<string>(type: "TEXT", nullable: false),
+                    PasswordSalt = table.Column<byte[]>(type: "BLOB", nullable: false),
                     rolesId = table.Column<int>(type: "INTEGER", nullable: false),
+                    UserRolesrolesId = table.Column<int>(type: "INTEGER", nullable: true),
                     UserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
@@ -81,11 +83,11 @@ namespace TrenerPersonalny.Migrations
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AspNetUsers_UserRoles_rolesId",
-                        column: x => x.rolesId,
+                        name: "FK_AspNetUsers_UserRoles_UserRolesrolesId",
+                        column: x => x.UserRolesrolesId,
                         principalTable: "UserRoles",
                         principalColumn: "rolesId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -205,9 +207,9 @@ namespace TrenerPersonalny.Migrations
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUsers_rolesId",
+                name: "IX_AspNetUsers_UserRolesrolesId",
                 table: "AspNetUsers",
-                column: "rolesId");
+                column: "UserRolesrolesId");
 
             migrationBuilder.CreateIndex(
                 name: "UserNameIndex",

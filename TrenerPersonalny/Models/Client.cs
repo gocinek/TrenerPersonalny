@@ -35,14 +35,13 @@ namespace TrenerPersonalny.Models
 
         [JsonIgnore]
         [Required]
-        public string PasswordHash { get; set; }
+        public string Password { get; set; }
         [JsonIgnore]
-        [Required]
         public byte[] PasswordSalt { get; set; }
 
         [ForeignKey("rolesId")]
         [Required]
-        public UserRoles UserRoles { get; set; }
+       // public UserRoles UserRoles { get; set; }
         public int rolesId { get; set; }
 
 
