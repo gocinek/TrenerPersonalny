@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace TrenerPersonalny.Models.DTOs.Reponses
+namespace TrenerPersonalny.Models.DTOs.Responses
 {
     public class UserRegistrationDto
     {

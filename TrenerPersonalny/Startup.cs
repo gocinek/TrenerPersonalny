@@ -73,17 +73,32 @@ namespace TrenerPersonalny
             //Jwt
             services.Configure<JwtConfig>(Configuration.GetSection("JwtConfig"));
 
+            //var key = Encoding.ASCII.GetBytes(Configuration["JweConfig:secret"]);
+
+            var key = Encoding.ASCII.GetBytes(Configuration["JwtConfig:Secret"]);
+
+            var tokenValidationParams = new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(key),
+                ValidateIssuer = false,
+                ValidateAudience = false,
+                ValidateLifetime = true,
+                RequireExpirationTime = false,
+                ClockSkew = TimeSpan.Zero
+            };
+
+            services.AddSingleton(tokenValidationParams);
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(jwt =>
-            {
-                var key = Encoding.ASCII.GetBytes(Configuration["JweConfig:secret"]);
+            }).AddJwtBearer(jwt => {
 
                 jwt.SaveToken = true;
-                jwt.TokenValidationParameters = new TokenValidationParameters
+                jwt.TokenValidationParameters = tokenValidationParams;
+                /*new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(key),
@@ -91,13 +106,24 @@ namespace TrenerPersonalny
                     ValidateAudience = false,
                     ValidateLifetime = true,
                     RequireExpirationTime = false
-                };
+                };*/
             });
 
-            services.AddDefaultIdentity<Client>(options => {
+
+
+            /*  services.AddDefaultIdentity<Client>(options => {
+                  options.SignIn.RequireConfirmedAccount = true;
+                  options.Password.RequiredLength = 4;
+                  }).AddEntityFrameworkStores<ApiDbContext>();*/
+            services
+            //.AddDefaultIdentity<IdentityUser>(options =>options.SignIn.RequireConfirmedAccount = true)
+            .AddIdentity<Client, IdentityRole>(options =>
+            {
                 options.SignIn.RequireConfirmedAccount = true;
                 options.Password.RequiredLength = 4;
-                }).AddEntityFrameworkStores<ApiDbContext>();
+            }).AddDefaultUI()
+              .AddDefaultTokenProviders()
+              .AddEntityFrameworkStores<ApiDbContext>();
 
             services.AddControllers();
 

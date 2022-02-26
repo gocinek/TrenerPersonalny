@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TrenerPersonalny.Configuration;
 
-namespace TrenerPersonalny.Models.DTOs.Requests
+namespace TrenerPersonalny.Models.DTOs.Responses
 {
     public class RegistrationResponse : AuthResult
     {

@@ -45,8 +45,8 @@ namespace TrenerPersonalny.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _context.Client.AddAsync(data);
-                await _context.SaveChangesAsync();
+                await _apiDbcontext.Client.AddAsync(data);
+                await _apiDbcontext.SaveChangesAsync();
 
                 return CreatedAtAction(nameof(CreateClient), new { data.Id }, data);
             }

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TrenerPersonalny.Models;
+using TrenerPersonalny.Models.DTOs.Responses;
 
 namespace TrenerPersonalny.Data
 {
@@ -14,6 +15,7 @@ namespace TrenerPersonalny.Data
         public virtual DbSet<Client> Client { get; set; }
       //  public virtual DbSet<UserAccount> UserAccount { get; set; }
         public virtual DbSet<UserRoles> UserRoles { get; set; }
+        public virtual DbSet<RefreshToken> RefreshTokens { get; set; }
 
 
         public ApiDbContext(DbContextOptions<ApiDbContext> options)
