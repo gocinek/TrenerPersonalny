@@ -9,8 +9,8 @@ using TrenerPersonalny.Data;
 namespace TrenerPersonalny.Migrations
 {
     [DbContext(typeof(ApiDbContext))]
-    [Migration("20220226201113_Initial Migrations")]
-    partial class InitialMigrations
+    [Migration("20220313172902_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -212,7 +212,7 @@ namespace TrenerPersonalny.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("UserRolesrolesId")
+                    b.Property<int?>("UserRolerolesId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("rolesId")
@@ -227,7 +227,7 @@ namespace TrenerPersonalny.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex");
 
-                    b.HasIndex("UserRolesrolesId");
+                    b.HasIndex("UserRolerolesId");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -264,7 +264,30 @@ namespace TrenerPersonalny.Migrations
                     b.ToTable("RefreshTokens");
                 });
 
-            modelBuilder.Entity("TrenerPersonalny.Models.UserRoles", b =>
+            modelBuilder.Entity("TrenerPersonalny.Models.Excercise", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PictureUrl")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Excercises");
+                });
+
+            modelBuilder.Entity("TrenerPersonalny.Models.UserRole", b =>
                 {
                     b.Property<int>("rolesId")
                         .ValueGeneratedOnAdd()
@@ -332,12 +355,12 @@ namespace TrenerPersonalny.Migrations
 
             modelBuilder.Entity("TrenerPersonalny.Models.Client", b =>
                 {
-                    b.HasOne("TrenerPersonalny.Models.UserRoles", null)
+                    b.HasOne("TrenerPersonalny.Models.UserRole", null)
                         .WithMany("Client")
-                        .HasForeignKey("UserRolesrolesId");
+                        .HasForeignKey("UserRolerolesId");
                 });
 
-            modelBuilder.Entity("TrenerPersonalny.Models.UserRoles", b =>
+            modelBuilder.Entity("TrenerPersonalny.Models.UserRole", b =>
                 {
                     b.Navigation("Client");
                 });

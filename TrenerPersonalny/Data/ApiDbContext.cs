@@ -13,9 +13,10 @@ namespace TrenerPersonalny.Data
     public class ApiDbContext : IdentityDbContext<Client>
     {
         public virtual DbSet<Client> Client { get; set; }
-      //  public virtual DbSet<UserAccount> UserAccount { get; set; }
-        public virtual DbSet<UserRoles> UserRoles { get; set; }
+        //  public virtual DbSet<UserAccount> UserAccount { get; set; }
+        public virtual DbSet<UserRole> UserRoles { get; set; }
         public virtual DbSet<RefreshToken> RefreshTokens { get; set; }
+        public virtual DbSet<Excercise> Excercises {get; set; }
 
 
         public ApiDbContext(DbContextOptions<ApiDbContext> options)

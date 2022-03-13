@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TrenerPersonalny.Models
 {
-    public class UserRoles
+    public class UserRole
     {
         [Key]
         public int rolesId { get; set; }

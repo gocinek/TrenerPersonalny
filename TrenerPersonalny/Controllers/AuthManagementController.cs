@@ -16,6 +16,7 @@ using TrenerPersonalny.Data;
 using TrenerPersonalny.Models;
 using TrenerPersonalny.Models.DTOs.Responses;
 using TrenerPersonalny.Models.DTOs.Requests;
+using Microsoft.AspNetCore.Cors;
 
 namespace TrenerPersonalny.Controllers
 {
@@ -92,6 +93,7 @@ namespace TrenerPersonalny.Controllers
         } 
 
         [HttpPost]
+       // [EnableCors("AllowOrigin")]
         [Route("Login")]
         public async Task<IActionResult> Login([FromBody] UserLoginRequest user)
         {
@@ -343,7 +345,7 @@ namespace TrenerPersonalny.Controllers
                     {
                         Success = false,
                         Errors = new List<string>() {
-                            "Token stracił ważność )przeloguj się)"
+                            "Token stracił ważność przeloguj się)"
                         }
                     };
 
@@ -359,50 +361,6 @@ namespace TrenerPersonalny.Controllers
                     };
                 }
             }
-        }
-
-        [Authorize]
-        [HttpDelete]
-        [Route("logout")]
-        public async Task<IActionResult> Logout()
-        {
-            string rawUserId = _userManager.GetUserId(HttpContext.User);
-            Console.WriteLine(rawUserId);
-
-          /*  if (rawUserId == null)
-            {
-                return Unauthorized();
-            }*/
-
-            //List<RefreshToken> test = _apiDbcontext.RefreshTokens.Where(r => r.UserId == rawUserId);
-            //_apiDbcontext.RefreshTokens.Remove(new RefreshToken() { RefreshToken(). });
-      
-           /* var rt = new RefreshToken()
-            {
-                UserId = rawUserId
-            };
-
-            using (_apiDbcontext)
-            {
-                _apiDbcontext.RefreshTokens.RemoveRange(rt);
-                await _apiDbcontext.SaveChangesAsync();
-            }*/
-
-            using (_apiDbcontext)
-            {
-                
-                var dep = _apiDbcontext.RefreshTokens.Where(r => r.UserId == rawUserId).First();
-                _apiDbcontext.RefreshTokens.Remove(dep);
-                _apiDbcontext.SaveChanges();
-
-                Console.WriteLine("Department is Deleted ");
-                //Console.ReadKey();
-            }
-
-
-            //_apiDbcontext.RefreshTokens.Remove(test);
-
-            return NoContent();
         }
 
         private DateTime UnixTimeStampToDateTime(long unixTimeStamp)
