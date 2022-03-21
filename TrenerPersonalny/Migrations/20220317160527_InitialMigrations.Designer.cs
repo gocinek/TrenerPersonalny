@@ -9,8 +9,8 @@ using TrenerPersonalny.Data;
 namespace TrenerPersonalny.Migrations
 {
     [DbContext(typeof(ApiDbContext))]
-    [Migration("20220313172902_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20220317160527_InitialMigrations")]
+    partial class InitialMigrations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -212,7 +212,7 @@ namespace TrenerPersonalny.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("UserRolerolesId")
+                    b.Property<int?>("UserRolesrolesId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("rolesId")
@@ -227,7 +227,7 @@ namespace TrenerPersonalny.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex");
 
-                    b.HasIndex("UserRolerolesId");
+                    b.HasIndex("UserRolesrolesId");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -264,7 +264,21 @@ namespace TrenerPersonalny.Migrations
                     b.ToTable("RefreshTokens");
                 });
 
-            modelBuilder.Entity("TrenerPersonalny.Models.Excercise", b =>
+            modelBuilder.Entity("TrenerPersonalny.Models.ExcerciseType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ExcerciseType");
+                });
+
+            modelBuilder.Entity("TrenerPersonalny.Models.Excercises", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -279,15 +293,17 @@ namespace TrenerPersonalny.Migrations
                     b.Property<string>("PictureUrl")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Type")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("excerciseTypeId")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("excerciseTypeId");
 
                     b.ToTable("Excercises");
                 });
 
-            modelBuilder.Entity("TrenerPersonalny.Models.UserRole", b =>
+            modelBuilder.Entity("TrenerPersonalny.Models.UserRoles", b =>
                 {
                     b.Property<int>("rolesId")
                         .ValueGeneratedOnAdd()
@@ -355,12 +371,23 @@ namespace TrenerPersonalny.Migrations
 
             modelBuilder.Entity("TrenerPersonalny.Models.Client", b =>
                 {
-                    b.HasOne("TrenerPersonalny.Models.UserRole", null)
+                    b.HasOne("TrenerPersonalny.Models.UserRoles", null)
                         .WithMany("Client")
-                        .HasForeignKey("UserRolerolesId");
+                        .HasForeignKey("UserRolesrolesId");
                 });
 
-            modelBuilder.Entity("TrenerPersonalny.Models.UserRole", b =>
+            modelBuilder.Entity("TrenerPersonalny.Models.Excercises", b =>
+                {
+                    b.HasOne("TrenerPersonalny.Models.ExcerciseType", "Type")
+                        .WithMany()
+                        .HasForeignKey("excerciseTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Type");
+                });
+
+            modelBuilder.Entity("TrenerPersonalny.Models.UserRoles", b =>
                 {
                     b.Navigation("Client");
                 });

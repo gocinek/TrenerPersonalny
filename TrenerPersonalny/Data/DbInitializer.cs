@@ -12,31 +12,74 @@ namespace TrenerPersonalny.Data
         {
             if (context.Excercises.Any()) return;
 
-            var excercises = new List<Excercise>
+            var excerciseType = new List<ExcerciseType>
             {
-                new Excercise
+                new ExcerciseType
+                {
+                    Type = "Klatka"
+                },
+                new ExcerciseType
+                {
+                    Type = "Plecy"
+                },
+                new ExcerciseType
+                {
+                    Type = "Barki"
+                },
+                new ExcerciseType
+                {
+                    Type = "Biceps"
+                },
+                new ExcerciseType
+                {
+                    Type = "Triceps"
+                },
+                new ExcerciseType
+                {
+                    Type = "Nogi + łydki"
+                },
+
+            };
+
+            foreach (var ext in excerciseType)
+            {
+                context.ExcerciseType.Add(ext);
+            }
+
+            var excercises = new List<Excercises>
+            {
+            new Excercises
+            {
+
+                Name = "Wyciskanie na ławce płaskiej",
+                Description = "Połóż się i wyciskaj",
+                PictureUrl = "/Photos/Atlas/wyciskanie_pl.jpg",
+                excerciseTypeId = 1
+
+                },
+                new Excercises
                 {
 
-                    Name = "Wyciskanie na ławce płaskiej",
-                    Description = "Połóż się i wyciskaj",
-                    PictureUrl  = "",
-                    Type="klata",
+                    Name = "Uginanie ramion z hantelkami",
+                    Description = "Na stojąco",
+                    PictureUrl  = "/Photos/Atlas/Biceps-hantelki.jpg",
+                    excerciseTypeId = 3
                 },
-                new Excercise
+                new Excercises
                 {
 
                     Name = "Wyciskanie na ławce poziomej",
                     Description = "Połóż się i wyciskaj",
                     PictureUrl  = "",
-                    Type="klata",
+                    excerciseTypeId = 1
                 },
-                new Excercise
+                new Excercises
                 {
 
                     Name = "Podciąganie nachwytem",
                     Description = "Podciągaj się nachwytem",
                     PictureUrl  = "",
-                    Type="plecy",
+                    excerciseTypeId = 2
                 },
             };
 
@@ -47,17 +90,17 @@ namespace TrenerPersonalny.Data
 
             context.SaveChanges();
 
-            var userRole = new List<UserRole>
+            var userRole = new List<UserRoles>
             {
-                new UserRole
+                new UserRoles
                 {
                     role = "Client"
                 },
-                new UserRole
+                new UserRoles
                 {
                     role = "Trainer"
                 },
-                new UserRole
+                new UserRoles
                 {
                     role = "Admin"
                 },

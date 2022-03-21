@@ -45,17 +45,7 @@ namespace TrenerPersonalny
 
 
             //CORS
-            services.AddCors(options =>
-            {
-                options.AddPolicy(name: "AllowOrigin",
-                                  builder =>
-                                  {
-                                      // builder.WithOrigins("https://localhost:3000/")
-                                       builder.AllowAnyOrigin()
-                                      .AllowAnyHeader()
-                                      .AllowAnyMethod();                                      
-                                  });
-            });
+            services.AddCors();
 
             //JSON Serializer
             services.AddControllersWithViews()
@@ -139,7 +129,10 @@ namespace TrenerPersonalny
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseCors("AllowOrigin");
+            app.UseCors(options =>
+            {
+                options.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000");
+            });
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
