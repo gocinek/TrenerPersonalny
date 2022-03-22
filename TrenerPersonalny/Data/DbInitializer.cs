@@ -12,6 +12,20 @@ namespace TrenerPersonalny.Data
         {
             if (context.Excercises.Any()) return;
 
+            var person = new List<Person>
+            {
+                new Person
+                {
+                    LastName = "Nowak"
+                }
+            };
+
+            foreach (var pe in person)
+            {
+                context.Person.Add(pe);
+            }
+            context.SaveChanges();
+
             var excerciseType = new List<ExcerciseType>
             {
                 new ExcerciseType
@@ -53,7 +67,7 @@ namespace TrenerPersonalny.Data
 
                 Name = "Wyciskanie na ławce płaskiej",
                 Description = "Połóż się i wyciskaj",
-                PictureUrl = "/Photos/Atlas/wyciskanie_pl.jpg",
+                PictureUrl = "/Photos/Atlas/Biceps-hantelki.jpg",
                 excerciseTypeId = 1
 
                 },
@@ -70,7 +84,7 @@ namespace TrenerPersonalny.Data
 
                     Name = "Wyciskanie na ławce poziomej",
                     Description = "Połóż się i wyciskaj",
-                    PictureUrl  = "",
+                    PictureUrl  = "/Photos/Atlas/Biceps-hantelki.jpg",
                     excerciseTypeId = 1
                 },
                 new Excercises
@@ -78,7 +92,7 @@ namespace TrenerPersonalny.Data
 
                     Name = "Podciąganie nachwytem",
                     Description = "Podciągaj się nachwytem",
-                    PictureUrl  = "",
+                    PictureUrl  = "/Photos/Atlas/Biceps-hantelki.jpg",
                     excerciseTypeId = 2
                 },
             };
@@ -109,6 +123,39 @@ namespace TrenerPersonalny.Data
             foreach (var ur in userRole)
             {
                 context.UserRoles.Add(ur);
+            }
+
+            context.SaveChanges();
+
+            var trainers = new List<Trainers>
+            {
+                new Trainers
+                {
+                    Description ="Cześc, jestem trenerem",
+                    PictureUrl ="/Photos/Trainers/Adamiak.png",
+                    Price = 200,
+                    personId = 1
+                },
+                new Trainers
+                {
+                    Description ="Cześc, jestem trenerem tak",
+                    PictureUrl ="/Photos/Trainers/Nowak.png",
+                    Price = 150,
+                    Rating = 6,
+                    personId = 1
+                },
+                new Trainers
+                {
+                    Description ="Cześc, jestem trenerem 3",
+                    PictureUrl ="/Photos/Trainers/Kowalski.png",
+                    Price = 190,
+                    Rating = 2,
+                    personId = 1
+                },
+            };
+            foreach (var tr in trainers)
+            {
+                context.Trainers.Add(tr);
             }
 
             context.SaveChanges();

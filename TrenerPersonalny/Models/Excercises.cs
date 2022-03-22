@@ -22,7 +22,7 @@ namespace TrenerPersonalny.Models
 
         [ForeignKey("excerciseTypeId")]
         [Required]
-        public ExcerciseType Type { get; set; }
+        public ExcerciseType type { get; set; }
         public int excerciseTypeId { get; set; }
 
 

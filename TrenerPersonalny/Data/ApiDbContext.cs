@@ -18,6 +18,9 @@ namespace TrenerPersonalny.Data
         public virtual DbSet<RefreshToken> RefreshTokens { get; set; }
         public virtual DbSet<Excercises> Excercises {get; set; }
         public virtual DbSet<ExcerciseType> ExcerciseType { get; set; }
+        public virtual DbSet<Trainers> Trainers { get; set; }
+        public virtual DbSet<Person> Person { get; set; }
+
 
         public ApiDbContext(DbContextOptions<ApiDbContext> options)
             : base(options)
@@ -35,10 +38,12 @@ namespace TrenerPersonalny.Data
                                            .Ignore(c => c.TwoFactorEnabled)
                                            .Ignore(c => c.LockoutEnd)
                                            .Ignore(c => c.LockoutEnabled)
-                                           .Ignore(c => c.AccessFailedCount);
-                                    //       .Ignore(c => c.Id);
+                                           .Ignore(c => c.AccessFailedCount)
+                                           .Ignore(c => c.PhoneNumber);
+            
+            //       .Ignore(c => c.Id);
 
-           // builder.Entity<Client>().HasKey(c => c.userId);
+            // builder.Entity<Client>().HasKey(c => c.userId);
         }
     }
 }

@@ -67,17 +67,10 @@ namespace TrenerPersonalny.Controllers
             {
                 return NotFound();
             }
-            existClient.LastName = data.LastName;
-            existClient.FirstName = data.FirstName;
             existClient.Email = data.Email;
-            existClient.Gender = data.Gender;
-            existClient.Language = data.Language;
-            existClient.Nationality = data.Nationality;
             var saltPass = HashPass.salt();
             existClient.Password = HashPass.hashPass(data.Password, saltPass);
             existClient.PasswordSalt = saltPass;
-            existClient.PhoneNumber = data.PhoneNumber;
-            existClient.ProfileImg = data.ProfileImg;
             existClient.Registered = data.Registered;
 
             await _context.SaveChangesAsync();

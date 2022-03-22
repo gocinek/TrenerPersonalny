@@ -18,32 +18,19 @@ namespace TrenerPersonalny.Models
 
       //  public string Id { get; set; }
 
-        [MaxLength(50)]
-        public string LastName { get; set; }
-        [MaxLength(50)]
-        public string FirstName { get; set; }
-        [MaxLength(5)]
-        public string Gender { get; set; }
-        [MaxLength(10)]
-        public string Registered { get; set; }
-        [MaxLength(255)]
-        public string ProfileImg { get; set; }
-        [MaxLength(25)]
-        public string Language { get; set; }
-        [MaxLength(25)]
-        public string Nationality { get; set; }
-
         [JsonIgnore]
         [Required]
         public string Password { get; set; }
         [JsonIgnore]
         public byte[] PasswordSalt { get; set; }
+        [MaxLength(10)]
+        public string Registered { get; set; }
+
 
         [ForeignKey("rolesId")]
         [Required]
-       // public UserRoles UserRoles { get; set; }
+        public UserRoles UserRoles { get; set; }
         public int rolesId { get; set; }
-
 
         //public string NormalizedEmail { get; set; }
 

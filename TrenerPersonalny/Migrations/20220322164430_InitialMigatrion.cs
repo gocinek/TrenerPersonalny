@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TrenerPersonalny.Migrations
 {
-    public partial class InitialMigrations : Migration
+    public partial class InitialMigatrion : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -32,6 +32,25 @@ namespace TrenerPersonalny.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ExcerciseType", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Person",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    LastName = table.Column<string>(type: "TEXT", maxLength: 50, nullable: true),
+                    FirstName = table.Column<string>(type: "TEXT", maxLength: 50, nullable: true),
+                    Gender = table.Column<string>(type: "TEXT", maxLength: 5, nullable: true),
+                    ProfileImg = table.Column<string>(type: "TEXT", maxLength: 255, nullable: true),
+                    Language = table.Column<string>(type: "TEXT", maxLength: 25, nullable: true),
+                    Nationality = table.Column<string>(type: "TEXT", maxLength: 25, nullable: true),
+                    PhoneNumber = table.Column<int>(type: "INTEGER", maxLength: 9, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Person", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -110,38 +129,53 @@ namespace TrenerPersonalny.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Trainers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Description = table.Column<string>(type: "TEXT", maxLength: 255, nullable: true),
+                    PictureUrl = table.Column<string>(type: "TEXT", nullable: true),
+                    Price = table.Column<long>(type: "INTEGER", nullable: false),
+                    Rating = table.Column<int>(type: "INTEGER", maxLength: 1, nullable: false),
+                    personId = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Trainers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Trainers_Person_personId",
+                        column: x => x.personId,
+                        principalTable: "Person",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetUsers",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "TEXT", nullable: false),
-                    LastName = table.Column<string>(type: "TEXT", maxLength: 50, nullable: true),
-                    FirstName = table.Column<string>(type: "TEXT", maxLength: 50, nullable: true),
-                    Gender = table.Column<string>(type: "TEXT", maxLength: 5, nullable: true),
-                    Registered = table.Column<string>(type: "TEXT", maxLength: 10, nullable: true),
-                    ProfileImg = table.Column<string>(type: "TEXT", maxLength: 255, nullable: true),
-                    Language = table.Column<string>(type: "TEXT", maxLength: 25, nullable: true),
-                    Nationality = table.Column<string>(type: "TEXT", maxLength: 25, nullable: true),
                     Password = table.Column<string>(type: "TEXT", nullable: false),
                     PasswordSalt = table.Column<byte[]>(type: "BLOB", nullable: true),
+                    Registered = table.Column<string>(type: "TEXT", maxLength: 10, nullable: true),
                     rolesId = table.Column<int>(type: "INTEGER", nullable: false),
-                    UserRolesrolesId = table.Column<int>(type: "INTEGER", nullable: true),
                     UserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
                     NormalizedEmail = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
                     SecurityStamp = table.Column<string>(type: "TEXT", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "TEXT", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "TEXT", nullable: true)
+                    ConcurrencyStamp = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AspNetUsers_UserRoles_UserRolesrolesId",
-                        column: x => x.UserRolesrolesId,
+                        name: "FK_AspNetUsers_UserRoles_rolesId",
+                        column: x => x.rolesId,
                         principalTable: "UserRoles",
                         principalColumn: "rolesId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -261,9 +295,9 @@ namespace TrenerPersonalny.Migrations
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUsers_UserRolesrolesId",
+                name: "IX_AspNetUsers_rolesId",
                 table: "AspNetUsers",
-                column: "UserRolesrolesId");
+                column: "rolesId");
 
             migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
@@ -275,6 +309,11 @@ namespace TrenerPersonalny.Migrations
                 name: "IX_Excercises_excerciseTypeId",
                 table: "Excercises",
                 column: "excerciseTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Trainers_personId",
+                table: "Trainers",
+                column: "personId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -301,6 +340,9 @@ namespace TrenerPersonalny.Migrations
                 name: "RefreshTokens");
 
             migrationBuilder.DropTable(
+                name: "Trainers");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
@@ -308,6 +350,9 @@ namespace TrenerPersonalny.Migrations
 
             migrationBuilder.DropTable(
                 name: "ExcerciseType");
+
+            migrationBuilder.DropTable(
+                name: "Person");
 
             migrationBuilder.DropTable(
                 name: "UserRoles");
