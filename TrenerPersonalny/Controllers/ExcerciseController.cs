@@ -9,9 +9,8 @@ using TrenerPersonalny.Models;
 
 namespace TrenerPersonalny.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class ExcerciseController : ControllerBase
+    
+    public class ExcerciseController : BaseApiController
     {
         private readonly ApiDbContext _context;
         public ExcerciseController(ApiDbContext context)

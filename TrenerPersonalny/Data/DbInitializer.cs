@@ -66,7 +66,7 @@ namespace TrenerPersonalny.Data
             {
 
                 Name = "Wyciskanie na ławce płaskiej",
-                Description = "Połóż się i wyciskaj",
+                Description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
                 PictureUrl = "/Photos/Atlas/Biceps-hantelki.jpg",
                 excerciseTypeId = 1
 
@@ -75,7 +75,7 @@ namespace TrenerPersonalny.Data
                 {
 
                     Name = "Uginanie ramion z hantelkami",
-                    Description = "Na stojąco",
+                    Description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
                     PictureUrl  = "/Photos/Atlas/Biceps-hantelki.jpg",
                     excerciseTypeId = 3
                 },
@@ -83,7 +83,7 @@ namespace TrenerPersonalny.Data
                 {
 
                     Name = "Wyciskanie na ławce poziomej",
-                    Description = "Połóż się i wyciskaj",
+                    Description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
                     PictureUrl  = "/Photos/Atlas/Biceps-hantelki.jpg",
                     excerciseTypeId = 1
                 },
@@ -91,7 +91,7 @@ namespace TrenerPersonalny.Data
                 {
 
                     Name = "Podciąganie nachwytem",
-                    Description = "Podciągaj się nachwytem",
+                    Description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
                     PictureUrl  = "/Photos/Atlas/Biceps-hantelki.jpg",
                     excerciseTypeId = 2
                 },
@@ -131,14 +131,14 @@ namespace TrenerPersonalny.Data
             {
                 new Trainers
                 {
-                    Description ="Cześc, jestem trenerem",
+                    Description ="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
                     PictureUrl ="/Photos/Trainers/Adamiak.png",
                     Price = 200,
                     personId = 1
                 },
                 new Trainers
                 {
-                    Description ="Cześc, jestem trenerem tak",
+                    Description ="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.k",
                     PictureUrl ="/Photos/Trainers/Nowak.png",
                     Price = 150,
                     Rating = 6,
@@ -146,7 +146,7 @@ namespace TrenerPersonalny.Data
                 },
                 new Trainers
                 {
-                    Description ="Cześc, jestem trenerem 3",
+                    Description ="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
                     PictureUrl ="/Photos/Trainers/Kowalski.png",
                     Price = 190,
                     Rating = 2,
