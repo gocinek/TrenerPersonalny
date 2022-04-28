@@ -1,0 +1,46 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using TrenerPersonalny.Models;
+
+namespace TrenerPersonalny.Extensions
+{
+    public static class TrainerExtensions
+    {
+        public static IQueryable<Trainers> Sort(this IQueryable<Trainers> query, string orderBy)
+        {
+            if (string.IsNullOrWhiteSpace(orderBy)) return query.OrderBy(p => p.person.LastName);
+
+            query = orderBy switch
+            {
+                "price" => query.OrderBy(p => p.Price),
+                "priceDesc" => query.OrderByDescending(p => p.Price),
+                "rating" => query.OrderBy(p => p.Rating),
+                "ratingDesc" => query.OrderByDescending(p => p.Rating),
+                _ => query.OrderBy(p => p.person.LastName)
+            };
+
+            return query;
+        }
+
+        public static IQueryable<Trainers> Search(this IQueryable<Trainers> query, string searchTerm)
+        {
+            if (string.IsNullOrEmpty(searchTerm)) return query;
+
+            var lowerCaseSearchTerm = searchTerm.Trim().ToLower();
+                      
+
+            return query.Where(p => p.person.LastName.ToLower().Contains(lowerCaseSearchTerm)
+                            || p.person.FirstName.ToLower().Contains(lowerCaseSearchTerm));
+        }
+
+        public static IQueryable<Trainers> Filter(this IQueryable<Trainers> query, int price, int rating)
+        {
+            query = query.Where(p => p.Rating >= rating);
+            query = query.Where(p => p.Price <= price);
+
+            return query;
+        }
+    }
+}

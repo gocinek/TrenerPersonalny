@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TrenerPersonalny.Data;
 using TrenerPersonalny.Models;
+using TrenerPersonalny.Extensions;
 
 namespace TrenerPersonalny.Controllers
 {
@@ -20,12 +21,17 @@ namespace TrenerPersonalny.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Trainers>>> GetTrainers()
+        public async Task<ActionResult<List<Trainers>>> GetTrainers(string orderBy,
+            string searchTerm, int price = 1000000, int rating = 0)
         {
-            var excercises = await _context.Trainers
+            var excercises = _context.Trainers
                 .Include(tr => tr.person)
-                .ToListAsync();
-            return Ok(excercises);
+                .Sort(orderBy)
+                .Search(searchTerm)
+                .Filter(price, rating)
+                .AsQueryable();
+
+            return await excercises.ToListAsync();
         }
 
         [HttpGet("{id}")]
@@ -34,6 +40,16 @@ namespace TrenerPersonalny.Controllers
             return await _context.Trainers.FindAsync(id);
         }
 
+        [HttpGet("filters")]
+        public async Task<IActionResult> GetFilters()
+        {
+            var prices = await _context.Trainers.Select(t => t.Price).Distinct().ToListAsync();
+            var ratings = await _context.Trainers.Select(t => t.Rating).Distinct().ToListAsync();
+            var genders = await _context.Trainers.Select(t => t.person.Gender).Distinct().ToListAsync();
+            var languages = await _context.Trainers.Select(t => t.person.Language).Distinct().ToListAsync();
 
+            return Ok(new { prices, ratings, genders, languages });
+
+        }
     }
 }

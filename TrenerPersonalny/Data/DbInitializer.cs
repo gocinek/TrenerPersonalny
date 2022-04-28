@@ -17,6 +17,10 @@ namespace TrenerPersonalny.Data
                 new Person
                 {
                     LastName = "Nowak"
+                },
+                new Person
+                {
+                    LastName = "Józek"
                 }
             };
 
