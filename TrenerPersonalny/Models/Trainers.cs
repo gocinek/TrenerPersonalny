@@ -10,16 +10,11 @@ namespace TrenerPersonalny.Models
     public class Trainers
     {
         public int Id { get; set; }
-        [MaxLength(255)]
+        [MaxLength(510)]
         public string Description { get; set; }
-        public string PictureUrl { get; set; }
         public long Price { get; set; }
-        [MaxLength(1)]
         public int Rating { get; set; }
 
-        [ForeignKey("personId")]
-        [Required]
-        public Person person { get; set; }
-        public int personId { get; set; }
+        public Person Person { get; set; }
     }
 }

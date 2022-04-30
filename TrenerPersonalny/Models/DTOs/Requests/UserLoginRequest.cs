@@ -9,8 +9,7 @@ namespace TrenerPersonalny.Models.DTOs.Requests
     public class UserLoginRequest
     {
         [Required]
-        [EmailAddress]
-        public string Email { get; set; }
+        public string Username { get; set; }
         [Required]
         public string Password { get; set; }
 

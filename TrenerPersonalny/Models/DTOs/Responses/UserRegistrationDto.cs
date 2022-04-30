@@ -3,17 +3,16 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using TrenerPersonalny.Models.DTOs.Requests;
 
 namespace TrenerPersonalny.Models.DTOs.Responses
 {
-    public class UserRegistrationDto
+    public class UserRegistrationDto : UserLoginRequest
     {
         [Required]
         [EmailAddress]
         public string Email { get; set; }
         [Required]
-        public string Password { get; set; }
-        [Required]
-        public int rolesId { get; set; }
+        public Person Person { get; set; }
     }
 }

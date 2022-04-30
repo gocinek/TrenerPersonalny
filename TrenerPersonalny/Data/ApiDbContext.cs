@@ -14,8 +14,6 @@ namespace TrenerPersonalny.Data
     {
         public virtual DbSet<Client> Client { get; set; }
         //  public virtual DbSet<UserAccount> UserAccount { get; set; }
-        public virtual DbSet<UserRoles> UserRoles { get; set; }
-        public virtual DbSet<RefreshToken> RefreshTokens { get; set; }
         public virtual DbSet<Excercises> Excercises {get; set; }
         public virtual DbSet<ExcerciseType> ExcerciseType { get; set; }
         public virtual DbSet<Trainers> Trainers { get; set; }
@@ -31,19 +29,22 @@ namespace TrenerPersonalny.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
             builder.Entity<Client>() //.Ignore(c => c.NormalizedEmail)
                                            .Ignore(c => c.EmailConfirmed)
-                                           .Ignore(c => c.PasswordHash)
                                            .Ignore(c => c.PhoneNumberConfirmed)
                                            .Ignore(c => c.TwoFactorEnabled)
                                            .Ignore(c => c.LockoutEnd)
                                            .Ignore(c => c.LockoutEnabled)
                                            .Ignore(c => c.AccessFailedCount)
                                            .Ignore(c => c.PhoneNumber);
-            
-            //       .Ignore(c => c.Id);
 
-            // builder.Entity<Client>().HasKey(c => c.userId);
+
+            builder.Entity<IdentityRole>().HasData(
+                    new IdentityRole{Name = "Admin", NormalizedName = "ADMIN"},
+                    new IdentityRole{Name = "Trainer", NormalizedName = "TRAINER"},
+                    new IdentityRole{Name = "Client", NormalizedName = "CLIENT"}
+            );
         }
     }
 }

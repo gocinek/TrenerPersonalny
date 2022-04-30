@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,21 +10,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TrenerPersonalny.Data;
+using TrenerPersonalny.Models;
 
 namespace TrenerPersonalny
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var host =  CreateHostBuilder(args).Build();
             var scope = host.Services.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<ApiDbContext>();
+            var userManager = scope.ServiceProvider.GetRequiredService<UserManager<Client>>();
             var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
             try
             {
-                context.Database.Migrate();
-                DbInitializer.Initialize(context);
+                await context.Database.MigrateAsync();
+                await DbInitializer.Initialize(context, userManager);
             }
             catch(Exception ex)
             {
@@ -34,7 +37,7 @@ namespace TrenerPersonalny
                 scope.Dispose();
             }
 
-            host.Run();
+            await host.RunAsync();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

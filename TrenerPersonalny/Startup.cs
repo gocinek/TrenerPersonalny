@@ -22,6 +22,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Identity;
+using TrenerPersonalny.Services;
+using API.Middleware;
 
 namespace TrenerPersonalny
 {
@@ -62,60 +64,30 @@ namespace TrenerPersonalny
                     Configuration.GetConnectionString("DefaultConnection")
             ));
 
-            //Jwt
-            services.Configure<JwtConfig>(Configuration.GetSection("JwtConfig"));
-
-            //var key = Encoding.ASCII.GetBytes(Configuration["JweConfig:secret"]);
-
-            var key = Encoding.ASCII.GetBytes(Configuration["JwtConfig:Secret"]);
-
-            var tokenValidationParams = new TokenValidationParameters
+            //user
+            services.AddIdentityCore<Client>(opt =>
             {
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(key),
-                ValidateIssuer = false,
-                ValidateAudience = false,
-                ValidateLifetime = true,
-                RequireExpirationTime = false,
-                ClockSkew = TimeSpan.Zero
-            };
-
-            services.AddSingleton(tokenValidationParams);
-            services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(jwt => {
-
-                jwt.SaveToken = true;
-                jwt.TokenValidationParameters = tokenValidationParams;
-                /*new TokenValidationParameters
+                opt.User.RequireUniqueEmail = true;
+            }
+                )
+                 .AddRoles<IdentityRole>()
+                 .AddEntityFrameworkStores<ApiDbContext>();
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(opt =>
                 {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = false,
-                    ValidateAudience = false,
-                    ValidateLifetime = true,
-                    RequireExpirationTime = false
-                };*/
-            });
-
-
-
-            /*  services.AddDefaultIdentity<Client>(options => {
-                  options.SignIn.RequireConfirmedAccount = true;
-                  options.Password.RequiredLength = 4;
-                  }).AddEntityFrameworkStores<ApiDbContext>();*/
-            services
-            //.AddDefaultIdentity<IdentityUser>(options =>options.SignIn.RequireConfirmedAccount = true)
-            .AddIdentity<Client, IdentityRole>(options =>
-            {
-                options.SignIn.RequireConfirmedAccount = true;
-                options.Password.RequiredLength = 4;
-            }).AddDefaultUI()
-              .AddDefaultTokenProviders()
-              .AddEntityFrameworkStores<ApiDbContext>();
+                    opt.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(
+                            Encoding.UTF8.GetBytes(
+                                Configuration["JWTSettings:TokenKey"]))
+                    };
+                });      
+            services.AddAuthorization();
+            services.AddScoped<TokenService>();
 
             services.AddControllers();
 
@@ -154,13 +126,15 @@ namespace TrenerPersonalny
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseMiddleware<ExceptionMiddleware>();
+
             app.UseCors(options =>
             {
                 options.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000");
             });
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                //app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "TrenerPersonalny v1"));
 
@@ -170,7 +144,7 @@ namespace TrenerPersonalny
 
             app.UseRouting();
 
-           
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

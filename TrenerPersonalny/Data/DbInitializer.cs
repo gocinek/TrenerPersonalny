@@ -1,34 +1,123 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TrenerPersonalny.Configuration;
 using TrenerPersonalny.Models;
 
 namespace TrenerPersonalny.Data
 {
     public class DbInitializer
     {
-        public static void Initialize(ApiDbContext context)
+        public static async Task Initialize(ApiDbContext context, UserManager<Client> userManager)
         {
-            if (context.Excercises.Any()) return;
 
-            var person = new List<Person>
+            if (!userManager.Users.Any())
             {
-                new Person
+                var admin = new Client
                 {
-                    LastName = "Nowak"
-                },
-                new Person
-                {
-                    LastName = "Józek"
-                }
-            };
+                    Email = "admin@example.com",
+                    UserName = "admin",
+                    Registered = DateTime.Today.ToString("d"),
+                    Person = new Person
+                    {
+                        LastName = "Nowak"
+                    }
+                    // NormalizedUserName = "ADMIN",
+                    //  PasswordSalt = salt,
+                    //Password = HashPass.hashPass("Test1!", salt)
+                };
 
-            foreach (var pe in person)
-            {
-                context.Person.Add(pe);
+                await userManager.CreateAsync(admin, "Test1!");
+                await userManager.AddToRoleAsync(admin, "Admin");
+
+                var trainer = new Client
+                {
+                    Email = "trainer@example.com",
+                    UserName = "trainer",
+                    Registered = DateTime.Today.ToString("d"),
+                    Person = new Person
+                    {
+                        LastName = "Testowy",
+                        Trainers = new Trainers
+                        {
+                            Description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+                            Price = 200
+                        }
+                    }
+                    // NormalizedUserName = "Trainer",
+
+                };
+
+                await userManager.CreateAsync(trainer, "Test1!");
+                await userManager.AddToRoleAsync(trainer, "Trainer");
+
+                var trainer2 = new Client
+                {
+                    Email = "trainer2@example.com",
+                    UserName = "trainer2",
+                    Registered = DateTime.Today.ToString("d"),
+                    Person = new Person
+                    {
+                        LastName = "Testowy2",
+                        Trainers = new Trainers
+                        {
+                            Description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+                            Price = 300
+                        }
+                    }
+                    // NormalizedUserName = "Trainer",
+
+                };
+
+                await userManager.CreateAsync(trainer2, "Test1!");
+                await userManager.AddToRoleAsync(trainer2, "Trainer");
+
+                var trainer3 = new Client
+                {
+                    Email = "trainer3@example.com",
+                    UserName = "trainer3",
+                    Registered = DateTime.Today.ToString("d"),
+                    Person = new Person
+                    {
+                        LastName = "Adamiak",
+                        FirstName = "Anna",
+                        ProfileImg = "/Photos/Trainers/Adamiak.png",
+                        Trainers = new Trainers
+                        {
+                            Description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+                            Price = 175
+                        }
+                    }
+                    // NormalizedUserName = "Trainer",
+
+                };
+
+                await userManager.CreateAsync(trainer3, "Test1!");
+                await userManager.AddToRoleAsync(trainer3, "Trainer");
+
+
+                //salt = HashPass.salt();
+                var client = new Client
+                {
+                    Email = "client@example.com",
+                    UserName = "client",
+                    Registered = DateTime.Today.ToString("d"),
+                    Person = new Person
+                    {
+                        LastName = "Kowalski"
+                    }
+                    //NormalizedUserName = "client",
+
+                };
+
+                await userManager.CreateAsync(client, "Test1!");
+                await userManager.AddToRoleAsync(client, "Client");
+
             }
-            context.SaveChanges();
+
+            if (context.Excercises.Any()) return;
 
             var excerciseType = new List<ExcerciseType>
             {
@@ -71,33 +160,33 @@ namespace TrenerPersonalny.Data
 
                 Name = "Wyciskanie na ławce płaskiej",
                 Description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-                PictureUrl = "/Photos/Atlas/Biceps-hantelki.jpg",
-                excerciseTypeId = 1
+                PictureUrl = "/Photos/Atlas/wyciskanie-na-lawce-plaskiej.jpg",
+                ExcerciseTypeId = 3
 
                 },
                 new Excercises
                 {
 
-                    Name = "Uginanie ramion z hantelkami",
+                    Name = "Uginanie ramion z hantelkami - na ławce prostej",
                     Description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
                     PictureUrl  = "/Photos/Atlas/Biceps-hantelki.jpg",
-                    excerciseTypeId = 3
+                    ExcerciseTypeId = 4
                 },
                 new Excercises
                 {
 
                     Name = "Wyciskanie na ławce poziomej",
                     Description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-                    PictureUrl  = "/Photos/Atlas/Biceps-hantelki.jpg",
-                    excerciseTypeId = 1
+                    PictureUrl  = "/Photos/Atlas/wyciskanie-na-lawce-poziomej.jpg",
+                    ExcerciseTypeId = 3
                 },
                 new Excercises
                 {
 
                     Name = "Podciąganie nachwytem",
                     Description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-                    PictureUrl  = "/Photos/Atlas/Biceps-hantelki.jpg",
-                    excerciseTypeId = 2
+                    PictureUrl  = "/Photos/Atlas/Podciąganie-nachwytem.jpg",
+                    ExcerciseTypeId = 2
                 },
             };
 
@@ -107,62 +196,7 @@ namespace TrenerPersonalny.Data
             }
 
             context.SaveChanges();
-
-            var userRole = new List<UserRoles>
-            {
-                new UserRoles
-                {
-                    role = "Client"
-                },
-                new UserRoles
-                {
-                    role = "Trainer"
-                },
-                new UserRoles
-                {
-                    role = "Admin"
-                },
-            };
-
-            foreach (var ur in userRole)
-            {
-                context.UserRoles.Add(ur);
-            }
-
-            context.SaveChanges();
-
-            var trainers = new List<Trainers>
-            {
-                new Trainers
-                {
-                    Description ="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-                    PictureUrl ="/Photos/Trainers/Adamiak.png",
-                    Price = 200,
-                    personId = 1
-                },
-                new Trainers
-                {
-                    Description ="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.k",
-                    PictureUrl ="/Photos/Trainers/Nowak.png",
-                    Price = 150,
-                    Rating = 6,
-                    personId = 1
-                },
-                new Trainers
-                {
-                    Description ="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-                    PictureUrl ="/Photos/Trainers/Kowalski.png",
-                    Price = 190,
-                    Rating = 2,
-                    personId = 1
-                },
-            };
-            foreach (var tr in trainers)
-            {
-                context.Trainers.Add(tr);
-            }
-
-            context.SaveChanges();
+            
         }
     }
 }

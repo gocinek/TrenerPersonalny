@@ -18,19 +18,18 @@ namespace TrenerPersonalny.Models
 
       //  public string Id { get; set; }
 
-        [JsonIgnore]
-        [Required]
-        public string Password { get; set; }
-        [JsonIgnore]
-        public byte[] PasswordSalt { get; set; }
+       // [JsonIgnore]
+       // [Required]
+       // public string Password { get; set; }
+       // [JsonIgnore]
+      //  public byte[] PasswordSalt { get; set; }
         [MaxLength(10)]
         public string Registered { get; set; }
 
-
-        [ForeignKey("rolesId")]
+        [ForeignKey("PersonId")]
         [Required]
-        public UserRoles UserRoles { get; set; }
-        public int rolesId { get; set; }
+        public Person Person { get; set; }
+        public int PersonId { get; set; }
 
         //public string NormalizedEmail { get; set; }
 

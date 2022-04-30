@@ -23,7 +23,10 @@ namespace TrenerPersonalny.Controllers
         [HttpGet]
         public async Task<IActionResult> GetClients()
         {
-            var clients = await _context.Client.ToListAsync();
+            var clients = await _context.Client
+                .Include(tr => tr.Person)
+                .Include(tr => tr.Person.Trainers)
+                .ToListAsync();
             return Ok(clients);
         }
 
@@ -68,8 +71,8 @@ namespace TrenerPersonalny.Controllers
             }
             existClient.Email = data.Email;
             var saltPass = HashPass.salt();
-            existClient.Password = HashPass.hashPass(data.Password, saltPass);
-            existClient.PasswordSalt = saltPass;
+            //existClient.Password = HashPass.hashPass(data.Password, saltPass);
+        //    existClient.PasswordSalt = saltPass;
             existClient.Registered = data.Registered;
 
             await _context.SaveChangesAsync();

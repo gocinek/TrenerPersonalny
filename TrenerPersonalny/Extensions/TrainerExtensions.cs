@@ -10,7 +10,7 @@ namespace TrenerPersonalny.Extensions
     {
         public static IQueryable<Trainers> Sort(this IQueryable<Trainers> query, string orderBy)
         {
-            if (string.IsNullOrWhiteSpace(orderBy)) return query.OrderBy(p => p.person.LastName);
+            if (string.IsNullOrWhiteSpace(orderBy)) return query.OrderBy(p => p.Person.LastName);
 
             query = orderBy switch
             {
@@ -18,7 +18,7 @@ namespace TrenerPersonalny.Extensions
                 "priceDesc" => query.OrderByDescending(p => p.Price),
                 "rating" => query.OrderBy(p => p.Rating),
                 "ratingDesc" => query.OrderByDescending(p => p.Rating),
-                _ => query.OrderBy(p => p.person.LastName)
+                _ => query.OrderBy(p => p.Person.LastName)
             };
 
             return query;
@@ -31,8 +31,8 @@ namespace TrenerPersonalny.Extensions
             var lowerCaseSearchTerm = searchTerm.Trim().ToLower();
                       
 
-            return query.Where(p => p.person.LastName.ToLower().Contains(lowerCaseSearchTerm)
-                            || p.person.FirstName.ToLower().Contains(lowerCaseSearchTerm));
+            return query.Where(p => p.Person.LastName.ToLower().Contains(lowerCaseSearchTerm)
+                            || p.Person.FirstName.ToLower().Contains(lowerCaseSearchTerm));
         }
 
         public static IQueryable<Trainers> Filter(this IQueryable<Trainers> query, int price, int rating)

@@ -24,20 +24,24 @@ namespace TrenerPersonalny.Controllers
         public async Task<ActionResult<List<Trainers>>> GetTrainers(string orderBy,
             string searchTerm, int price = 1000000, int rating = 0)
         {
-            var excercises = _context.Trainers
-                .Include(tr => tr.person)
+            var trainers = _context.Trainers
+                .Include(tr => tr.Person)
                 .Sort(orderBy)
                 .Search(searchTerm)
                 .Filter(price, rating)
                 .AsQueryable();
 
-            return await excercises.ToListAsync();
+            return await trainers.ToListAsync();
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Trainers>> GetTrainer(int id)
         {
-            return await _context.Trainers.FindAsync(id);
+            var trainer = await _context.Trainers.Where(i => i.Id.Equals(id)).Include(tr => tr.Person).FirstOrDefaultAsync();
+
+            if (trainer == null) return NotFound();
+            
+            return Ok(trainer);
         }
 
         [HttpGet("filters")]
@@ -45,8 +49,8 @@ namespace TrenerPersonalny.Controllers
         {
             var prices = await _context.Trainers.Select(t => t.Price).Distinct().ToListAsync();
             var ratings = await _context.Trainers.Select(t => t.Rating).Distinct().ToListAsync();
-            var genders = await _context.Trainers.Select(t => t.person.Gender).Distinct().ToListAsync();
-            var languages = await _context.Trainers.Select(t => t.person.Language).Distinct().ToListAsync();
+            var genders = await _context.Trainers.Select(t => t.Person.Gender).Distinct().ToListAsync();
+            var languages = await _context.Trainers.Select(t => t.Person.Language).Distinct().ToListAsync();
 
             return Ok(new { prices, ratings, genders, languages });
 

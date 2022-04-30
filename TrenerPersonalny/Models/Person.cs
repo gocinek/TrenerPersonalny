@@ -14,16 +14,20 @@ namespace TrenerPersonalny.Models
         public string LastName { get; set; }
         [MaxLength(50)]
         public string FirstName { get; set; }
-        [MaxLength(5)]
+        [MaxLength(1)]
         public string Gender { get; set; }
         [MaxLength(255)]
         public string ProfileImg { get; set; }
         [MaxLength(25)]
         public string Language { get; set; }
-        [MaxLength(25)]
-        public string Nationality { get; set; }
-        [MaxLength(9)]
         public int PhoneNumber { get; set; }
+
+
+        [ForeignKey("TrainerId")]
+        public Trainers Trainers { get; set; }
+        public int? TrainerId { get; set; }
+
+        public Client Client { get; set; }
 
     }
 }

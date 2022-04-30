@@ -1,9 +1,8 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TrenerPersonalny.Migrations
 {
-    public partial class InitialMigatrion : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -35,54 +34,18 @@ namespace TrenerPersonalny.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Person",
+                name: "Trainers",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    LastName = table.Column<string>(type: "TEXT", maxLength: 50, nullable: true),
-                    FirstName = table.Column<string>(type: "TEXT", maxLength: 50, nullable: true),
-                    Gender = table.Column<string>(type: "TEXT", maxLength: 5, nullable: true),
-                    ProfileImg = table.Column<string>(type: "TEXT", maxLength: 255, nullable: true),
-                    Language = table.Column<string>(type: "TEXT", maxLength: 25, nullable: true),
-                    Nationality = table.Column<string>(type: "TEXT", maxLength: 25, nullable: true),
-                    PhoneNumber = table.Column<int>(type: "INTEGER", maxLength: 9, nullable: false)
+                    Description = table.Column<string>(type: "TEXT", maxLength: 510, nullable: true),
+                    Price = table.Column<long>(type: "INTEGER", nullable: false),
+                    Rating = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Person", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "RefreshTokens",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Token = table.Column<string>(type: "TEXT", nullable: true),
-                    JwtId = table.Column<string>(type: "TEXT", nullable: true),
-                    IsUsed = table.Column<bool>(type: "INTEGER", nullable: false),
-                    IsRevorked = table.Column<bool>(type: "INTEGER", nullable: false),
-                    AddedDate = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    ExpiryDate = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    UserId = table.Column<string>(type: "TEXT", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_RefreshTokens", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "UserRoles",
-                columns: table => new
-                {
-                    rolesId = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    role = table.Column<string>(type: "TEXT", maxLength: 50, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UserRoles", x => x.rolesId);
+                    table.PrimaryKey("PK_Trainers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -115,40 +78,42 @@ namespace TrenerPersonalny.Migrations
                     Name = table.Column<string>(type: "TEXT", nullable: true),
                     Description = table.Column<string>(type: "TEXT", nullable: true),
                     PictureUrl = table.Column<string>(type: "TEXT", nullable: true),
-                    excerciseTypeId = table.Column<int>(type: "INTEGER", nullable: false)
+                    ExcerciseTypeId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Excercises", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Excercises_ExcerciseType_excerciseTypeId",
-                        column: x => x.excerciseTypeId,
+                        name: "FK_Excercises_ExcerciseType_ExcerciseTypeId",
+                        column: x => x.ExcerciseTypeId,
                         principalTable: "ExcerciseType",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Trainers",
+                name: "Person",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Description = table.Column<string>(type: "TEXT", maxLength: 255, nullable: true),
-                    PictureUrl = table.Column<string>(type: "TEXT", nullable: true),
-                    Price = table.Column<long>(type: "INTEGER", nullable: false),
-                    Rating = table.Column<int>(type: "INTEGER", maxLength: 1, nullable: false),
-                    personId = table.Column<int>(type: "INTEGER", nullable: false)
+                    LastName = table.Column<string>(type: "TEXT", maxLength: 50, nullable: true),
+                    FirstName = table.Column<string>(type: "TEXT", maxLength: 50, nullable: true),
+                    Gender = table.Column<string>(type: "TEXT", maxLength: 1, nullable: true),
+                    ProfileImg = table.Column<string>(type: "TEXT", maxLength: 255, nullable: true),
+                    Language = table.Column<string>(type: "TEXT", maxLength: 25, nullable: true),
+                    PhoneNumber = table.Column<int>(type: "INTEGER", nullable: false),
+                    TrainerId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Trainers", x => x.Id);
+                    table.PrimaryKey("PK_Person", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Trainers_Person_personId",
-                        column: x => x.personId,
-                        principalTable: "Person",
+                        name: "FK_Person_Trainers_TrainerId",
+                        column: x => x.TrainerId,
+                        principalTable: "Trainers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -156,14 +121,13 @@ namespace TrenerPersonalny.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "TEXT", nullable: false),
-                    Password = table.Column<string>(type: "TEXT", nullable: false),
-                    PasswordSalt = table.Column<byte[]>(type: "BLOB", nullable: true),
                     Registered = table.Column<string>(type: "TEXT", maxLength: 10, nullable: true),
-                    rolesId = table.Column<int>(type: "INTEGER", nullable: false),
+                    PersonId = table.Column<int>(type: "INTEGER", nullable: false),
                     UserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
                     NormalizedEmail = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
+                    PasswordHash = table.Column<string>(type: "TEXT", nullable: true),
                     SecurityStamp = table.Column<string>(type: "TEXT", nullable: true),
                     ConcurrencyStamp = table.Column<string>(type: "TEXT", nullable: true)
                 },
@@ -171,10 +135,10 @@ namespace TrenerPersonalny.Migrations
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AspNetUsers_UserRoles_rolesId",
-                        column: x => x.rolesId,
-                        principalTable: "UserRoles",
-                        principalColumn: "rolesId",
+                        name: "FK_AspNetUsers_Person_PersonId",
+                        column: x => x.PersonId,
+                        principalTable: "Person",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -263,6 +227,21 @@ namespace TrenerPersonalny.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[] { "2f70a1f6-2b94-4f2d-be82-702010a96428", "3476bb06-221c-4010-be41-7ff068b38350", "Admin", "ADMIN" });
+
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[] { "a712dad0-efb1-4b65-9a07-870ad4575ac5", "54e26502-f2f5-45d8-9a57-637fc97076bf", "Trainer", "TRAINER" });
+
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[] { "665a77d4-f9f3-4c6d-ac5d-be1c7f920440", "349b7d71-9da8-4c42-afa7-c082e7723710", "Client", "CLIENT" });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -295,9 +274,10 @@ namespace TrenerPersonalny.Migrations
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUsers_rolesId",
+                name: "IX_AspNetUsers_PersonId",
                 table: "AspNetUsers",
-                column: "rolesId");
+                column: "PersonId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
@@ -306,14 +286,15 @@ namespace TrenerPersonalny.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Excercises_excerciseTypeId",
+                name: "IX_Excercises_ExcerciseTypeId",
                 table: "Excercises",
-                column: "excerciseTypeId");
+                column: "ExcerciseTypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Trainers_personId",
-                table: "Trainers",
-                column: "personId");
+                name: "IX_Person_TrainerId",
+                table: "Person",
+                column: "TrainerId",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -337,12 +318,6 @@ namespace TrenerPersonalny.Migrations
                 name: "Excercises");
 
             migrationBuilder.DropTable(
-                name: "RefreshTokens");
-
-            migrationBuilder.DropTable(
-                name: "Trainers");
-
-            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
@@ -355,7 +330,7 @@ namespace TrenerPersonalny.Migrations
                 name: "Person");
 
             migrationBuilder.DropTable(
-                name: "UserRoles");
+                name: "Trainers");
         }
     }
 }

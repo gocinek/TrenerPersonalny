@@ -1,10 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System;
+using Microsoft.AspNetCore.Mvc;
+using TrenerPersonalny.Controllers;
 
-namespace TrenerPersonalny.Controllers
+namespace API.Controllers
 {
     public class BuggyController : BaseApiController
     {
@@ -15,13 +13,13 @@ namespace TrenerPersonalny.Controllers
         }
 
         [HttpGet("bad-request")]
-        public ActionResult GetBadRequest() //400 error
+        public ActionResult GetBadRequest()
         {
-            return BadRequest(new ProblemDetails{Title = "Bad request (400)"});
+            return BadRequest(new ProblemDetails { Title = "This is a bad request" });
         }
 
-        [HttpGet("unauthorized")]
-        public ActionResult GetUnauthorized()
+        [HttpGet("unauthorised")]
+        public ActionResult GetUnauthorised()
         {
             return Unauthorized();
         }
@@ -29,16 +27,15 @@ namespace TrenerPersonalny.Controllers
         [HttpGet("validation-error")]
         public ActionResult GetValidationError()
         {
-            ModelState.AddModelError("Problem1", "First error");
-            ModelState.AddModelError("Problem2", "Second error");
+            ModelState.AddModelError("Problem1", "This is the first error");
+            ModelState.AddModelError("Problem2", "This is the second error");
             return ValidationProblem();
         }
 
         [HttpGet("server-error")]
         public ActionResult GetServerError()
         {
-            throw new Exception("Server Error");
+            throw new Exception("This is a server error");
         }
-
     }
 }

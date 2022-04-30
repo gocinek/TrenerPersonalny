@@ -20,10 +20,10 @@ namespace TrenerPersonalny.Models
 
       //  public string Type { get; set; }
 
-        [ForeignKey("excerciseTypeId")]
+        [ForeignKey("ExcerciseTypeId")]
         [Required]
-        public ExcerciseType type { get; set; }
-        public int excerciseTypeId { get; set; }
+        public ExcerciseType ExcerciseType { get; set; }
+        public int ExcerciseTypeId { get; set; }
 
 
     }

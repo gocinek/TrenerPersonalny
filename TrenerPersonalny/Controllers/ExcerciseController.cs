@@ -22,7 +22,7 @@ namespace TrenerPersonalny.Controllers
         public async Task<ActionResult<List<Excercises>>> GetExcercises()
         {
             var excercises = await _context.Excercises
-                .Include(et => et.type)
+                .Include(et => et.ExcerciseType)
                 .ToListAsync();
             return Ok(excercises);
         }
@@ -30,7 +30,20 @@ namespace TrenerPersonalny.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Excercises>> GetExcercise(int id)
         {
-            return await _context.Excercises.FindAsync(id);
+            var excercise = await _context.Excercises.Where(d => d.Id.Equals(id)).Include(et => et.ExcerciseType).FirstOrDefaultAsync();
+
+            if (excercise == null) return NotFound();
+
+            return Ok(excercise);
+        }
+
+        [HttpGet("type/{type}")]
+        public async Task<ActionResult<Excercises>> GetExcerciseType(string type)
+        {
+            var excercise = await _context.Excercises.Where(p => p.ExcerciseType.Type.Equals(type)).Include(et => et.ExcerciseType).ToListAsync();
+            if (excercise == null) return NotFound();
+
+            return Ok(excercise);
         }
     }
 }
