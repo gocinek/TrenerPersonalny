@@ -47,7 +47,16 @@ namespace TrenerPersonalny
 
 
             //CORS
-            services.AddCors();
+            services.AddCors( options =>
+                {
+                options.AddPolicy(name: "AllowOrigin",
+                    builder =>
+                    {
+                        builder.WithOrigins("https://localhost:3000", "http://localhost:3000")
+                                            .AllowAnyHeader()
+                                            .AllowAnyMethod();
+                    });
+            });
 
             //JSON Serializer
             services.AddControllersWithViews()
@@ -130,7 +139,7 @@ namespace TrenerPersonalny
 
             app.UseCors(options =>
             {
-                options.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000");
+                options.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000").AllowCredentials();
             });
             if (env.IsDevelopment())
             {
@@ -143,6 +152,8 @@ namespace TrenerPersonalny
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+         
 
             app.UseAuthentication();
             app.UseAuthorization();

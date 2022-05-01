@@ -143,7 +143,11 @@ namespace TrenerPersonalny.Data
                 },
                 new ExcerciseType
                 {
-                    Type = "Nogi + łydki"
+                    Type = "Nogi"
+                },
+                 new ExcerciseType
+                {
+                    Type = "Łydki"
                 },
 
             };
@@ -188,6 +192,14 @@ namespace TrenerPersonalny.Data
                     PictureUrl  = "/Photos/Atlas/Podciąganie-nachwytem.jpg",
                     ExcerciseTypeId = 2
                 },
+                new Excercises
+                {
+
+                    Name = "Przysiady ze sztangą z przodu",
+                    Description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+                    PictureUrl  = "/Photos/Atlas/Przysiady-ze-sztanga-przod.jpeg",
+                    ExcerciseTypeId = 6
+                }
             };
 
             foreach (var ex in excercises)
