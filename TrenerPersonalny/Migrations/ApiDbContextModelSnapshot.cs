@@ -44,22 +44,22 @@ namespace TrenerPersonalny.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "36640595-0bf4-4eaa-b238-2cd038cea614",
-                            ConcurrencyStamp = "8a5d3148-0284-417a-a63c-e98ce53a70c4",
+                            Id = "bc9638f6-33cc-48f7-9ed2-8a4a5b8e63c1",
+                            ConcurrencyStamp = "a8f346fb-74e7-49a2-bca5-80675a5e8b80",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "b2ac9e5f-22b2-4998-98ad-a582c47e6dfe",
-                            ConcurrencyStamp = "61819713-63ea-427b-91a7-0a597f3aae67",
+                            Id = "0e5c399a-7529-482a-ade9-9ae4e8ffcf80",
+                            ConcurrencyStamp = "53a06e39-e207-4ecd-ab2a-d0a2bd946da3",
                             Name = "Trainer",
                             NormalizedName = "TRAINER"
                         },
                         new
                         {
-                            Id = "4527e810-d1af-461c-b2ae-5416e8e7c35f",
-                            ConcurrencyStamp = "a3b34b28-c276-44b8-a12a-33f16fe417a3",
+                            Id = "7eedd608-aa49-4929-9647-87a87080a685",
+                            ConcurrencyStamp = "023b95bf-6e55-4997-a46c-c47c6d69a927",
                             Name = "Client",
                             NormalizedName = "CLIENT"
                         });

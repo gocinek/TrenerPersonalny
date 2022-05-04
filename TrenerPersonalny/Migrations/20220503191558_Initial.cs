@@ -230,17 +230,17 @@ namespace TrenerPersonalny.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "36640595-0bf4-4eaa-b238-2cd038cea614", "8a5d3148-0284-417a-a63c-e98ce53a70c4", "Admin", "ADMIN" });
+                values: new object[] { "bc9638f6-33cc-48f7-9ed2-8a4a5b8e63c1", "a8f346fb-74e7-49a2-bca5-80675a5e8b80", "Admin", "ADMIN" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "b2ac9e5f-22b2-4998-98ad-a582c47e6dfe", "61819713-63ea-427b-91a7-0a597f3aae67", "Trainer", "TRAINER" });
+                values: new object[] { "0e5c399a-7529-482a-ade9-9ae4e8ffcf80", "53a06e39-e207-4ecd-ab2a-d0a2bd946da3", "Trainer", "TRAINER" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "4527e810-d1af-461c-b2ae-5416e8e7c35f", "a3b34b28-c276-44b8-a12a-33f16fe417a3", "Client", "CLIENT" });
+                values: new object[] { "7eedd608-aa49-4929-9647-87a87080a685", "023b95bf-6e55-4997-a46c-c47c6d69a927", "Client", "CLIENT" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

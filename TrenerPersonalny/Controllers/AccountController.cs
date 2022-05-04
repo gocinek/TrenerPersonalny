@@ -39,42 +39,68 @@ namespace TrenerPersonalny.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult> Register(UserRegistrationDto registrationDto)
+        public async Task<ActionResult> Register(UserRegistrationDto registrationDto, Boolean tr)
         {
-            var user = new Client
+            var user = new Client();
+            if (tr)
             {
-                UserName = registrationDto.Username,
-                Email = registrationDto.Email,
-                Registered = DateTime.Today.ToString("d"),
-                Person = new Person
+                user = new Client
                 {
-                    LastName = registrationDto.Person.LastName,
-                    FirstName = registrationDto.Person.FirstName,
-                    Trainers = new Trainers
+                    Email = registrationDto.Email,
+                    UserName = registrationDto.Username,
+                    Registered = DateTime.Today.ToString("d"),
+                    Person = new Person
                     {
-                        Description = registrationDto.Person.Trainers.Description,
-                        Price = registrationDto.Person.Trainers.Price,
+                        LastName = registrationDto.Person.LastName,
+                        FirstName = registrationDto.Person.FirstName,
+                        Trainers = new Trainers
+                        {
+                            Description = "Opis nie został jeszcze dodany",
+                            Price = 0,
+                            Rating = 0
+                        }
                     }
-                }
-            };
-            var result = await _userManager.CreateAsync(user, registrationDto.Password);
+                };
+            } else
+            {
+                user = new Client
+                {
+                    Email = registrationDto.Email,
+                    UserName = registrationDto.Username,
+                    Registered = DateTime.Today.ToString("d"),
+                    Person = new Person
+                    {
+                        LastName = registrationDto.Person.LastName,
+                        FirstName = registrationDto.Person.FirstName
+                    }
+                };
+            }
+
+                var result = await _userManager.CreateAsync(user, registrationDto.Password);
+
+            
             if (!result.Succeeded)
             {
-                foreach(var error in result.Errors)
+                foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError(error.Code, error.Description);
                 }
 
                 return ValidationProblem();
             }
-
-            await _userManager.AddToRoleAsync(user, "Trainer");
+            var rola = "Client";
+            if (tr)
+            {
+                rola = "Trainer";
+            }
+            await _userManager.AddToRoleAsync(user, rola);
 
             return StatusCode(201); //Succes code
         }
 
+
         [Authorize]
-        [HttpGet("currenUser")]
+        [HttpGet("currentUser")]
         public async Task<ActionResult<UserDto>> GetCurrentUser()
         {
             var user = await _userManager.FindByNameAsync(User.Identity.Name);

@@ -27,7 +27,6 @@ namespace TrenerPersonalny.Models
         public string Registered { get; set; }
 
         [ForeignKey("PersonId")]
-        [Required]
         public Person Person { get; set; }
         public int PersonId { get; set; }
 
