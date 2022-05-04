@@ -19,7 +19,6 @@ namespace TrenerPersonalny.Data
                 {
                     Email = "admin@example.com",
                     UserName = "admin",
-                    Registered = DateTime.Today.ToString("d"),
                     Person = new Person
                     {
                         LastName = "Nowak"
@@ -36,7 +35,6 @@ namespace TrenerPersonalny.Data
                 {
                     Email = "trainer@example.com",
                     UserName = "trainer",
-                    Registered = DateTime.Today.ToString("d"),
                     Person = new Person
                     {
                         LastName = "Testowy",
@@ -57,7 +55,6 @@ namespace TrenerPersonalny.Data
                 {
                     Email = "trainer2@example.com",
                     UserName = "trainer2",
-                    Registered = DateTime.Today.ToString("d"),
                     Person = new Person
                     {
                         LastName = "Testowy2",
@@ -78,7 +75,6 @@ namespace TrenerPersonalny.Data
                 {
                     Email = "trainer3@example.com",
                     UserName = "trainer3",
-                    Registered = DateTime.Today.ToString("d"),
                     Person = new Person
                     {
                         LastName = "Adamiak",
@@ -103,7 +99,6 @@ namespace TrenerPersonalny.Data
                 {
                     Email = "client@example.com",
                     UserName = "client",
-                    Registered = DateTime.Today.ToString("d"),
                     Person = new Person
                     {
                         LastName = "Kowalski"

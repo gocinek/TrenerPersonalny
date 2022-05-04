@@ -79,7 +79,7 @@ namespace TrenerPersonalny
                 opt.User.RequireUniqueEmail = true;
             }
                 )
-                 .AddRoles<IdentityRole>()
+                 .AddRoles<Role>()
                  .AddEntityFrameworkStores<ApiDbContext>();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(opt =>

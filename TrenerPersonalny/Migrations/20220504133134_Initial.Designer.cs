@@ -9,7 +9,7 @@ using TrenerPersonalny.Data;
 namespace TrenerPersonalny.Migrations
 {
     [DbContext(typeof(ApiDbContext))]
-    [Migration("20220503191558_Initial")]
+    [Migration("20220504133134_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -18,56 +18,7 @@ namespace TrenerPersonalny.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "5.0.14");
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(256)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("NormalizedName")
-                        .HasMaxLength(256)
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedName")
-                        .IsUnique()
-                        .HasDatabaseName("RoleNameIndex");
-
-                    b.ToTable("AspNetRoles");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "bc9638f6-33cc-48f7-9ed2-8a4a5b8e63c1",
-                            ConcurrencyStamp = "a8f346fb-74e7-49a2-bca5-80675a5e8b80",
-                            Name = "Admin",
-                            NormalizedName = "ADMIN"
-                        },
-                        new
-                        {
-                            Id = "0e5c399a-7529-482a-ade9-9ae4e8ffcf80",
-                            ConcurrencyStamp = "53a06e39-e207-4ecd-ab2a-d0a2bd946da3",
-                            Name = "Trainer",
-                            NormalizedName = "TRAINER"
-                        },
-                        new
-                        {
-                            Id = "7eedd608-aa49-4929-9647-87a87080a685",
-                            ConcurrencyStamp = "023b95bf-6e55-4997-a46c-c47c6d69a927",
-                            Name = "Client",
-                            NormalizedName = "CLIENT"
-                        });
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -79,9 +30,8 @@ namespace TrenerPersonalny.Migrations
                     b.Property<string>("ClaimValue")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("RoleId")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("RoleId")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -90,7 +40,7 @@ namespace TrenerPersonalny.Migrations
                     b.ToTable("AspNetRoleClaims");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -102,9 +52,8 @@ namespace TrenerPersonalny.Migrations
                     b.Property<string>("ClaimValue")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("UserId")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -113,7 +62,7 @@ namespace TrenerPersonalny.Migrations
                     b.ToTable("AspNetUserClaims");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
                 {
                     b.Property<string>("LoginProvider")
                         .HasColumnType("TEXT");
@@ -124,9 +73,8 @@ namespace TrenerPersonalny.Migrations
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("UserId")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
@@ -135,13 +83,13 @@ namespace TrenerPersonalny.Migrations
                     b.ToTable("AspNetUserLogins");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
                 {
-                    b.Property<string>("UserId")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("UserId")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<string>("RoleId")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("RoleId")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("UserId", "RoleId");
 
@@ -150,10 +98,10 @@ namespace TrenerPersonalny.Migrations
                     b.ToTable("AspNetUserRoles");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
                 {
-                    b.Property<string>("UserId")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("UserId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("LoginProvider")
                         .HasColumnType("TEXT");
@@ -171,8 +119,9 @@ namespace TrenerPersonalny.Migrations
 
             modelBuilder.Entity("TrenerPersonalny.Models.Client", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -196,7 +145,7 @@ namespace TrenerPersonalny.Migrations
                     b.Property<int>("PersonId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Registered")
+                    b.Property<DateTime>("Registered")
                         .HasMaxLength(10)
                         .HasColumnType("TEXT");
 
@@ -261,6 +210,45 @@ namespace TrenerPersonalny.Migrations
                     b.ToTable("Excercises");
                 });
 
+            modelBuilder.Entity("TrenerPersonalny.Models.Orders.Order", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("BuyerId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("OrderDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("OrderStatus")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("OrderTrainerId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderTrainerId");
+
+                    b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("TrenerPersonalny.Models.Orders.OrderTrainer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Price")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("OrderTrainer");
+                });
+
             modelBuilder.Entity("TrenerPersonalny.Models.Person", b =>
                 {
                     b.Property<int>("Id")
@@ -301,6 +289,56 @@ namespace TrenerPersonalny.Migrations
                     b.ToTable("Person");
                 });
 
+            modelBuilder.Entity("TrenerPersonalny.Models.Role", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex");
+
+                    b.ToTable("AspNetRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ConcurrencyStamp = "4a4a77d3-5a26-45e8-b771-4f51a9bf1744",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ConcurrencyStamp = "52d4705c-0e5c-4eae-bffc-54563b014feb",
+                            Name = "Trainer",
+                            NormalizedName = "TRAINER"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ConcurrencyStamp = "86fec1c5-d766-4737-8a54-552f730d30fc",
+                            Name = "Client",
+                            NormalizedName = "CLIENT"
+                        });
+                });
+
             modelBuilder.Entity("TrenerPersonalny.Models.Trainers", b =>
                 {
                     b.Property<int>("Id")
@@ -311,7 +349,7 @@ namespace TrenerPersonalny.Migrations
                         .HasMaxLength(510)
                         .HasColumnType("TEXT");
 
-                    b.Property<long>("Price")
+                    b.Property<int>("Price")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("Rating")
@@ -322,16 +360,16 @@ namespace TrenerPersonalny.Migrations
                     b.ToTable("Trainers");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                    b.HasOne("TrenerPersonalny.Models.Role", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
                 {
                     b.HasOne("TrenerPersonalny.Models.Client", null)
                         .WithMany()
@@ -340,7 +378,7 @@ namespace TrenerPersonalny.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
                 {
                     b.HasOne("TrenerPersonalny.Models.Client", null)
                         .WithMany()
@@ -349,9 +387,9 @@ namespace TrenerPersonalny.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                    b.HasOne("TrenerPersonalny.Models.Role", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -364,7 +402,7 @@ namespace TrenerPersonalny.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
                 {
                     b.HasOne("TrenerPersonalny.Models.Client", null)
                         .WithMany()
@@ -393,6 +431,42 @@ namespace TrenerPersonalny.Migrations
                         .IsRequired();
 
                     b.Navigation("ExcerciseType");
+                });
+
+            modelBuilder.Entity("TrenerPersonalny.Models.Orders.Order", b =>
+                {
+                    b.HasOne("TrenerPersonalny.Models.Orders.OrderTrainer", "OrderTrainer")
+                        .WithMany()
+                        .HasForeignKey("OrderTrainerId");
+
+                    b.Navigation("OrderTrainer");
+                });
+
+            modelBuilder.Entity("TrenerPersonalny.Models.Orders.OrderTrainer", b =>
+                {
+                    b.OwnsOne("TrenerPersonalny.Models.Orders.TrainerPersonOrdered", "TrainerOrdered", b1 =>
+                        {
+                            b1.Property<int>("OrderTrainerId")
+                                .HasColumnType("INTEGER");
+
+                            b1.Property<string>("Name")
+                                .HasColumnType("TEXT");
+
+                            b1.Property<string>("PictureUrl")
+                                .HasColumnType("TEXT");
+
+                            b1.Property<int>("TrainerId")
+                                .HasColumnType("INTEGER");
+
+                            b1.HasKey("OrderTrainerId");
+
+                            b1.ToTable("OrderTrainer");
+
+                            b1.WithOwner()
+                                .HasForeignKey("OrderTrainerId");
+                        });
+
+                    b.Navigation("TrainerOrdered");
                 });
 
             modelBuilder.Entity("TrenerPersonalny.Models.Person", b =>

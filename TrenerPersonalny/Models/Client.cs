@@ -9,28 +9,15 @@ using System.Threading.Tasks;
 
 namespace TrenerPersonalny.Models
 {
-    public class Client : IdentityUser
-    {   
-        
-      //  [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-      //  [Key]
-      //  public int userId { get; set; }
+    public class Client : IdentityUser<int>
+    {
 
-      //  public string Id { get; set; }
-
-       // [JsonIgnore]
-       // [Required]
-       // public string Password { get; set; }
-       // [JsonIgnore]
-      //  public byte[] PasswordSalt { get; set; }
         [MaxLength(10)]
-        public string Registered { get; set; }
+        public DateTime Registered { get; set; } = DateTime.Now;
 
         [ForeignKey("PersonId")]
         public Person Person { get; set; }
         public int PersonId { get; set; }
-
-        //public string NormalizedEmail { get; set; }
 
     }
 }

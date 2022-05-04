@@ -7,10 +7,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using TrenerPersonalny.Models;
 using TrenerPersonalny.Models.DTOs.Responses;
+using TrenerPersonalny.Models.Orders;
 
 namespace TrenerPersonalny.Data
 {
-    public class ApiDbContext : IdentityDbContext<Client>
+    public class ApiDbContext : IdentityDbContext<Client, Role, int>
     {
         public virtual DbSet<Client> Client { get; set; }
         //  public virtual DbSet<UserAccount> UserAccount { get; set; }
@@ -18,6 +19,7 @@ namespace TrenerPersonalny.Data
         public virtual DbSet<ExcerciseType> ExcerciseType { get; set; }
         public virtual DbSet<Trainers> Trainers { get; set; }
         public virtual DbSet<Person> Person { get; set; }
+        public virtual DbSet<Order> Orders { get; set; }
 
 
         public ApiDbContext(DbContextOptions<ApiDbContext> options)
@@ -40,10 +42,10 @@ namespace TrenerPersonalny.Data
                                            .Ignore(c => c.PhoneNumber);
 
 
-            builder.Entity<IdentityRole>().HasData(
-                    new IdentityRole{Name = "Admin", NormalizedName = "ADMIN"},
-                    new IdentityRole{Name = "Trainer", NormalizedName = "TRAINER"},
-                    new IdentityRole{Name = "Client", NormalizedName = "CLIENT"}
+            builder.Entity<Role>().HasData(
+                    new Role {Id = 1, Name = "Admin", NormalizedName = "ADMIN"},
+                    new Role {Id = 2, Name = "Trainer", NormalizedName = "TRAINER"},
+                    new Role {Id = 3, Name = "Client", NormalizedName = "CLIENT"}
             );
         }
     }

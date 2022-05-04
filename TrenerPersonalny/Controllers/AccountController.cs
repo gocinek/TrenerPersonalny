@@ -48,7 +48,6 @@ namespace TrenerPersonalny.Controllers
                 {
                     Email = registrationDto.Email,
                     UserName = registrationDto.Username,
-                    Registered = DateTime.Today.ToString("d"),
                     Person = new Person
                     {
                         LastName = registrationDto.Person.LastName,
@@ -67,7 +66,6 @@ namespace TrenerPersonalny.Controllers
                 {
                     Email = registrationDto.Email,
                     UserName = registrationDto.Username,
-                    Registered = DateTime.Today.ToString("d"),
                     Person = new Person
                     {
                         LastName = registrationDto.Person.LastName,

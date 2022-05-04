@@ -12,7 +12,7 @@ namespace TrenerPersonalny.Models
         public int Id { get; set; }
         [MaxLength(510)]
         public string Description { get; set; }
-        public long Price { get; set; }
+        public int Price { get; set; }
         public int Rating { get; set; }
 
         public Person Person { get; set; }
