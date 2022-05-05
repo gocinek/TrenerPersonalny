@@ -9,8 +9,8 @@ using TrenerPersonalny.Data;
 namespace TrenerPersonalny.Migrations
 {
     [DbContext(typeof(ApiDbContext))]
-    [Migration("20220504133134_Initial")]
-    partial class Initial
+    [Migration("20220505083901_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -219,18 +219,16 @@ namespace TrenerPersonalny.Migrations
                     b.Property<string>("BuyerId")
                         .HasColumnType("TEXT");
 
+                    b.Property<DateTime>("Expired")
+                        .HasColumnType("TEXT");
+
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("OrderStatus")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("OrderTrainerId")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("OrderTrainerId");
 
                     b.ToTable("Orders");
                 });
@@ -241,10 +239,15 @@ namespace TrenerPersonalny.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<int?>("OrderId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("Price")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
 
                     b.ToTable("OrderTrainer");
                 });
@@ -319,21 +322,21 @@ namespace TrenerPersonalny.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "4a4a77d3-5a26-45e8-b771-4f51a9bf1744",
+                            ConcurrencyStamp = "96eceb33-968d-4798-af5b-30c0d18f4b0d",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "52d4705c-0e5c-4eae-bffc-54563b014feb",
+                            ConcurrencyStamp = "40376f44-f643-4c52-8bf7-2fce2fa106a3",
                             Name = "Trainer",
                             NormalizedName = "TRAINER"
                         },
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "86fec1c5-d766-4737-8a54-552f730d30fc",
+                            ConcurrencyStamp = "205f1eb4-f895-4241-b8e2-27d14385a471",
                             Name = "Client",
                             NormalizedName = "CLIENT"
                         });
@@ -433,17 +436,12 @@ namespace TrenerPersonalny.Migrations
                     b.Navigation("ExcerciseType");
                 });
 
-            modelBuilder.Entity("TrenerPersonalny.Models.Orders.Order", b =>
-                {
-                    b.HasOne("TrenerPersonalny.Models.Orders.OrderTrainer", "OrderTrainer")
-                        .WithMany()
-                        .HasForeignKey("OrderTrainerId");
-
-                    b.Navigation("OrderTrainer");
-                });
-
             modelBuilder.Entity("TrenerPersonalny.Models.Orders.OrderTrainer", b =>
                 {
+                    b.HasOne("TrenerPersonalny.Models.Orders.Order", null)
+                        .WithMany("OrderTrainer")
+                        .HasForeignKey("OrderId");
+
                     b.OwnsOne("TrenerPersonalny.Models.Orders.TrainerPersonOrdered", "TrainerOrdered", b1 =>
                         {
                             b1.Property<int>("OrderTrainerId")
@@ -476,6 +474,11 @@ namespace TrenerPersonalny.Migrations
                         .HasForeignKey("TrenerPersonalny.Models.Person", "TrainerId");
 
                     b.Navigation("Trainers");
+                });
+
+            modelBuilder.Entity("TrenerPersonalny.Models.Orders.Order", b =>
+                {
+                    b.Navigation("OrderTrainer");
                 });
 
             modelBuilder.Entity("TrenerPersonalny.Models.Person", b =>

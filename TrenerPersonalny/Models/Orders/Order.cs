@@ -9,9 +9,10 @@ namespace TrenerPersonalny.Models.Orders
     {
         public int Id { get; set; }
         public string BuyerId { get; set; }  //login usera
-        public DateTime OrderDate { get; set; } = DateTime.Now;
-        public OrderTrainer OrderTrainer { get; set; }
+        public DateTime OrderDate { get; set; } = DateTime.Now.Date;
+        public List<OrderTrainer> OrderTrainer { get; set; }
         public OrderStatus OrderStatus { get; set; } = OrderStatus.Pending;
+        public DateTime Expired { get; set; }
 
     }
 }

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TrenerPersonalny.Migrations
 {
-    public partial class Initial : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -36,19 +36,19 @@ namespace TrenerPersonalny.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "OrderTrainer",
+                name: "Orders",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    TrainerOrdered_TrainerId = table.Column<int>(type: "INTEGER", nullable: true),
-                    TrainerOrdered_Name = table.Column<string>(type: "TEXT", nullable: true),
-                    TrainerOrdered_PictureUrl = table.Column<string>(type: "TEXT", nullable: true),
-                    Price = table.Column<int>(type: "INTEGER", nullable: false)
+                    BuyerId = table.Column<string>(type: "TEXT", nullable: true),
+                    OrderDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    OrderStatus = table.Column<int>(type: "INTEGER", nullable: false),
+                    Expired = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OrderTrainer", x => x.Id);
+                    table.PrimaryKey("PK_Orders", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -110,23 +110,24 @@ namespace TrenerPersonalny.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Orders",
+                name: "OrderTrainer",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    BuyerId = table.Column<string>(type: "TEXT", nullable: true),
-                    OrderDate = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    OrderTrainerId = table.Column<int>(type: "INTEGER", nullable: true),
-                    OrderStatus = table.Column<int>(type: "INTEGER", nullable: false)
+                    TrainerOrdered_TrainerId = table.Column<int>(type: "INTEGER", nullable: true),
+                    TrainerOrdered_Name = table.Column<string>(type: "TEXT", nullable: true),
+                    TrainerOrdered_PictureUrl = table.Column<string>(type: "TEXT", nullable: true),
+                    Price = table.Column<int>(type: "INTEGER", nullable: false),
+                    OrderId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Orders", x => x.Id);
+                    table.PrimaryKey("PK_OrderTrainer", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Orders_OrderTrainer_OrderTrainerId",
-                        column: x => x.OrderTrainerId,
-                        principalTable: "OrderTrainer",
+                        name: "FK_OrderTrainer_Orders_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "Orders",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -271,17 +272,17 @@ namespace TrenerPersonalny.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { 1, "4a4a77d3-5a26-45e8-b771-4f51a9bf1744", "Admin", "ADMIN" });
+                values: new object[] { 1, "96eceb33-968d-4798-af5b-30c0d18f4b0d", "Admin", "ADMIN" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { 2, "52d4705c-0e5c-4eae-bffc-54563b014feb", "Trainer", "TRAINER" });
+                values: new object[] { 2, "40376f44-f643-4c52-8bf7-2fce2fa106a3", "Trainer", "TRAINER" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { 3, "86fec1c5-d766-4737-8a54-552f730d30fc", "Client", "CLIENT" });
+                values: new object[] { 3, "205f1eb4-f895-4241-b8e2-27d14385a471", "Client", "CLIENT" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -332,9 +333,9 @@ namespace TrenerPersonalny.Migrations
                 column: "ExcerciseTypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Orders_OrderTrainerId",
-                table: "Orders",
-                column: "OrderTrainerId");
+                name: "IX_OrderTrainer_OrderId",
+                table: "OrderTrainer",
+                column: "OrderId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Person_TrainerId",
@@ -364,7 +365,7 @@ namespace TrenerPersonalny.Migrations
                 name: "Excercises");
 
             migrationBuilder.DropTable(
-                name: "Orders");
+                name: "OrderTrainer");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -376,7 +377,7 @@ namespace TrenerPersonalny.Migrations
                 name: "ExcerciseType");
 
             migrationBuilder.DropTable(
-                name: "OrderTrainer");
+                name: "Orders");
 
             migrationBuilder.DropTable(
                 name: "Person");
