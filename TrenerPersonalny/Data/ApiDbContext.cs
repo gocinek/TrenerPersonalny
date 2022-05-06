@@ -20,7 +20,7 @@ namespace TrenerPersonalny.Data
         public virtual DbSet<Trainers> Trainers { get; set; }
         public virtual DbSet<Person> Person { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
-
+        public virtual DbSet<OrderPayment> OrderPayments { get; set; }
 
         public ApiDbContext(DbContextOptions<ApiDbContext> options)
             : base(options)
@@ -32,15 +32,18 @@ namespace TrenerPersonalny.Data
         {
             base.OnModelCreating(builder);
 
-            builder.Entity<Client>() //.Ignore(c => c.NormalizedEmail)
-                                           .Ignore(c => c.EmailConfirmed)
+            builder.Entity<Client>().HasOne(cc => cc.UserCreditCard).WithOne().HasForeignKey<UserCreditCard>(a => a.Id)
+                                           .OnDelete(DeleteBehavior.Cascade);
+
+
+
+            builder.Entity<Client>().Ignore(c => c.EmailConfirmed)
                                            .Ignore(c => c.PhoneNumberConfirmed)
                                            .Ignore(c => c.TwoFactorEnabled)
                                            .Ignore(c => c.LockoutEnd)
                                            .Ignore(c => c.LockoutEnabled)
                                            .Ignore(c => c.AccessFailedCount)
                                            .Ignore(c => c.PhoneNumber);
-
 
             builder.Entity<Role>().HasData(
                     new Role {Id = 1, Name = "Admin", NormalizedName = "ADMIN"},

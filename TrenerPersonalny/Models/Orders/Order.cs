@@ -13,6 +13,8 @@ namespace TrenerPersonalny.Models.Orders
         public List<OrderTrainer> OrderTrainer { get; set; }
         public OrderStatus OrderStatus { get; set; } = OrderStatus.Pending;
         public DateTime Expired { get; set; }
-
+        public int Summary { get; set; }
+        public string PaymentIntentId { get; set; }
+        public UsedCreditCard UsedreditCard { get; set; }
     }
 }

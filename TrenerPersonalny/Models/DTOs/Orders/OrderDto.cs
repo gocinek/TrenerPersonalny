@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using TrenerPersonalny.Models.Orders;
 
 namespace TrenerPersonalny.Models.DTOs.Orders
@@ -14,5 +12,8 @@ namespace TrenerPersonalny.Models.DTOs.Orders
         public List<OrderTrainerDto> OrderTrainer { get; set; }
         public string OrderStatus { get; set; }
         public DateTime Expired { get; set; }
+        public int Summary { get; set; }
+        public string PaymentIntentId { get; set; }
+        public UsedCreditCard usedreditCard { get; set; }
     }
 }

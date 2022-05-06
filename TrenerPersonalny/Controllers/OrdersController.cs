@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TrenerPersonalny.Data;
 using TrenerPersonalny.Extensions;
+using TrenerPersonalny.Models;
 using TrenerPersonalny.Models.DTOs.Orders;
 using TrenerPersonalny.Models.Orders;
 
@@ -41,7 +42,7 @@ namespace TrenerPersonalny.Controllers
         }
 
         [HttpPost("{trainerId}")]
-        public async Task<ActionResult<int>> CreateOrder(int trainerId)
+        public async Task<ActionResult<int>> CreateOrder(int trainerId, CreateOrderDto createOrderDto)
         {
 
             var trainerP = await _context.Trainers
@@ -71,24 +72,40 @@ namespace TrenerPersonalny.Controllers
             if (expDate == null || expDate.Expired < DateTime.Now.Date)
             {
                 eD = DateTime.Now.Date.AddMonths(1);
-                Console.WriteLine("dodano do dzisiaj");
+               // Console.WriteLine("dodano do dzisiaj");
             }
             else
-            {
-                
-                eD = expDate.Expired.AddMonths(1);
-                Console.WriteLine("dodano");
-               
+            {                
+                eD = expDate.Expired.Date.AddMonths(1);
+               // Console.WriteLine("dodano");               
             }
            
             var order = new Order
             {
                 OrderTrainer = orderTrain,
                 BuyerId = User.Identity.Name,
-                Expired = eD
+                Expired = eD,
+                Summary = trainerP.Price,
+                UsedreditCard = createOrderDto.UsedCreditCard
             };
 
             _context.Orders.Add(order);
+            if (createOrderDto.SaveCreditCard)
+            {
+                var user = await _context.Users
+                    .Include(a => a.UserCreditCard)
+                    .FirstOrDefaultAsync(x => x.UserName == User.Identity.Name);
+
+                var creditCard = new UserCreditCard
+                {
+                    cardNumber = createOrderDto.UsedCreditCard.cardNumber,
+                    expDate = createOrderDto.UsedCreditCard.expDate,
+                    cvv = createOrderDto.UsedCreditCard.cvv,
+                    nameOnCard = createOrderDto.UsedCreditCard.nameOnCard
+                };
+                user.UserCreditCard = creditCard;
+            }
+           
             var result = await _context.SaveChangesAsync() > 0;
 
             if (result) return CreatedAtRoute("GetOrder", new {id = order.Id}, order.Id);
@@ -97,4 +114,3 @@ namespace TrenerPersonalny.Controllers
     }
 
 }
-

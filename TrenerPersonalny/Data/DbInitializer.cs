@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TrenerPersonalny.Configuration;
 using TrenerPersonalny.Models;
+using TrenerPersonalny.Models.Orders;
 
 namespace TrenerPersonalny.Data
 {
@@ -21,7 +22,8 @@ namespace TrenerPersonalny.Data
                     UserName = "admin",
                     Person = new Person
                     {
-                        LastName = "Nowak"
+                        LastName = "Nowak",
+                        ProfileImg = "/Photos/Trainers/Kowalski.png"
                     }
                     // NormalizedUserName = "ADMIN",
                     //  PasswordSalt = salt,
@@ -57,7 +59,9 @@ namespace TrenerPersonalny.Data
                     UserName = "trainer2",
                     Person = new Person
                     {
-                        LastName = "Testowy2",
+                        LastName = "Smuda",
+                        FirstName = "Jose carlos",
+                        ProfileImg = "/Photos/Trainers/Smuda.png",
                         Trainers = new Trainers
                         {
                             Description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
@@ -101,7 +105,8 @@ namespace TrenerPersonalny.Data
                     UserName = "client",
                     Person = new Person
                     {
-                        LastName = "Kowalski"
+                        LastName = "Kowalski",
+                        ProfileImg = "/Photos/Trainers/Nowak.png"
                     }
                     //NormalizedUserName = "client",
 
@@ -202,6 +207,53 @@ namespace TrenerPersonalny.Data
                 context.Excercises.Add(ex);
             }
 
+            var orders = new List<Order>
+            {
+                new Order
+                {
+                    BuyerId = "admin",
+                    OrderTrainer = new List<OrderTrainer>
+                    {
+                        new OrderTrainer {
+                            Price = 175,
+                            TrainerOrdered = new TrainerPersonOrdered
+                            {
+                                TrainerId = 1,
+                                Name = "trainer",
+                                PictureUrl = "/Photos/Trainers/Adamiak.png"
+
+                            }
+                        }
+                    },
+                    Expired = DateTime.Now.AddMonths(1),
+                    Summary = 175
+                },
+                new Order
+                {
+                    BuyerId = "client",
+                    OrderTrainer = new List<OrderTrainer>
+                    {
+                        new OrderTrainer {
+                            Price = 300,
+                            TrainerOrdered = new TrainerPersonOrdered
+                            {
+                                TrainerId = 1,
+                                Name = "trainer2",
+                                PictureUrl = "/Photos/Trainers/Smuda.png"
+                            }
+                        }
+                    },
+                    Expired = DateTime.Now.Date.AddMonths(1),
+                    Summary = 300
+                }
+
+            };
+            foreach (var ord in orders)
+            {
+                context.Orders.Add(ord);
+            }
+
+      
             context.SaveChanges();
             
         }

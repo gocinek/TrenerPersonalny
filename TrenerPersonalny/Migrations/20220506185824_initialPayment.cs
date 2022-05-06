@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TrenerPersonalny.Migrations
 {
-    public partial class initial : Migration
+    public partial class initialPayment : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -36,6 +36,21 @@ namespace TrenerPersonalny.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "OrderPayments",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    PaymentIntentId = table.Column<string>(type: "TEXT", nullable: true),
+                    ClientSecret = table.Column<string>(type: "TEXT", nullable: true),
+                    BuyerId = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OrderPayments", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Orders",
                 columns: table => new
                 {
@@ -44,7 +59,14 @@ namespace TrenerPersonalny.Migrations
                     BuyerId = table.Column<string>(type: "TEXT", nullable: true),
                     OrderDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     OrderStatus = table.Column<int>(type: "INTEGER", nullable: false),
-                    Expired = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    Expired = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Summary = table.Column<int>(type: "INTEGER", nullable: false),
+                    PaymentIntentId = table.Column<string>(type: "TEXT", nullable: true),
+                    UsedreditCard_Id = table.Column<int>(type: "INTEGER", nullable: true),
+                    UsedreditCard_cardNumber = table.Column<string>(type: "TEXT", nullable: true),
+                    UsedreditCard_expDate = table.Column<string>(type: "TEXT", nullable: true),
+                    UsedreditCard_cvv = table.Column<int>(type: "INTEGER", nullable: true),
+                    UsedreditCard_nameOnCard = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -269,20 +291,41 @@ namespace TrenerPersonalny.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.InsertData(
-                table: "AspNetRoles",
-                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { 1, "96eceb33-968d-4798-af5b-30c0d18f4b0d", "Admin", "ADMIN" });
+            migrationBuilder.CreateTable(
+                name: "UserCreditCard",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false),
+                    cardNumber = table.Column<string>(type: "TEXT", nullable: true),
+                    expDate = table.Column<string>(type: "TEXT", nullable: true),
+                    cvv = table.Column<int>(type: "INTEGER", nullable: false),
+                    nameOnCard = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserCreditCard", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserCreditCard_AspNetUsers_Id",
+                        column: x => x.Id,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { 2, "40376f44-f643-4c52-8bf7-2fce2fa106a3", "Trainer", "TRAINER" });
+                values: new object[] { 1, "a2f22678-48d1-45ed-8519-b5989780241d", "Admin", "ADMIN" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { 3, "205f1eb4-f895-4241-b8e2-27d14385a471", "Client", "CLIENT" });
+                values: new object[] { 2, "9ff71848-fae3-4aed-ab7f-7df212760ba7", "Trainer", "TRAINER" });
+
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[] { 3, "42dedb19-7b8e-41f8-885b-920d03a078da", "Client", "CLIENT" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -365,19 +408,25 @@ namespace TrenerPersonalny.Migrations
                 name: "Excercises");
 
             migrationBuilder.DropTable(
+                name: "OrderPayments");
+
+            migrationBuilder.DropTable(
                 name: "OrderTrainer");
 
             migrationBuilder.DropTable(
-                name: "AspNetRoles");
+                name: "UserCreditCard");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "ExcerciseType");
 
             migrationBuilder.DropTable(
                 name: "Orders");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Person");

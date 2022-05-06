@@ -14,6 +14,7 @@ namespace TrenerPersonalny.Models
 
         [MaxLength(10)]
         public DateTime Registered { get; set; } = DateTime.Now;
+        public UserCreditCard UserCreditCard { get; set; }
 
         [ForeignKey("PersonId")]
         public Person Person { get; set; }

@@ -20,6 +20,8 @@ namespace TrenerPersonalny.Extensions
                     OrderDate = order.OrderDate,
                     OrderStatus = order.OrderStatus.ToString(),
                     Expired = order.Expired,
+                    Summary = order.Summary,
+                    PaymentIntentId = order.PaymentIntentId,
                     OrderTrainer = order.OrderTrainer
                     .Select(item => new OrderTrainerDto
                     {
@@ -27,7 +29,8 @@ namespace TrenerPersonalny.Extensions
                         Name = item.TrainerOrdered.Name,
                         PictureUrl = item.TrainerOrdered.PictureUrl,
                         Price = item.Price
-                    }).ToList()
+                    })
+                    .ToList()                    
                 }).AsNoTracking();
         }
     }
