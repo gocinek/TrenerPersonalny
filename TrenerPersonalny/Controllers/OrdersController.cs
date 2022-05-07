@@ -42,7 +42,7 @@ namespace TrenerPersonalny.Controllers
         }
 
         [HttpPost("{trainerId}")]
-        public async Task<ActionResult<int>> CreateOrder(int trainerId, CreateOrderDto createOrderDto)
+        public async Task<ActionResult<int>> CreateOrder(int trainerId)
         {
 
             var trainerP = await _context.Trainers
@@ -85,27 +85,11 @@ namespace TrenerPersonalny.Controllers
                 OrderTrainer = orderTrain,
                 BuyerId = User.Identity.Name,
                 Expired = eD,
-                Summary = trainerP.Price,
-                UsedreditCard = createOrderDto.UsedCreditCard
+                Summary = trainerP.Price
             };
 
             _context.Orders.Add(order);
-            if (createOrderDto.SaveCreditCard)
-            {
-                var user = await _context.Users
-                    .Include(a => a.UserCreditCard)
-                    .FirstOrDefaultAsync(x => x.UserName == User.Identity.Name);
-
-                var creditCard = new UserCreditCard
-                {
-                    cardNumber = createOrderDto.UsedCreditCard.cardNumber,
-                    expDate = createOrderDto.UsedCreditCard.expDate,
-                    cvv = createOrderDto.UsedCreditCard.cvv,
-                    nameOnCard = createOrderDto.UsedCreditCard.nameOnCard
-                };
-                user.UserCreditCard = creditCard;
-            }
-           
+                                     
             var result = await _context.SaveChangesAsync() > 0;
 
             if (result) return CreatedAtRoute("GetOrder", new {id = order.Id}, order.Id);

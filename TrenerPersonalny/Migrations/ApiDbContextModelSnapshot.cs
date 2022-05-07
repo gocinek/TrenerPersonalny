@@ -346,21 +346,21 @@ namespace TrenerPersonalny.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "a2f22678-48d1-45ed-8519-b5989780241d",
+                            ConcurrencyStamp = "a2fed9a8-7229-4b08-9080-d3509dd1d9de",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "9ff71848-fae3-4aed-ab7f-7df212760ba7",
+                            ConcurrencyStamp = "99143e7d-353b-406d-a9be-d9a9954c4ba8",
                             Name = "Trainer",
                             NormalizedName = "TRAINER"
                         },
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "42dedb19-7b8e-41f8-885b-920d03a078da",
+                            ConcurrencyStamp = "43df5c1f-309d-40f1-9f03-b361e6ad5f55",
                             Name = "Client",
                             NormalizedName = "CLIENT"
                         });
@@ -385,28 +385,6 @@ namespace TrenerPersonalny.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Trainers");
-                });
-
-            modelBuilder.Entity("TrenerPersonalny.Models.UserCreditCard", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("cardNumber")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("cvv")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("expDate")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("nameOnCard")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("UserCreditCard");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -482,39 +460,6 @@ namespace TrenerPersonalny.Migrations
                     b.Navigation("ExcerciseType");
                 });
 
-            modelBuilder.Entity("TrenerPersonalny.Models.Orders.Order", b =>
-                {
-                    b.OwnsOne("TrenerPersonalny.Models.Orders.UsedCreditCard", "UsedreditCard", b1 =>
-                        {
-                            b1.Property<int>("OrderId")
-                                .HasColumnType("INTEGER");
-
-                            b1.Property<int>("Id")
-                                .HasColumnType("INTEGER");
-
-                            b1.Property<string>("cardNumber")
-                                .HasColumnType("TEXT");
-
-                            b1.Property<int>("cvv")
-                                .HasColumnType("INTEGER");
-
-                            b1.Property<string>("expDate")
-                                .HasColumnType("TEXT");
-
-                            b1.Property<string>("nameOnCard")
-                                .HasColumnType("TEXT");
-
-                            b1.HasKey("OrderId");
-
-                            b1.ToTable("Orders");
-
-                            b1.WithOwner()
-                                .HasForeignKey("OrderId");
-                        });
-
-                    b.Navigation("UsedreditCard");
-                });
-
             modelBuilder.Entity("TrenerPersonalny.Models.Orders.OrderTrainer", b =>
                 {
                     b.HasOne("TrenerPersonalny.Models.Orders.Order", null)
@@ -553,20 +498,6 @@ namespace TrenerPersonalny.Migrations
                         .HasForeignKey("TrenerPersonalny.Models.Person", "TrainerId");
 
                     b.Navigation("Trainers");
-                });
-
-            modelBuilder.Entity("TrenerPersonalny.Models.UserCreditCard", b =>
-                {
-                    b.HasOne("TrenerPersonalny.Models.Client", null)
-                        .WithOne("UserCreditCard")
-                        .HasForeignKey("TrenerPersonalny.Models.UserCreditCard", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("TrenerPersonalny.Models.Client", b =>
-                {
-                    b.Navigation("UserCreditCard");
                 });
 
             modelBuilder.Entity("TrenerPersonalny.Models.Orders.Order", b =>

@@ -32,11 +32,6 @@ namespace TrenerPersonalny.Data
         {
             base.OnModelCreating(builder);
 
-            builder.Entity<Client>().HasOne(cc => cc.UserCreditCard).WithOne().HasForeignKey<UserCreditCard>(a => a.Id)
-                                           .OnDelete(DeleteBehavior.Cascade);
-
-
-
             builder.Entity<Client>().Ignore(c => c.EmailConfirmed)
                                            .Ignore(c => c.PhoneNumberConfirmed)
                                            .Ignore(c => c.TwoFactorEnabled)
