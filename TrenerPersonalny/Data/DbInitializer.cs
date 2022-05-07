@@ -207,53 +207,7 @@ namespace TrenerPersonalny.Data
                 context.Excercises.Add(ex);
             }
 
-            var orders = new List<Order>
-            {
-                new Order
-                {
-                    BuyerId = "admin",
-                    OrderTrainer = new List<OrderTrainer>
-                    {
-                        new OrderTrainer {
-                            Price = 175,
-                            TrainerOrdered = new TrainerPersonOrdered
-                            {
-                                TrainerId = 1,
-                                Name = "trainer",
-                                PictureUrl = "/Photos/Trainers/Adamiak.png"
-
-                            }
-                        }
-                    },
-                    Expired = DateTime.Now.AddMonths(1),
-                    Summary = 175
-                },
-                new Order
-                {
-                    BuyerId = "client",
-                    OrderTrainer = new List<OrderTrainer>
-                    {
-                        new OrderTrainer {
-                            Price = 300,
-                            TrainerOrdered = new TrainerPersonOrdered
-                            {
-                                TrainerId = 1,
-                                Name = "trainer2",
-                                PictureUrl = "/Photos/Trainers/Smuda.png"
-                            }
-                        }
-                    },
-                    Expired = DateTime.Now.Date.AddMonths(1),
-                    Summary = 300
-                }
-
-            };
-            foreach (var ord in orders)
-            {
-                context.Orders.Add(ord);
-            }
-
-      
+              
             context.SaveChanges();
             
         }

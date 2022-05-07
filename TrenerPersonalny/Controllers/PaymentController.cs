@@ -57,6 +57,16 @@ namespace TrenerPersonalny.Controllers
             return orderPayment.MapOrderPaymentToDto();
         }
 
+        [HttpGet]
+        public async Task<ActionResult<OrderPaymentDto>> GetPayment()
+        {
+
+            var orderPayment = await _context.OrderPayments.Where(o => o.BuyerId == User.Identity.Name).FirstOrDefaultAsync();
+
+            return Ok(orderPayment);
+
+        }
+
         [HttpPost("webhook")]
         public async Task<ActionResult> StripeWebhook()
         {
@@ -70,7 +80,7 @@ namespace TrenerPersonalny.Controllers
             var order = await _context.Orders.FirstOrDefaultAsync(x =>
                 x.PaymentIntentId == charge.PaymentIntentId);
 
-            if (charge.Status == "Sukces") order.OrderStatus = OrderStatus.PaymentReceived;
+            if (charge.Status == "Succeeded") order.OrderStatus = OrderStatus.PaymentReceived;
 
             await _context.SaveChangesAsync();
 

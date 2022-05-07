@@ -79,13 +79,19 @@ namespace TrenerPersonalny.Controllers
                 eD = expDate.Expired.Date.AddMonths(1);
                // Console.WriteLine("dodano");               
             }
-           
+
+            var paymentId = await _context.OrderPayments
+                .Where(u => u.BuyerId == User.Identity.Name)
+                .FirstOrDefaultAsync();
+           // if (paymentId == null) return BadRequest(new ProblemDetails { Title = "Coś poszło nie tak - nie można znaleźć płatności" });
+
             var order = new Order
             {
                 OrderTrainer = orderTrain,
                 BuyerId = User.Identity.Name,
                 Expired = eD,
-                Summary = trainerP.Price
+                Summary = trainerP.Price,
+                PaymentIntentId = paymentId.PaymentIntentId
             };
 
             _context.Orders.Add(order);
