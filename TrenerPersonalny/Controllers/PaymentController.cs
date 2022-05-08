@@ -67,6 +67,24 @@ namespace TrenerPersonalny.Controllers
 
         }
 
+        [HttpDelete]
+        public async Task<ActionResult> RemovePayment()
+        {
+            var payment = await _context.OrderPayments.FirstOrDefaultAsync(o => o.BuyerId == User.Identity.Name);
+
+            if (payment == null) return NotFound();
+
+            _context.OrderPayments.Remove(payment);
+            
+            var result = await _context.SaveChangesAsync() > 0;
+
+            if (result) return Ok();
+
+            return BadRequest(new ProblemDetails { Title = "Problem removing payment" });
+        }
+
+
+
         [HttpPost("webhook")]
         public async Task<ActionResult> StripeWebhook()
         {
@@ -80,7 +98,7 @@ namespace TrenerPersonalny.Controllers
             var order = await _context.Orders.FirstOrDefaultAsync(x =>
                 x.PaymentIntentId == charge.PaymentIntentId);
 
-            if (charge.Status == "Succeeded") order.OrderStatus = OrderStatus.PaymentReceived;
+            if (charge.Status == "succeeded") order.OrderStatus = OrderStatus.PaymentReceived;
 
             await _context.SaveChangesAsync();
 
