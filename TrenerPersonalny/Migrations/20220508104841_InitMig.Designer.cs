@@ -9,8 +9,8 @@ using TrenerPersonalny.Data;
 namespace TrenerPersonalny.Migrations
 {
     [DbContext(typeof(ApiDbContext))]
-    [Migration("20220507112711_InitialPayment")]
-    partial class InitialPayment
+    [Migration("20220508104841_InitMig")]
+    partial class InitMig
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -203,6 +203,9 @@ namespace TrenerPersonalny.Migrations
                     b.Property<string>("PictureUrl")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("PublicId")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ExcerciseTypeId");
@@ -348,21 +351,21 @@ namespace TrenerPersonalny.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "a2fed9a8-7229-4b08-9080-d3509dd1d9de",
+                            ConcurrencyStamp = "c8df8bc1-bb16-4a4d-97b8-47a864752035",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "99143e7d-353b-406d-a9be-d9a9954c4ba8",
+                            ConcurrencyStamp = "177447b8-030b-4e92-8916-1d81d81cfe69",
                             Name = "Trainer",
                             NormalizedName = "TRAINER"
                         },
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "43df5c1f-309d-40f1-9f03-b361e6ad5f55",
+                            ConcurrencyStamp = "a5b39f4a-43de-4886-bda7-07996bda0dd2",
                             Name = "Client",
                             NormalizedName = "CLIENT"
                         });

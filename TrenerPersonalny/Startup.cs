@@ -24,6 +24,8 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Identity;
 using TrenerPersonalny.Services;
 using API.Middleware;
+using TrenerPersonalny.RequestHelpers;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace TrenerPersonalny
 {
@@ -98,9 +100,10 @@ namespace TrenerPersonalny
             services.AddAuthorization();
             services.AddScoped<TokenService>();
             services.AddScoped<PaymentService>();
+            services.AddScoped<ImageService>();
 
             services.AddControllers();
-
+            services.AddAutoMapper(typeof(MappingProfiles).Assembly);
 
            services.AddSwaggerGen(c =>
             {

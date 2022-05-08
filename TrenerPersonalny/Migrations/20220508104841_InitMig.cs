@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TrenerPersonalny.Migrations
 {
-    public partial class InitialPayment : Migration
+    public partial class InitMig : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -113,7 +113,8 @@ namespace TrenerPersonalny.Migrations
                     Name = table.Column<string>(type: "TEXT", nullable: true),
                     Description = table.Column<string>(type: "TEXT", nullable: true),
                     PictureUrl = table.Column<string>(type: "TEXT", nullable: true),
-                    ExcerciseTypeId = table.Column<int>(type: "INTEGER", nullable: false)
+                    ExcerciseTypeId = table.Column<int>(type: "INTEGER", nullable: false),
+                    PublicId = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -289,17 +290,17 @@ namespace TrenerPersonalny.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { 1, "a2fed9a8-7229-4b08-9080-d3509dd1d9de", "Admin", "ADMIN" });
+                values: new object[] { 1, "c8df8bc1-bb16-4a4d-97b8-47a864752035", "Admin", "ADMIN" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { 2, "99143e7d-353b-406d-a9be-d9a9954c4ba8", "Trainer", "TRAINER" });
+                values: new object[] { 2, "177447b8-030b-4e92-8916-1d81d81cfe69", "Trainer", "TRAINER" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { 3, "43df5c1f-309d-40f1-9f03-b361e6ad5f55", "Client", "CLIENT" });
+                values: new object[] { 3, "a5b39f4a-43de-4886-bda7-07996bda0dd2", "Client", "CLIENT" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
