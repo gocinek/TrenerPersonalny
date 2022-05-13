@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ using TrenerPersonalny.Services;
 
 namespace TrenerPersonalny.Controllers
 {
-    
+
     public class ExcerciseController : BaseApiController
     {
         private readonly ApiDbContext _context;
@@ -32,9 +33,9 @@ namespace TrenerPersonalny.Controllers
             var excercises = await _context.Excercises
                 .Include(et => et.ExcerciseType)
                 .ToListAsync();
-            return Ok(excercises);
+            return excercises;
         }
-
+   
         [HttpGet("{id}", Name = "GetExcercise")]
         public async Task<ActionResult<Excercises>> GetExcercise(int id)
         {
@@ -130,6 +131,14 @@ namespace TrenerPersonalny.Controllers
             if (result) return Ok();
 
             return BadRequest(new ProblemDetails { Title = "Problem deleting excercise" });
+        }
+
+        [HttpGet("filterTypes")]
+        public async Task<IActionResult> GetFilters()
+        {
+            var types = await _context.Excercises.Select(p => p.ExcerciseType.Type).Distinct().ToListAsync();
+
+            return Ok(new { types });
         }
 
     }

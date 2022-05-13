@@ -17,7 +17,6 @@ using Microsoft.Extensions.FileProviders;
 using TrenerPersonalny.Models;
 using TrenerPersonalny.Data;
 using Microsoft.EntityFrameworkCore;
-using TrenerPersonalny.Configuration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
@@ -26,6 +25,7 @@ using TrenerPersonalny.Services;
 using API.Middleware;
 using TrenerPersonalny.RequestHelpers;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using System.Text.Json.Serialization;
 
 namespace TrenerPersonalny
 {
@@ -46,8 +46,6 @@ namespace TrenerPersonalny
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
-
             //CORS
             services.AddCors( options =>
                 {
@@ -60,13 +58,13 @@ namespace TrenerPersonalny
                     });
             });
 
-            //JSON Serializer
+            //Json Serializer
             services.AddControllersWithViews()
-                .AddNewtonsoftJson(options =>
-                    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft
-                    .Json.ReferenceLoopHandling.Ignore)
-                    .AddNewtonsoftJson(options =>
-                        options.SerializerSettings.ContractResolver = new DefaultContractResolver());
+     .AddNewtonsoftJson(options =>
+         options.SerializerSettings.ReferenceLoopHandling = Newtonsoft
+         .Json.ReferenceLoopHandling.Ignore)
+         .AddNewtonsoftJson(options =>
+             options.SerializerSettings.ContractResolver = new DefaultContractResolver());
 
 
             //baza
@@ -167,11 +165,7 @@ namespace TrenerPersonalny
                 endpoints.MapControllers();
             });
 
-            app.UseStaticFiles(new StaticFileOptions
-            {
-                FileProvider = new PhysicalFileProvider(
-                    Path.Combine(Directory.GetCurrentDirectory(), "Photos")), RequestPath="/Photos"
-            });
+
         }
     }
 }

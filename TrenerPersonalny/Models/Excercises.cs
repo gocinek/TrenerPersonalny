@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -9,7 +10,7 @@ namespace TrenerPersonalny.Models
 {
     public class Excercises
     {
-        [Key]
+        [JsonProperty("id")]
         public int Id { get; set; }
 
         public string Name { get; set; }
@@ -18,7 +19,7 @@ namespace TrenerPersonalny.Models
 
         public string PictureUrl { get; set; }
 
-      //  public string Type { get; set; }
+        //  public string Type { get; set; }
 
         [ForeignKey("ExcerciseTypeId")]
         public ExcerciseType ExcerciseType { get; set; }
@@ -26,6 +27,5 @@ namespace TrenerPersonalny.Models
         public int ExcerciseTypeId { get; set; }
 
         public string PublicId { get; set; }
-
     }
 }

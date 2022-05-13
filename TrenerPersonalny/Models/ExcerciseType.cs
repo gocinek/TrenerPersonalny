@@ -8,7 +8,7 @@ namespace TrenerPersonalny.Models
 {
     public class ExcerciseType
     {
-        [Key]
+       
         public int Id { get; set; }
         public string Type { get; set; }
     }

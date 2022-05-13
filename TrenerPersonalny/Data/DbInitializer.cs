@@ -3,9 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TrenerPersonalny.Configuration;
 using TrenerPersonalny.Models;
-using TrenerPersonalny.Models.Orders;
 
 namespace TrenerPersonalny.Data
 {
@@ -32,6 +30,7 @@ namespace TrenerPersonalny.Data
 
                 await userManager.CreateAsync(admin, "Test1!");
                 await userManager.AddToRoleAsync(admin, "Admin");
+                await userManager.AddToRoleAsync(admin, "Client");
 
                 var trainer = new Client
                 {

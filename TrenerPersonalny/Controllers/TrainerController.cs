@@ -44,16 +44,6 @@ namespace TrenerPersonalny.Controllers
             return Ok(trainer);
         }
 
-        [HttpGet("filters")]
-        public async Task<IActionResult> GetFilters()
-        {
-            var prices = await _context.Trainers.Select(t => t.Price).Distinct().ToListAsync();
-            var ratings = await _context.Trainers.Select(t => t.Rating).Distinct().ToListAsync();
-            var genders = await _context.Trainers.Select(t => t.Person.Gender).Distinct().ToListAsync();
-            var languages = await _context.Trainers.Select(t => t.Person.Language).Distinct().ToListAsync();
-
-            return Ok(new { prices, ratings, genders, languages });
-
-        }
+       
     }
 }

@@ -20,7 +20,7 @@ namespace TrenerPersonalny.Models
         public IFormFile File { get; set; }
 
         //  public string Type { get; set; }
-                
+
         [Required]
         public int ExcerciseTypeId { get; set; }
     }
