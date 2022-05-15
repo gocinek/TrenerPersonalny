@@ -21,6 +21,7 @@ namespace TrenerPersonalny.Data
         public virtual DbSet<Person> Person { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<OrderPayment> OrderPayments { get; set; }
+        public virtual DbSet<Sizes> Sizes { get; set; }
 
         public ApiDbContext(DbContextOptions<ApiDbContext> options)
             : base(options)

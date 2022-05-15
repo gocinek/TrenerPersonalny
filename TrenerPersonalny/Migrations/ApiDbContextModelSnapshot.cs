@@ -349,24 +349,67 @@ namespace TrenerPersonalny.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "2fceeab4-0c08-4b52-815c-af7379be7477",
+                            ConcurrencyStamp = "a8ee5478-15f1-4807-8442-5dfae807304b",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "b9a01003-45b4-439d-8353-e7f940903847",
+                            ConcurrencyStamp = "8e954276-dfde-4aa3-a643-ba45c0fde533",
                             Name = "Trainer",
                             NormalizedName = "TRAINER"
                         },
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "14758162-8324-4e32-b3ad-eebf9addd272",
+                            ConcurrencyStamp = "a38e23d1-fb51-4235-b769-e7da823dd9aa",
                             Name = "Client",
                             NormalizedName = "CLIENT"
                         });
+                });
+
+            modelBuilder.Entity("TrenerPersonalny.Models.SizeDetails", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ExcerciseTypeId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("SizeCm")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("SizesId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ExcerciseTypeId");
+
+                    b.HasIndex("SizesId");
+
+                    b.ToTable("SizeDetails");
+                });
+
+            modelBuilder.Entity("TrenerPersonalny.Models.Sizes", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("PersonId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PersonId");
+
+                    b.ToTable("Sizes");
                 });
 
             modelBuilder.Entity("TrenerPersonalny.Models.Trainers", b =>
@@ -503,6 +546,36 @@ namespace TrenerPersonalny.Migrations
                     b.Navigation("Trainers");
                 });
 
+            modelBuilder.Entity("TrenerPersonalny.Models.SizeDetails", b =>
+                {
+                    b.HasOne("TrenerPersonalny.Models.ExcerciseType", "ExcerciseType")
+                        .WithMany()
+                        .HasForeignKey("ExcerciseTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TrenerPersonalny.Models.Sizes", "Sizes")
+                        .WithMany("SizeDetails")
+                        .HasForeignKey("SizesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ExcerciseType");
+
+                    b.Navigation("Sizes");
+                });
+
+            modelBuilder.Entity("TrenerPersonalny.Models.Sizes", b =>
+                {
+                    b.HasOne("TrenerPersonalny.Models.Person", "Person")
+                        .WithMany()
+                        .HasForeignKey("PersonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Person");
+                });
+
             modelBuilder.Entity("TrenerPersonalny.Models.Orders.Order", b =>
                 {
                     b.Navigation("OrderTrainer");
@@ -511,6 +584,11 @@ namespace TrenerPersonalny.Migrations
             modelBuilder.Entity("TrenerPersonalny.Models.Person", b =>
                 {
                     b.Navigation("Client");
+                });
+
+            modelBuilder.Entity("TrenerPersonalny.Models.Sizes", b =>
+                {
+                    b.Navigation("SizeDetails");
                 });
 
             modelBuilder.Entity("TrenerPersonalny.Models.Trainers", b =>

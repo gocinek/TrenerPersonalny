@@ -7,7 +7,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using TrenerPersonalny.Data;
 using TrenerPersonalny.Extensions;
-using TrenerPersonalny.Models;
 using TrenerPersonalny.Models.DTOs.Orders;
 using TrenerPersonalny.Models.Orders;
 

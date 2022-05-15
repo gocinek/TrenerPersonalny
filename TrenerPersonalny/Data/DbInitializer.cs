@@ -30,7 +30,6 @@ namespace TrenerPersonalny.Data
 
                 await userManager.CreateAsync(admin, "Test1!");
                 await userManager.AddToRoleAsync(admin, "Admin");
-                await userManager.AddToRoleAsync(admin, "Client");
 
                 var trainer = new Client
                 {
@@ -113,6 +112,23 @@ namespace TrenerPersonalny.Data
 
                 await userManager.CreateAsync(client, "Test1!");
                 await userManager.AddToRoleAsync(client, "Client");
+
+                var client2 = new Client
+                {
+                    Email = "client2@example.com",
+                    UserName = "client2",
+                    Person = new Person
+                    {
+                        LastName = "Kowalczyk",
+                        FirstName = "Ronald",
+                        ProfileImg = "/Photos/Trainers/Kowalski.png"
+                    }
+                    //NormalizedUserName = "client",
+
+                };
+
+                await userManager.CreateAsync(client2, "Test1!");
+                await userManager.AddToRoleAsync(client2, "Client");
 
             }
 
@@ -206,9 +222,45 @@ namespace TrenerPersonalny.Data
                 context.Excercises.Add(ex);
             }
 
-              
             context.SaveChanges();
-            
+
+            var sizes = new List<Sizes>
+            {
+            new Sizes
+            {
+                PersonId = 5,
+                SizeDetails = new List<SizeDetails>
+                {
+                   new SizeDetails {
+                    ExcerciseTypeId = 3,
+                    SizeCm = 21
+                   },
+                   new SizeDetails
+                   {
+                    ExcerciseTypeId = 2,
+                    SizeCm = 45
+                   },
+                   new SizeDetails
+                   {
+                    ExcerciseTypeId = 5,
+                    SizeCm = 25
+                   },
+                   new SizeDetails
+                   {
+                    ExcerciseTypeId = 4,
+                    SizeCm = 20
+                   }
+                }
+            }
+            };
+
+            foreach (var si in sizes)
+            {
+                context.Sizes.Add(si);
+            }
+
+            context.SaveChanges();
+
         }
     }
 }
