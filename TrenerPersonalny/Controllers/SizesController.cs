@@ -40,6 +40,8 @@ namespace TrenerPersonalny.Controllers
         {
             var sizes = await _context.Sizes
                .Where(s => s.Person.Client.UserName == User.Identity.Name)
+               .Include( o => o.SizeDetails)
+               .ThenInclude( o => o.ExcerciseType)
                .OrderBy(o => o.UpdateDate)
                .LastOrDefaultAsync();
            // Console.WriteLine(sizes.UpdateDate);
@@ -47,7 +49,7 @@ namespace TrenerPersonalny.Controllers
         }
 
         [HttpGet("{id}", Name = "GetSize")]
-        public async Task<ActionResult<Excercises>> GetSize(int id)
+        public async Task<ActionResult<SizesDTO>> GetSize(int id)
         {
             var size = await _context.Sizes.Where(d => d.Id.Equals(id)).Include(et => et.SizeDetails).FirstOrDefaultAsync();
 
@@ -142,18 +144,15 @@ namespace TrenerPersonalny.Controllers
 
             if (size == null) return NotFound();
 
-            size.RemoveDetail(sizesId);
+            //size.RemoveDetail(sizesId);
 
-            if (size == null)
-            {
-                _context.Sizes.Remove(size);
-            }
+            _context.Sizes.Remove(size);
 
             var result = await _context.SaveChangesAsync() > 0;
 
             if (result) return Ok();
 
-            return BadRequest(new ProblemDetails { Title = "Problem removing size detail from the SizesDetails" });
+            return BadRequest(new ProblemDetails { Title = "Problem removing size" });
         }
 
 

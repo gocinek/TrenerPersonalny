@@ -1,10 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TrenerPersonalny.Models
 {
     public class SizeDetails
     {
+        [JsonProperty("id")]
         public int Id { get; set; }
         [Required]
         public int SizeCm { get; set; } //cm

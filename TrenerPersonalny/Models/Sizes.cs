@@ -41,5 +41,6 @@ namespace TrenerPersonalny.Models
             SizeDetails.Remove(detail);
         }
 
+
     }
 }
