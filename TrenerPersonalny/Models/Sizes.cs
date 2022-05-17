@@ -32,14 +32,23 @@ namespace TrenerPersonalny.Models
             });
         }
 
-        public void RemoveDetail(int detailId, int sizesId)
+        public void UpdateDetail(int excerciseTypeId, int sizeCm)
         {
             var detail = SizeDetails
-                .Where( o=> o.SizesId == sizesId)
-                .FirstOrDefault(d => d.Id == detailId);
+                .Where(o =>o.ExcerciseTypeId == excerciseTypeId)
+                .FirstOrDefault();
+            if (detail == null) return;
+            detail.SizeCm = sizeCm;
+        }
+
+        public void RemoveDetail(int excerciseTypeId)
+        {
+            var detail = SizeDetails
+                .FirstOrDefault(d => d.ExcerciseTypeId == excerciseTypeId);
             if (detail == null) return;
             SizeDetails.Remove(detail);
         }
+
 
 
     }

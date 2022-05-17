@@ -9,8 +9,8 @@ using TrenerPersonalny.Data;
 namespace TrenerPersonalny.Migrations
 {
     [DbContext(typeof(ApiDbContext))]
-    [Migration("20220516193635_InitialSizes")]
-    partial class InitialSizes
+    [Migration("20220517201748_Sizes")]
+    partial class Sizes
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -351,21 +351,21 @@ namespace TrenerPersonalny.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "09fb7907-6a5f-4599-bcac-36bfaf780ab9",
+                            ConcurrencyStamp = "128da6df-fa5b-4ff7-925d-c99853b76720",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "bc87c6d7-f45c-4d41-aaa6-8b66c381e4d0",
+                            ConcurrencyStamp = "f75f1d09-2c07-4201-a6fb-f56758ed03d7",
                             Name = "Trainer",
                             NormalizedName = "TRAINER"
                         },
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "88827beb-dbf4-4f33-85b7-cdaccb692520",
+                            ConcurrencyStamp = "ac33c3c0-10c5-41ea-b028-3144eece64d2",
                             Name = "Client",
                             NormalizedName = "CLIENT"
                         });

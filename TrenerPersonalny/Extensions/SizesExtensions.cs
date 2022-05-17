@@ -21,7 +21,8 @@ namespace TrenerPersonalny.Extensions
                 SizeDetails = sizes.SizeDetails.Select(details => new SizeDetailsDTO
                 {
                     SizeCm = details.SizeCm,
-                    ExcerciseTypeId = details.ExcerciseTypeId
+                    ExcerciseTypeId = details.ExcerciseTypeId,
+                    ExcerciseType = details.ExcerciseType
                 }).ToList()
             }).AsNoTracking();
         }

@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -21,5 +22,9 @@ namespace TrenerPersonalny.Models
         [Required]
         public int SizesId { get; set; }
 
+        public static implicit operator SizeDetails(Sizes v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

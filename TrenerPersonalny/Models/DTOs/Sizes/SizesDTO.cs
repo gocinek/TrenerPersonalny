@@ -10,6 +10,7 @@ namespace TrenerPersonalny.Models.DTOs.Sizes
 {
     public class SizesDTO
     {
+        [JsonProperty("id")]
         public int Id { get; set; }
         public Person Person { get; set; }
         public int PersonId { get; set; }

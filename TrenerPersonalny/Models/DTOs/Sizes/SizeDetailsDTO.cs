@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -9,11 +10,13 @@ namespace TrenerPersonalny.Models.DTOs.Sizes
 {
     public class SizeDetailsDTO
     {
-        //public int Id { get; set; }
+        [JsonProperty("id")]
+        public int Id { get; set; }
         [Required]
         public int SizeCm { get; set; } //cm
         [Required]
         public int ExcerciseTypeId { get; set; }
+        public ExcerciseType ExcerciseType { get; set; }
         //public int SizesId { get; set; }
     }
 }

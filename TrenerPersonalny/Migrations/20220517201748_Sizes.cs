@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TrenerPersonalny.Migrations
 {
-    public partial class InitialSizes : Migration
+    public partial class Sizes : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -337,17 +337,17 @@ namespace TrenerPersonalny.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { 1, "09fb7907-6a5f-4599-bcac-36bfaf780ab9", "Admin", "ADMIN" });
+                values: new object[] { 1, "128da6df-fa5b-4ff7-925d-c99853b76720", "Admin", "ADMIN" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { 2, "bc87c6d7-f45c-4d41-aaa6-8b66c381e4d0", "Trainer", "TRAINER" });
+                values: new object[] { 2, "f75f1d09-2c07-4201-a6fb-f56758ed03d7", "Trainer", "TRAINER" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { 3, "88827beb-dbf4-4f33-85b7-cdaccb692520", "Client", "CLIENT" });
+                values: new object[] { 3, "ac33c3c0-10c5-41ea-b028-3144eece64d2", "Client", "CLIENT" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
