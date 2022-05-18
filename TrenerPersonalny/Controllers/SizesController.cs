@@ -46,6 +46,21 @@ namespace TrenerPersonalny.Controllers
             return Ok(size);
         }
 
+        [HttpGet("sizeDet")]
+        public async Task<ActionResult<SizeDetailsDTO>> GetSizeDet(int excerciseTypeId)
+        {
+            var size = await RetrieveSizes();
+
+            if (size == null || !size.UpdateDate.Equals(DateTime.Now.Date)) return NotFound("Proszę użyć HTTPOST");
+
+            var sizeDet = await _context.SizeDetails
+                .Where(i => i.SizesId == size.Id)
+                .Where(et => et.ExcerciseTypeId == excerciseTypeId)
+                .FirstOrDefaultAsync();
+
+            return Ok(sizeDet);
+        }
+
         /*   [Authorize(Roles = "Client")]
            [HttpPost]
            public async Task<ActionResult<SizesDTO>> CreateSizeForm([FromForm] CreateSizeDTO sizesDto)
