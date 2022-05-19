@@ -14,16 +14,16 @@ namespace TrenerPersonalny.Services
 {
     public class TokenService
     {
-        private readonly UserManager<Client> _userManager;
+        private readonly UserManager<User> _userManager;
         private readonly IConfiguration _config;
 
-        public TokenService(UserManager<Client> userManager, IConfiguration config)
+        public TokenService(UserManager<User> userManager, IConfiguration config)
         {
             _userManager = userManager;
             _config = config;
         }
 
-        public async Task<string> GenerateToken(Client client)
+        public async Task<string> GenerateToken(User client)
         {
             var claims = new List<Claim>
             {

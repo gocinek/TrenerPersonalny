@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace TrenerPersonalny.Models
 {
-    public class Client : IdentityUser<int>
+    public class User : IdentityUser<int>
     {
 
         [MaxLength(10)]

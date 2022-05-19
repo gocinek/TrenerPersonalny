@@ -11,9 +11,9 @@ using TrenerPersonalny.Models.Orders;
 
 namespace TrenerPersonalny.Data
 {
-    public class ApiDbContext : IdentityDbContext<Client, Role, int>
+    public class ApiDbContext : IdentityDbContext<User, Role, int>
     {
-        public virtual DbSet<Client> Client { get; set; }
+        public virtual DbSet<User> Client { get; set; }
         //  public virtual DbSet<UserAccount> UserAccount { get; set; }
         public virtual DbSet<Excercises> Excercises {get; set; }
         public virtual DbSet<ExcerciseType> ExcerciseType { get; set; }
@@ -34,7 +34,7 @@ namespace TrenerPersonalny.Data
         {
             base.OnModelCreating(builder);
 
-            builder.Entity<Client>().Ignore(c => c.EmailConfirmed)
+            builder.Entity<User>().Ignore(c => c.EmailConfirmed)
                                            .Ignore(c => c.PhoneNumberConfirmed)
                                            .Ignore(c => c.TwoFactorEnabled)
                                            .Ignore(c => c.LockoutEnd)

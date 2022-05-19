@@ -90,7 +90,8 @@ namespace TrenerPersonalny.Controllers
                 BuyerId = User.Identity.Name,
                 Expired = eD,
                 Summary = trainerP.Price,
-                PaymentIntentId = paymentId.PaymentIntentId
+                PaymentIntentId = paymentId.PaymentIntentId,
+                TrainerOrderedName = trainerOrdered.Name
             };
 
             _context.Orders.Add(order);

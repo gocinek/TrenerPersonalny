@@ -57,6 +57,7 @@ namespace TrenerPersonalny.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     BuyerId = table.Column<string>(type: "TEXT", nullable: true),
+                    TrainerOrderedName = table.Column<string>(type: "TEXT", nullable: true),
                     OrderDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     OrderStatus = table.Column<int>(type: "INTEGER", nullable: false),
                     Expired = table.Column<DateTime>(type: "TEXT", nullable: false),
@@ -337,17 +338,17 @@ namespace TrenerPersonalny.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { 1, "8dcdc9cb-933b-4361-9b79-c10a7c98ec7a", "Admin", "ADMIN" });
+                values: new object[] { 1, "129b3424-c0e4-4f30-ab83-b30f1da30231", "Admin", "ADMIN" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { 2, "f5e13e9e-b882-46b9-8bdc-ac85777ac814", "Trainer", "TRAINER" });
+                values: new object[] { 2, "12c713c3-3b43-4483-9262-414091322470", "Trainer", "TRAINER" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { 3, "1e7c22cf-ed3a-499e-978b-f210ccc0448e", "Client", "CLIENT" });
+                values: new object[] { 3, "63b3c5d0-ce97-4457-92ba-9efebf2e9653", "Client", "CLIENT" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

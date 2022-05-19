@@ -21,7 +21,7 @@ namespace TrenerPersonalny
             var host =  CreateHostBuilder(args).Build();
             var scope = host.Services.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<ApiDbContext>();
-            var userManager = scope.ServiceProvider.GetRequiredService<UserManager<Client>>();
+            var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
             var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
             try
             {

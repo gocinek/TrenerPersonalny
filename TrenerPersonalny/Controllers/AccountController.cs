@@ -16,10 +16,10 @@ namespace TrenerPersonalny.Controllers
 {
     public class AccountController : BaseApiController
     {
-        private readonly UserManager<Client> _userManager;
+        private readonly UserManager<User> _userManager;
         private readonly TokenService _tokenService;
 
-        public AccountController(UserManager<Client> userManager, TokenService tokenService)
+        public AccountController(UserManager<User> userManager, TokenService tokenService)
         {
             _userManager = userManager;
             _tokenService = tokenService;
@@ -42,10 +42,10 @@ namespace TrenerPersonalny.Controllers
         [HttpPost("register")]
         public async Task<ActionResult> Register(UserRegistrationDto registrationDto, Boolean tr)
         {
-            var user = new Client();
+            var user = new User();
             if (tr)
             {
-                user = new Client
+                user = new User
                 {
                     Email = registrationDto.Email,
                     UserName = registrationDto.Username,
@@ -63,7 +63,7 @@ namespace TrenerPersonalny.Controllers
                 };
             } else
             {
-                user = new Client
+                user = new User
                 {
                     Email = registrationDto.Email,
                     UserName = registrationDto.Username,

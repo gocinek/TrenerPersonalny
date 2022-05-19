@@ -22,6 +22,7 @@ namespace TrenerPersonalny.Extensions
                     Expired = order.Expired,
                     Summary = order.Summary,
                     PaymentIntentId = order.PaymentIntentId,
+                    TrainerOrderedName = order.TrainerOrderedName,
                     OrderTrainer = order.OrderTrainer
                     .Select(item => new OrderTrainerDto
                     {

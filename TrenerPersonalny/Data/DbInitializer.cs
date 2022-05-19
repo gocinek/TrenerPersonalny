@@ -9,12 +9,12 @@ namespace TrenerPersonalny.Data
 {
     public class DbInitializer
     {
-        public static async Task Initialize(ApiDbContext context, UserManager<Client> userManager)
+        public static async Task Initialize(ApiDbContext context, UserManager<User> userManager)
         {
 
             if (!userManager.Users.Any())
             {
-                var admin = new Client
+                var admin = new User
                 {
                     Email = "admin@example.com",
                     UserName = "admin",
@@ -31,7 +31,7 @@ namespace TrenerPersonalny.Data
                 await userManager.CreateAsync(admin, "Test1!");
                 await userManager.AddToRoleAsync(admin, "Admin");
 
-                var trainer = new Client
+                var trainer = new User
                 {
                     Email = "trainer@example.com",
                     UserName = "trainer",
@@ -51,7 +51,7 @@ namespace TrenerPersonalny.Data
                 await userManager.CreateAsync(trainer, "Test1!");
                 await userManager.AddToRoleAsync(trainer, "Trainer");
 
-                var trainer2 = new Client
+                var trainer2 = new User
                 {
                     Email = "trainer2@example.com",
                     UserName = "trainer2",
@@ -73,7 +73,7 @@ namespace TrenerPersonalny.Data
                 await userManager.CreateAsync(trainer2, "Test1!");
                 await userManager.AddToRoleAsync(trainer2, "Trainer");
 
-                var trainer3 = new Client
+                var trainer3 = new User
                 {
                     Email = "trainer3@example.com",
                     UserName = "trainer3",
@@ -97,7 +97,7 @@ namespace TrenerPersonalny.Data
 
 
                 //salt = HashPass.salt();
-                var client = new Client
+                var client = new User
                 {
                     Email = "client@example.com",
                     UserName = "client",
@@ -113,7 +113,7 @@ namespace TrenerPersonalny.Data
                 await userManager.CreateAsync(client, "Test1!");
                 await userManager.AddToRoleAsync(client, "Client");
 
-                var client2 = new Client
+                var client2 = new User
                 {
                     Email = "client2@example.com",
                     UserName = "client2",

@@ -74,7 +74,7 @@ namespace TrenerPersonalny
             ));
 
             //user
-            services.AddIdentityCore<Client>(opt =>
+            services.AddIdentityCore<User>(opt =>
             {
                 opt.User.RequireUniqueEmail = true;
             }

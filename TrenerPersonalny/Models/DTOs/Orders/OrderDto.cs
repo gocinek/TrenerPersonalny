@@ -8,6 +8,7 @@ namespace TrenerPersonalny.Models.DTOs.Orders
     {
         public int Id { get; set; }
         public string BuyerId { get; set; }  //login usera
+        public string TrainerOrderedName { get; set; }
         public DateTime OrderDate { get; set; }
         public List<OrderTrainerDto> OrderTrainer { get; set; }
         public string OrderStatus { get; set; }

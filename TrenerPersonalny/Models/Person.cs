@@ -28,7 +28,7 @@ namespace TrenerPersonalny.Models
         public Trainers Trainers { get; set; }
         public int? TrainerId { get; set; }
 
-        public Client Client { get; set; }
+        public User Client { get; set; }
 
     }
 }

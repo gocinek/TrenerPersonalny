@@ -138,13 +138,19 @@ namespace TrenerPersonalny.Controllers
             {
                 //Console.WriteLine(size.Id);
                 var sizeNew = await CreateSizeAsync();
-                sizeNew.AddDetail(1, 0);
-                sizeNew.AddDetail(2, 0);
-                sizeNew.AddDetail(3, 0);
-                sizeNew.AddDetail(4, 0);
-                sizeNew.AddDetail(5, 0);
-                sizeNew.AddDetail(6, 0);
-                sizeNew.AddDetail(7, 0);
+              //  sizeNew.AddDetail(1, 0);
+              //  sizeNew.AddDetail(2, 0);
+              ///  sizeNew.AddDetail(3, 0);
+               /// sizeNew.AddDetail(4, 0);
+               /// sizeNew.AddDetail(5, 0);
+               //// sizeNew.AddDetail(6, 0);
+               /// sizeNew.AddDetail(7, 0);
+
+                foreach(int i in _context.ExcerciseType.Select(i => i.Id).ToList())
+                {
+                    sizeNew.AddDetail(i, 0);
+                }
+
                 var result = await _context.SaveChangesAsync() > 0;
                 if (result) return CreatedAtRoute("GetSize", new { Id = sizeNew.Id }, sizeNew);
             } 
