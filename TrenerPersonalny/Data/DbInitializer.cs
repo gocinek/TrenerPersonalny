@@ -235,6 +235,18 @@ namespace TrenerPersonalny.Data
                     ExcerciseTypeId = 3,
                     SizeCm = 21
                    },
+                    new SizeDetails {
+                    ExcerciseTypeId = 1,
+                    SizeCm = 21
+                   },
+                     new SizeDetails {
+                    ExcerciseTypeId = 6,
+                    SizeCm = 21
+                   },
+                    new SizeDetails {
+                    ExcerciseTypeId = 7,
+                    SizeCm = 21
+                   },
                    new SizeDetails
                    {
                     ExcerciseTypeId = 2,

@@ -20,6 +20,7 @@ namespace TrenerPersonalny.Extensions
                 PersonId = sizes.PersonId,
                 SizeDetails = sizes.SizeDetails.Select(details => new SizeDetailsDTO
                 {
+                    Id = details.Id,
                     SizeCm = details.SizeCm,
                     ExcerciseTypeId = details.ExcerciseTypeId,
                     ExcerciseType = details.ExcerciseType

@@ -12,6 +12,8 @@ namespace TrenerPersonalny.Models.DTOs.Sizes
     {
         [JsonProperty("id")]
         public int Id { get; set; }
+
+        [Range(0, 200, ErrorMessage = "Value for {0} must be between {0} and {200}.")]
         [Required]
         public int SizeCm { get; set; } //cm
         [Required]

@@ -49,7 +49,22 @@ namespace TrenerPersonalny.Models
             SizeDetails.Remove(detail);
         }
 
+        public void UpdateCm(int excerciseTypeId, Boolean add)
+        {
+            var detail = SizeDetails
+                .Where(o => o.ExcerciseTypeId == excerciseTypeId)
+                .FirstOrDefault();
+            if (detail == null) return;
+            if(add == true)
+            {
+                detail.SizeCm = detail.SizeCm + 1;
+            } else
+            {
+                detail.SizeCm = detail.SizeCm - 1;
 
+            }
+            
+        }
 
     }
 }
