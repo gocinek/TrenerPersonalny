@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using TrenerPersonalny.Models.DTOs.Orders;
 using TrenerPersonalny.Extensions;
 using TrenerPersonalny.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TrenerPersonalny.Controllers
 {
@@ -21,16 +22,26 @@ namespace TrenerPersonalny.Controllers
             _context = context;
         }
 
+        [Authorize(Roles = "Trainer")]
         [HttpGet("forTrainer")]
-        public async Task<ActionResult<List<OrderDto>>> GetClients()
+        public async Task<ActionResult<List<Person>>> GetClients()
         {
             var persId = await _context.Person.Where(i => i.Client.UserName == User.Identity.Name).Select(o => o.Id).FirstOrDefaultAsync();
 
             var test = await _context.Orders
                 .Where(o => o.TrainerOrderedName == User.Identity.Name)
+                .Where(o => o.Expired >= DateTime.Now.Date)
+                .Select(o => o.BuyerId)
+                .Distinct()
                 .ToListAsync();
 
-           return Ok(test);
+            List<Person> person = new List<Person>();
+            foreach(string t in test)
+            {
+                var ti = await _context.Person.Where(o => o.Client.UserName == t).FirstOrDefaultAsync();  //.Select(o => string.Concat(o.LastName, " ", o.FirstName))
+                person.Add(ti);  
+            }
+           return Ok(person);
         }
     }
 }
