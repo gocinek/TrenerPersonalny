@@ -17,8 +17,6 @@ namespace TrenerPersonalny.Models
         
         [Range(0 , double.MaxValue, ErrorMessage = "The value must be greater than 0")]
         public int Price { get; set; }
-        [Range(0, 6, ErrorMessage = "The value must be between 0 - 6")]
-        public int Rating { get; set; }
 
         public Person Person { get; set; }
     }

@@ -30,11 +30,51 @@ namespace TrenerPersonalny.Controllers
         {
             var sizes = await _context.Sizes
                 .MapSizesToDto()
-                .OrderByDescending(o => o.Id)
+                .OrderByDescending(o => o.UpdateDate)
                 .ToListAsync();
             if (sizes == null) return NotFound(); //??
             return sizes;
-        } 
+        }
+
+        [HttpGet("MySizes")]
+        public async Task<ActionResult<List<SizesDTO>>> GetMySizes()
+        {
+            var persId = await _context.Person.Where(i => i.Client.UserName == User.Identity.Name).Select(o => o.Id).FirstOrDefaultAsync();
+            var sizes = await _context.Sizes
+                .MapSizesToDto()
+                .Where(o =>o.PersonId == persId)
+                .OrderByDescending(d => d.UpdateDate)
+                .ToListAsync();
+                
+            if (sizes == null) return Ok("Brak pomiarów"); //??
+            return Ok(sizes);
+        }
+
+
+        [HttpGet("ClientLast")]
+        public async Task<ActionResult<List<SizesDTO>>> GetSizesClientLast(int personId)
+        {
+            var sizes = await _context.Sizes
+                .MapSizesToDto()
+                .Where(o => o.PersonId == personId)
+                .OrderByDescending(o => o.UpdateDate)
+                .FirstOrDefaultAsync();
+            if (sizes == null) return Ok("Brak pomiarów"); //??
+            return Ok(sizes);
+        }
+
+        [HttpGet("SizesHistory/{personId}")]
+        public async Task<ActionResult<List<SizesDTO>>> GetSizesClient(int personId)
+        {
+            var sizes = await _context.Sizes
+                .MapSizesToDto()
+                .Where(o => o.PersonId == personId)
+                .OrderByDescending(o => o.UpdateDate)
+                .ToListAsync();
+            if (sizes == null) return Ok("Brak pomiarów"); //??
+            return Ok(sizes);
+        }
+
 
         [HttpGet("{id}", Name = "GetSize")]
         public async Task<ActionResult<SizesDTO>> GetSize(int id)
@@ -136,15 +176,8 @@ namespace TrenerPersonalny.Controllers
             var size = await RetrieveSizes(); 
             if (size == null || !size.UpdateDate.Equals(DateTime.Now.Date))
             {
-                //Console.WriteLine(size.Id);
+
                 var sizeNew = await CreateSizeAsync();
-              //  sizeNew.AddDetail(1, 0);
-              //  sizeNew.AddDetail(2, 0);
-              ///  sizeNew.AddDetail(3, 0);
-               /// sizeNew.AddDetail(4, 0);
-               /// sizeNew.AddDetail(5, 0);
-               //// sizeNew.AddDetail(6, 0);
-               /// sizeNew.AddDetail(7, 0);
 
                 foreach(int i in _context.ExcerciseType.Select(i => i.Id).ToList())
                 {
@@ -156,8 +189,6 @@ namespace TrenerPersonalny.Controllers
             } 
             return BadRequest(new ProblemDetails { Title = "Dzisiaj już istnieje dodany Size" });
         }
-
-       
 
         [Authorize(Roles = "Client")]
         [HttpDelete]
@@ -200,7 +231,7 @@ namespace TrenerPersonalny.Controllers
             return BadRequest(new ProblemDetails { Title = "Problem removing size" });
         }
 
-        [HttpGet("filterDetails")]
+       /* [HttpGet("filterDetails")]
         public async Task<IActionResult> GetFilters()
         {
             var size = await RetrieveSizes();
@@ -213,13 +244,14 @@ namespace TrenerPersonalny.Controllers
 
             return Ok(new { sizeDetails });
         }
-
+       */
 
         private async Task<Sizes> RetrieveSizes()
         {          
             var persId = await _context.Person.Where(i => i.Client.UserName == User.Identity.Name).Select(o => o.Id).FirstOrDefaultAsync();
             return await _context.Sizes
-                .Include(i => i.SizeDetails)    
+                .Include(i => i.SizeDetails)
+                .ThenInclude(i => i.ExcerciseType)
                 .OrderBy(d => d.UpdateDate)
                 .LastOrDefaultAsync(x => x.PersonId == persId);
         }

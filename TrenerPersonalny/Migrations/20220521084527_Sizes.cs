@@ -338,17 +338,17 @@ namespace TrenerPersonalny.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { 1, "129b3424-c0e4-4f30-ab83-b30f1da30231", "Admin", "ADMIN" });
+                values: new object[] { 1, "e1772345-4772-44ce-aa9f-508ad9d0c3ba", "Admin", "ADMIN" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { 2, "12c713c3-3b43-4483-9262-414091322470", "Trainer", "TRAINER" });
+                values: new object[] { 2, "806bbc1c-5f49-4b03-90c7-25b0d6ce34a3", "Trainer", "TRAINER" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { 3, "63b3c5d0-ce97-4457-92ba-9efebf2e9653", "Client", "CLIENT" });
+                values: new object[] { 3, "02a386da-8d5c-45c8-910b-af006a21cafe", "Client", "CLIENT" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

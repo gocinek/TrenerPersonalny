@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -9,7 +10,7 @@ namespace TrenerPersonalny.Models
 {
     public class Person
     {
-        
+        [JsonProperty("id")]
         public int Id { get; set; }
         [MaxLength(50)]
         public string LastName { get; set; }
@@ -19,8 +20,6 @@ namespace TrenerPersonalny.Models
         public string Gender { get; set; }
         [MaxLength(255)]
         public string ProfileImg { get; set; }
-        [MaxLength(25)]
-        public string Language { get; set; }
         public int PhoneNumber { get; set; }
 
 

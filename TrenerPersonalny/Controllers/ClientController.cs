@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace TrenerPersonalny.Controllers
 {
+    [Authorize]
     public class ClientController : BaseApiController
     {
         private readonly ApiDbContext _context;
@@ -21,6 +22,19 @@ namespace TrenerPersonalny.Controllers
         {
             _context = context;
         }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        public async Task<ActionResult<List<Person>>> GetUsers()
+        {
+            var users = await _context.Person
+               // .Include(o => o.Client.Email)
+                .Include(o => o.Client)                
+                .ToListAsync();
+            if (users == null) return Ok("Brak użytkowników w serwisie");
+            return Ok(users);
+        }
+
 
         [Authorize(Roles = "Trainer")]
         [HttpGet("forTrainer")]

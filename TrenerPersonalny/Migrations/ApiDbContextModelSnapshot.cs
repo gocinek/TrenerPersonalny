@@ -298,21 +298,21 @@ namespace TrenerPersonalny.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "129b3424-c0e4-4f30-ab83-b30f1da30231",
+                            ConcurrencyStamp = "e1772345-4772-44ce-aa9f-508ad9d0c3ba",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "12c713c3-3b43-4483-9262-414091322470",
+                            ConcurrencyStamp = "806bbc1c-5f49-4b03-90c7-25b0d6ce34a3",
                             Name = "Trainer",
                             NormalizedName = "TRAINER"
                         },
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "63b3c5d0-ce97-4457-92ba-9efebf2e9653",
+                            ConcurrencyStamp = "02a386da-8d5c-45c8-910b-af006a21cafe",
                             Name = "Client",
                             NormalizedName = "CLIENT"
                         });
