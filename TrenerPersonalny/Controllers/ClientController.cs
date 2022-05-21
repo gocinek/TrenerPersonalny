@@ -10,6 +10,9 @@ using TrenerPersonalny.Models.DTOs.Orders;
 using TrenerPersonalny.Extensions;
 using TrenerPersonalny.Models;
 using Microsoft.AspNetCore.Authorization;
+using TrenerPersonalny.Models.DTOs.Users;
+using AutoMapper;
+using TrenerPersonalny.Services;
 
 namespace TrenerPersonalny.Controllers
 {
@@ -17,10 +20,14 @@ namespace TrenerPersonalny.Controllers
     public class ClientController : BaseApiController
     {
         private readonly ApiDbContext _context;
+        private readonly IMapper _mapper;
+        private readonly ImageService _imageService;
 
-        public ClientController(ApiDbContext context)
+        public ClientController(ApiDbContext context, IMapper mapper, ImageService imageService)
         {
             _context = context;
+            _mapper = mapper;
+            _imageService = imageService;
         }
 
         [Authorize(Roles = "Admin")]
@@ -28,13 +35,55 @@ namespace TrenerPersonalny.Controllers
         public async Task<ActionResult<List<Person>>> GetUsers()
         {
             var users = await _context.Person
-               // .Include(o => o.Client.Email)
-                .Include(o => o.Client)                
+                .Include(o => o.Client)
+                .Include(t => t.Trainers)
                 .ToListAsync();
-            if (users == null) return Ok("Brak użytkowników w serwisie");
+            if (users == null) return NotFound();
             return Ok(users);
         }
 
+        [Authorize(Roles = "Admin")]
+        [HttpGet("{id}")]
+        public async Task<ActionResult<List<Person>>> GetUsers(int id)
+        {
+            var user = await _context.Person
+                .Include(o => o.Client)
+                .Include(t => t.Trainers)
+                .Where(o => o.Id == id)
+                .ToListAsync();
+            if (user == null) return Ok("Brak użytkownika serwisie");
+            return Ok(user);
+        }
+
+
+        [Authorize(Roles = "Admin")]
+        [HttpPut]
+        public async Task<ActionResult<Person>> UpdatPerson([FromForm] UpdatePersonDTO personDto)
+        {
+            var user = await _context.Person.FindAsync(personDto.Id);
+            if (user == null) return NotFound();
+
+            _mapper.Map(personDto, user);
+
+            if (personDto.File != null)
+            {
+                var imageResult = await _imageService.AddImageAsync(personDto.File);
+
+                if (imageResult.Error != null)
+                    return BadRequest(new ProblemDetails { Title = imageResult.Error.Message });
+
+                if (!string.IsNullOrEmpty(user.PublicId))
+                    await _imageService.DeleteImageAsync(user.PublicId);
+
+                user.ProfileImg = imageResult.SecureUrl.ToString();
+                user.PublicId = imageResult.PublicId;
+            }
+            var result = await _context.SaveChangesAsync() > 0;
+
+            if (result) return Ok(user);
+
+            return BadRequest(new ProblemDetails { Title = "Problem updating user" });
+        }
 
         [Authorize(Roles = "Trainer")]
         [HttpGet("forTrainer")]

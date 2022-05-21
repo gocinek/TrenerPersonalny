@@ -13,7 +13,7 @@ namespace TrenerPersonalny.Models
     {
 
         [MaxLength(10)]
-        public DateTime Registered { get; set; } = DateTime.Now;
+        public DateTime Registered { get; set; } = DateTime.Now.Date;
 
         [ForeignKey("PersonId")]
         public Person Person { get; set; }

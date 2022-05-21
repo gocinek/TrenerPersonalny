@@ -239,11 +239,7 @@ namespace TrenerPersonalny.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Gender")
-                        .HasMaxLength(1)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Language")
-                        .HasMaxLength(25)
+                        .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("LastName")
@@ -255,6 +251,9 @@ namespace TrenerPersonalny.Migrations
 
                     b.Property<string>("ProfileImg")
                         .HasMaxLength(255)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PublicId")
                         .HasColumnType("TEXT");
 
                     b.Property<int?>("TrainerId")
@@ -298,21 +297,21 @@ namespace TrenerPersonalny.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "e1772345-4772-44ce-aa9f-508ad9d0c3ba",
+                            ConcurrencyStamp = "9e7c3d93-b6c3-4c4c-9838-03cee48c4730",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "806bbc1c-5f49-4b03-90c7-25b0d6ce34a3",
+                            ConcurrencyStamp = "4d40f4cc-4ce0-4469-a6d7-3463a9e9b90d",
                             Name = "Trainer",
                             NormalizedName = "TRAINER"
                         },
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "02a386da-8d5c-45c8-910b-af006a21cafe",
+                            ConcurrencyStamp = "04b769ff-b634-4d7f-8e4f-a40c494eb91e",
                             Name = "Client",
                             NormalizedName = "CLIENT"
                         });
@@ -372,9 +371,6 @@ namespace TrenerPersonalny.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<int>("Price")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("Rating")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");

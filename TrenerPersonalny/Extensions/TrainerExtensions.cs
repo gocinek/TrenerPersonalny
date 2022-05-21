@@ -16,8 +16,6 @@ namespace TrenerPersonalny.Extensions
             {
                 "price" => query.OrderBy(p => p.Price),
                 "priceDesc" => query.OrderByDescending(p => p.Price),
-                "rating" => query.OrderBy(p => p.Rating),
-                "ratingDesc" => query.OrderByDescending(p => p.Rating),
                 _ => query.OrderBy(p => p.Person.LastName)
             };
 
@@ -37,7 +35,6 @@ namespace TrenerPersonalny.Extensions
 
         public static IQueryable<Trainers> Filter(this IQueryable<Trainers> query, int price, int rating)
         {
-            query = query.Where(p => p.Rating >= rating);
             query = query.Where(p => p.Price <= price);
 
             return query;

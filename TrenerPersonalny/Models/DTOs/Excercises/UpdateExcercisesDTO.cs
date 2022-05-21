@@ -10,7 +10,7 @@ namespace TrenerPersonalny.Models
 {
     public class UpdateExcerciseDTO
     {
-        [Required]
+
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }

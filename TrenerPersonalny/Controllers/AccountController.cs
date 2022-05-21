@@ -56,8 +56,7 @@ namespace TrenerPersonalny.Controllers
                         Trainers = new Trainers
                         {
                             Description = "Opis nie został jeszcze dodany",
-                            Price = 0,
-                            Rating = 0
+                            Price = 0
                         }
                     }
                 };
