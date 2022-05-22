@@ -36,6 +36,7 @@ namespace TrenerPersonalny.Controllers
             return sizes;
         }
 
+        [Authorize(Roles = "Client")]
         [HttpGet("MySizes")]
         public async Task<ActionResult<List<SizesDTO>>> GetMySizes()
         {
@@ -50,7 +51,7 @@ namespace TrenerPersonalny.Controllers
             return Ok(sizes);
         }
 
-
+        [Authorize(Roles = "Trainer")]
         [HttpGet("ClientLast")]
         public async Task<ActionResult<List<SizesDTO>>> GetSizesClientLast(int personId)
         {
@@ -63,6 +64,7 @@ namespace TrenerPersonalny.Controllers
             return Ok(sizes);
         }
 
+        [Authorize(Roles = "Trainer")]
         [HttpGet("SizesHistory/{personId}")]
         public async Task<ActionResult<List<SizesDTO>>> GetSizesClient(int personId)
         {
@@ -231,20 +233,6 @@ namespace TrenerPersonalny.Controllers
             return BadRequest(new ProblemDetails { Title = "Problem removing size" });
         }
 
-       /* [HttpGet("filterDetails")]
-        public async Task<IActionResult> GetFilters()
-        {
-            var size = await RetrieveSizes();
-
-            if (size == null || !size.UpdateDate.Equals(DateTime.Now.Date)) return NotFound();
-
-            var sizeDetails = await _context.Sizes.Where(o =>o.Id == size.Id)
-                .Select(p => p.SizeDetails)
-                .ToListAsync();
-
-            return Ok(new { sizeDetails });
-        }
-       */
 
         private async Task<Sizes> RetrieveSizes()
         {          

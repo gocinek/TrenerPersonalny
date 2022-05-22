@@ -8,8 +8,7 @@ namespace TrenerPersonalny.Models
     public class Plans
     {
         [JsonProperty("id")]
-        public int Id { get; set; }
-        public DateTime UpdatedDate { get; set; } = DateTime.Now.Date;
+        public int Id { get; set; }       
 
         [ForeignKey("TrainerId")]
         public Trainers Trainers { get; set; }
@@ -17,6 +16,8 @@ namespace TrenerPersonalny.Models
         [ForeignKey("PersonId")]
         public Person Person { get; set; }
         public int PersonId { get; set; }
+
         public List<PlanDetails> PlanDetails { get; set; } = new();
+        public DateTime UpdatedDate { get; set; } = DateTime.Now.Date;
     }
 }

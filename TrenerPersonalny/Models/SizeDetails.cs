@@ -24,9 +24,5 @@ namespace TrenerPersonalny.Models
         [Required]
         public int SizesId { get; set; }
 
-        public static implicit operator SizeDetails(Sizes v)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
