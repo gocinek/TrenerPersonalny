@@ -267,6 +267,57 @@ namespace TrenerPersonalny.Migrations
                     b.ToTable("Person");
                 });
 
+            modelBuilder.Entity("TrenerPersonalny.Models.PlanDetails", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ExcerciseId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ManyInWeek")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("PlansId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Repeats")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ExcerciseId");
+
+                    b.HasIndex("PlansId");
+
+                    b.ToTable("PlanDetails");
+                });
+
+            modelBuilder.Entity("TrenerPersonalny.Models.Plans", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("PersonId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("TrainerId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PersonId");
+
+                    b.HasIndex("TrainerId");
+
+                    b.ToTable("Plans");
+                });
+
             modelBuilder.Entity("TrenerPersonalny.Models.Role", b =>
                 {
                     b.Property<int>("Id")
@@ -297,21 +348,21 @@ namespace TrenerPersonalny.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "9e7c3d93-b6c3-4c4c-9838-03cee48c4730",
+                            ConcurrencyStamp = "0473130d-4778-4445-8413-e93ae33770c8",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "4d40f4cc-4ce0-4469-a6d7-3463a9e9b90d",
+                            ConcurrencyStamp = "00f81984-a754-46aa-8e2e-3ff21f572035",
                             Name = "Trainer",
                             NormalizedName = "TRAINER"
                         },
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "04b769ff-b634-4d7f-8e4f-a40c494eb91e",
+                            ConcurrencyStamp = "4e05e295-3766-448e-8d22-99a27a2b5582",
                             Name = "Client",
                             NormalizedName = "CLIENT"
                         });
@@ -534,6 +585,40 @@ namespace TrenerPersonalny.Migrations
                     b.Navigation("Trainers");
                 });
 
+            modelBuilder.Entity("TrenerPersonalny.Models.PlanDetails", b =>
+                {
+                    b.HasOne("TrenerPersonalny.Models.Excercises", "Excercise")
+                        .WithMany()
+                        .HasForeignKey("ExcerciseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TrenerPersonalny.Models.Plans", null)
+                        .WithMany("PlanDetails")
+                        .HasForeignKey("PlansId");
+
+                    b.Navigation("Excercise");
+                });
+
+            modelBuilder.Entity("TrenerPersonalny.Models.Plans", b =>
+                {
+                    b.HasOne("TrenerPersonalny.Models.Person", "Person")
+                        .WithMany()
+                        .HasForeignKey("PersonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TrenerPersonalny.Models.Trainers", "Trainers")
+                        .WithMany()
+                        .HasForeignKey("TrainerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Person");
+
+                    b.Navigation("Trainers");
+                });
+
             modelBuilder.Entity("TrenerPersonalny.Models.SizeDetails", b =>
                 {
                     b.HasOne("TrenerPersonalny.Models.ExcerciseType", "ExcerciseType")
@@ -583,6 +668,11 @@ namespace TrenerPersonalny.Migrations
             modelBuilder.Entity("TrenerPersonalny.Models.Person", b =>
                 {
                     b.Navigation("Client");
+                });
+
+            modelBuilder.Entity("TrenerPersonalny.Models.Plans", b =>
+                {
+                    b.Navigation("PlanDetails");
                 });
 
             modelBuilder.Entity("TrenerPersonalny.Models.Sizes", b =>

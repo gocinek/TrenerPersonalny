@@ -113,7 +113,7 @@ namespace TrenerPersonalny.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteProduct(int id)
+        public async Task<ActionResult> DeleteExcrcise(int id)
         {
             var excercise = await _context.Excercises.FindAsync(id);
 

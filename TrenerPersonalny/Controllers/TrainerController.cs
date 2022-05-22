@@ -21,17 +21,13 @@ namespace TrenerPersonalny.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Trainers>>> GetTrainers(string orderBy,
-            string searchTerm, int price = 1000000, int rating = 0)
+        public async Task<ActionResult<List<Trainers>>> GetTrainers()
         {
-            var trainers = _context.Trainers
+            var trainers = await _context.Trainers
                 .Include(tr => tr.Person)
-                .Sort(orderBy)
-                .Search(searchTerm)
-                .Filter(price, rating)
-                .AsQueryable();
+                .ToListAsync();
 
-            return await trainers.ToListAsync();
+            return Ok(trainers);
         }
 
         [HttpGet("{id}")]

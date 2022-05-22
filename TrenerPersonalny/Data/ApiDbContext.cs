@@ -23,6 +23,7 @@ namespace TrenerPersonalny.Data
         public virtual DbSet<OrderPayment> OrderPayments { get; set; }
         public virtual DbSet<Sizes> Sizes { get; set; }
         public virtual DbSet<SizeDetails> SizeDetails { get; set; }
+        public virtual DbSet<Plans> Plans { get; set; }
 
         public ApiDbContext(DbContextOptions<ApiDbContext> options)
             : base(options)
@@ -34,7 +35,8 @@ namespace TrenerPersonalny.Data
         {
             base.OnModelCreating(builder);
 
-            builder.Entity<User>().Ignore(c => c.EmailConfirmed)
+            builder.Entity<User>()
+                                           .Ignore(c => c.EmailConfirmed)
                                            .Ignore(c => c.PhoneNumberConfirmed)
                                            .Ignore(c => c.TwoFactorEnabled)
                                            .Ignore(c => c.LockoutEnd)

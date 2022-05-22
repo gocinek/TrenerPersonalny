@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TrenerPersonalny.Models;
 using TrenerPersonalny.Models.DTOs.Sizes;
+using TrenerPersonalny.Models.DTOs.Users;
 
 namespace TrenerPersonalny.RequestHelpers
 {
@@ -15,7 +16,8 @@ namespace TrenerPersonalny.RequestHelpers
             CreateMap<CreateExcerciseDTO, Excercises>();
             CreateMap<UpdateExcerciseDTO, Excercises>();
             CreateMap<CreateSizeDTO, Sizes>();
-            //CreateMap<UpdateExcerciseDTO, Excercises>();
+            CreateMap<UpdateUserDTO, User>();
+
         }
     }
 }

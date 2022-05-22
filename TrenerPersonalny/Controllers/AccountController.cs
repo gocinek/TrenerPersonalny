@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TrenerPersonalny.Data;
 using TrenerPersonalny.Models;
 using TrenerPersonalny.Models.DTOs;
 using TrenerPersonalny.Models.DTOs.Requests;
@@ -18,11 +19,13 @@ namespace TrenerPersonalny.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly TokenService _tokenService;
+        private readonly ApiDbContext _context;
 
-        public AccountController(UserManager<User> userManager, TokenService tokenService)
+        public AccountController(UserManager<User> userManager, TokenService tokenService, ApiDbContext context)
         {
             _userManager = userManager;
             _tokenService = tokenService;
+            _context = context;
         }
 
         [HttpPost("login")]
@@ -102,11 +105,12 @@ namespace TrenerPersonalny.Controllers
         public async Task<ActionResult<UserDto>> GetCurrentUser()
         {
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
-
+            var personImg = await _context.Person.Where(p => p.Client.UserName == User.Identity.Name).Select(p => p.ProfileImg).FirstOrDefaultAsync();
             return new UserDto
             {
                 Email = user.Email,
-                Token = await _tokenService.GenerateToken(user)
+                Token = await _tokenService.GenerateToken(user),
+                ProfileImg = personImg
             };
         }
 

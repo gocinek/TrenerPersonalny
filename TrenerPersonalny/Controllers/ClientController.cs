@@ -32,11 +32,11 @@ namespace TrenerPersonalny.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpGet]
-        public async Task<ActionResult<List<Person>>> GetUsers()
+        public async Task<ActionResult<List<User>>> GetUsers()
         {
-            var users = await _context.Person
-                .Include(o => o.Client)
-                .Include(t => t.Trainers)
+            var users = await _context.Client
+                .Include(o => o.Person)
+                .ThenInclude(t => t.Trainers)
                 .ToListAsync();
             if (users == null) return NotFound();
             return Ok(users);
@@ -44,11 +44,11 @@ namespace TrenerPersonalny.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpGet("{id}")]
-        public async Task<ActionResult<List<Person>>> GetUsers(int id)
+        public async Task<ActionResult<List<User>>> GetUsers(int id)
         {
-            var user = await _context.Person
-                .Include(o => o.Client)
-                .Include(t => t.Trainers)
+            var user = await _context.Client
+                .Include(o => o.Person)
+                .ThenInclude(t => t.Trainers)
                 .Where(o => o.Id == id)
                 .ToListAsync();
             if (user == null) return Ok("Brak użytkownika serwisie");
@@ -58,31 +58,41 @@ namespace TrenerPersonalny.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPut]
-        public async Task<ActionResult<Person>> UpdatPerson([FromForm] UpdatePersonDTO personDto)
+        public async Task<ActionResult<User>> UpdatePerson([FromForm] UpdateUserDTO userDto)
         {
-            var user = await _context.Person.FindAsync(personDto.Id);
+            var user = await _context.Client
+                .Include(p => p.Person)
+                .Where(o => o.PersonId.Equals(userDto.Id))
+                .FirstOrDefaultAsync();
             if (user == null) return NotFound();
+            
+            _mapper.Map(userDto, user);
 
-            _mapper.Map(personDto, user);
-
-            if (personDto.File != null)
-            {
-                var imageResult = await _imageService.AddImageAsync(personDto.File);
-
-                if (imageResult.Error != null)
-                    return BadRequest(new ProblemDetails { Title = imageResult.Error.Message });
-
-                if (!string.IsNullOrEmpty(user.PublicId))
-                    await _imageService.DeleteImageAsync(user.PublicId);
-
-                user.ProfileImg = imageResult.SecureUrl.ToString();
-                user.PublicId = imageResult.PublicId;
-            }
             var result = await _context.SaveChangesAsync() > 0;
 
             if (result) return Ok(user);
 
             return BadRequest(new ProblemDetails { Title = "Problem updating user" });
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteUser(int id)
+        {
+            var user = await _context.Users.Include(p => p.Person).Where(i =>i.Id == id).FirstOrDefaultAsync();
+
+            if (user == null) return NotFound();
+
+            if (!string.IsNullOrEmpty(user.Person.PublicId))
+                await _imageService.DeleteImageAsync(user.Person.PublicId);
+
+            _context.Users.Remove(user);
+
+            var result = await _context.SaveChangesAsync() > 0;
+
+            if (result) return Ok();
+
+            return BadRequest(new ProblemDetails { Title = "Problem deleting user: " + user.Person.LastName });
         }
 
         [Authorize(Roles = "Trainer")]

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TrenerPersonalny.Migrations
 {
-    public partial class Users : Migration
+    public partial class Plans : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -203,6 +203,33 @@ namespace TrenerPersonalny.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Plans",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    UpdatedDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    TrainerId = table.Column<int>(type: "INTEGER", nullable: false),
+                    PersonId = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Plans", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Plans_Person_PersonId",
+                        column: x => x.PersonId,
+                        principalTable: "Person",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Plans_Trainers_TrainerId",
+                        column: x => x.TrainerId,
+                        principalTable: "Trainers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Sizes",
                 columns: table => new
                 {
@@ -308,6 +335,34 @@ namespace TrenerPersonalny.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "PlanDetails",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    ExcerciseId = table.Column<int>(type: "INTEGER", nullable: false),
+                    Repeats = table.Column<int>(type: "INTEGER", nullable: false),
+                    ManyInWeek = table.Column<int>(type: "INTEGER", nullable: false),
+                    PlansId = table.Column<int>(type: "INTEGER", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PlanDetails", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PlanDetails_Excercises_ExcerciseId",
+                        column: x => x.ExcerciseId,
+                        principalTable: "Excercises",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PlanDetails_Plans_PlansId",
+                        column: x => x.PlansId,
+                        principalTable: "Plans",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "SizeDetails",
                 columns: table => new
                 {
@@ -337,17 +392,17 @@ namespace TrenerPersonalny.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { 1, "9e7c3d93-b6c3-4c4c-9838-03cee48c4730", "Admin", "ADMIN" });
+                values: new object[] { 1, "0473130d-4778-4445-8413-e93ae33770c8", "Admin", "ADMIN" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { 2, "4d40f4cc-4ce0-4469-a6d7-3463a9e9b90d", "Trainer", "TRAINER" });
+                values: new object[] { 2, "00f81984-a754-46aa-8e2e-3ff21f572035", "Trainer", "TRAINER" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { 3, "04b769ff-b634-4d7f-8e4f-a40c494eb91e", "Client", "CLIENT" });
+                values: new object[] { 3, "4e05e295-3766-448e-8d22-99a27a2b5582", "Client", "CLIENT" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -409,6 +464,26 @@ namespace TrenerPersonalny.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_PlanDetails_ExcerciseId",
+                table: "PlanDetails",
+                column: "ExcerciseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PlanDetails_PlansId",
+                table: "PlanDetails",
+                column: "PlansId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Plans_PersonId",
+                table: "Plans",
+                column: "PersonId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Plans_TrainerId",
+                table: "Plans",
+                column: "TrainerId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_SizeDetails_ExcerciseTypeId",
                 table: "SizeDetails",
                 column: "ExcerciseTypeId");
@@ -442,13 +517,13 @@ namespace TrenerPersonalny.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Excercises");
-
-            migrationBuilder.DropTable(
                 name: "OrderPayments");
 
             migrationBuilder.DropTable(
                 name: "OrderTrainer");
+
+            migrationBuilder.DropTable(
+                name: "PlanDetails");
 
             migrationBuilder.DropTable(
                 name: "SizeDetails");
@@ -463,10 +538,16 @@ namespace TrenerPersonalny.Migrations
                 name: "Orders");
 
             migrationBuilder.DropTable(
-                name: "ExcerciseType");
+                name: "Excercises");
+
+            migrationBuilder.DropTable(
+                name: "Plans");
 
             migrationBuilder.DropTable(
                 name: "Sizes");
+
+            migrationBuilder.DropTable(
+                name: "ExcerciseType");
 
             migrationBuilder.DropTable(
                 name: "Person");
