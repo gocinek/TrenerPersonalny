@@ -22,5 +22,10 @@ namespace TrenerPersonalny.Models
         [Required]
         [Range(0, 7, ErrorMessage = "Value for ManyInWeek must be between {0} and {7}.")]
         public int ManyInWeek { get; set; }
+
+        [ForeignKey("PlansId")]
+        public Plans Plans { get; set; }
+        [Required]
+        public int PlansId { get; set; }
     }
 }

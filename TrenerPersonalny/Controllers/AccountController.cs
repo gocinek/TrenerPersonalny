@@ -105,12 +105,13 @@ namespace TrenerPersonalny.Controllers
         public async Task<ActionResult<UserDto>> GetCurrentUser()
         {
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
-            var personImg = await _context.Person.Where(p => p.Client.UserName == User.Identity.Name).Select(p => p.ProfileImg).FirstOrDefaultAsync();
+            var person = await _context.Person.Where(p => p.Client.UserName == User.Identity.Name).FirstOrDefaultAsync();
             return new UserDto
             {
                 Email = user.Email,
                 Token = await _tokenService.GenerateToken(user),
-                ProfileImg = personImg
+                ProfileImg = person.ProfileImg,
+                PersonId = person.Id
             };
         }
 

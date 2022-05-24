@@ -25,10 +25,11 @@ namespace TrenerPersonalny.Controllers
         {
          //   var persId = await _context.Person.Where(i => i.Client.UserName == User.Identity.Name).Select(o => o.Id).FirstOrDefaultAsync();
             var plan = await _context.Plans
-                //.Include(p => p.PlanDetails)
-                //  .ThenInclude(p => p.Excercise)
-                // .ThenInclude(t => t.ExcerciseType)
-                //.Where(o => o.PersonId == persId)
+                .Include(p => p.PlanDetails)
+                .ThenInclude(p => p.Excercise)
+                .ThenInclude(t => t.ExcerciseType)
+                 //.Where(o => o.PersonId == persId)
+                 .Include(p => p.Person)
                 .OrderByDescending(d => d.UpdatedDate)
                 .ToListAsync();
 
@@ -72,7 +73,7 @@ namespace TrenerPersonalny.Controllers
         [HttpGet("{id}", Name = "GetPlan")]
         public async Task<ActionResult<Plans>> GetPlan(int id)
         {
-            var plan = await _context.Plans.Where(d => d.Id.Equals(id)).Include(et => et.PlanDetails).FirstOrDefaultAsync();
+            var plan = await _context.Plans.Where(d => d.Id.Equals(id)).Include(et => et.PlanDetails).ThenInclude(et => et.Excercise).ThenInclude(t=>t.ExcerciseType).FirstOrDefaultAsync();
 
             if (plan == null) return NotFound();
 
@@ -81,16 +82,16 @@ namespace TrenerPersonalny.Controllers
 
         [Authorize(Roles = "Trainer")]
         [HttpPost]
-        public async Task<ActionResult<Plans>> AddPlan(int persId)
+        public async Task<ActionResult<Plans>> AddPlan(int personId)
         {
-            var plan = await RetrievePlan(persId);
+            var plan = await RetrievePlan(personId);
             if (plan == null || !plan.UpdatedDate.Equals(DateTime.Now.Date))
             {
 
-                var planNew = await CreatePlanAsync(persId);
+                var planNew = await CreatePlanAsync(personId);
 
                 var result = await _context.SaveChangesAsync() > 0;
-                if (result) return CreatedAtRoute("GetPlan", new { planNew.Id }, planNew);
+                if (result) return CreatedAtRoute("GetPlan", new { Id =  planNew.Id }, planNew);
             }
             return BadRequest(new ProblemDetails { Title = "Dzisiaj już istnieje dodany Plan" });
         }
@@ -104,11 +105,40 @@ namespace TrenerPersonalny.Controllers
                 .Include(p => p.PlanDetails)
                 .ThenInclude(p => p.Excercise)
                 .ThenInclude(t => t.ExcerciseType)
+                .OrderByDescending(o => o.UpdatedDate)
                 .Where(o => o.PersonId == personId).ToListAsync();
             if (plan == null) return NotFound();
             return Ok(plan);
         }
 
+        [Authorize(Roles = "Trainer")]
+        [HttpPut("updatePlan")]
+        public async Task<ActionResult<Plans>> AddDetails(int excerciseId, int personId, int manyInWeek, int repeats)
+        {
+            var plan = await RetrievePlan(personId);
+            if (plan == null || !plan.UpdatedDate.Equals(DateTime.Now.Date))
+            {
+                var planNew = await CreatePlanAsync(personId);
+            }
+
+            plan.AddDetail(excerciseId, repeats, manyInWeek);
+
+         /*   var planDet = await _context.PlanDetails
+                .Where(o => o.PlansId == plan.Id)
+                .Where(t => t.ExcerciseTypeId == excerciseTypeId)
+                .FirstOrDefaultAsync();
+
+            if (sizeDet.SizeCm < 0)
+            {
+                sizeDet.SizeCm = 0;
+            }
+         */
+            var result = await _context.SaveChangesAsync() > 0;
+
+            if (result) return CreatedAtRoute("GetPlan", new { Id = plan.Id }, plan);
+
+            return BadRequest(new ProblemDetails { Title = "Rozmiar nie może być mniejszy niż 0" });
+        }
 
         private async Task<Plans> RetrievePlan(int persId)
         {
@@ -125,8 +155,13 @@ namespace TrenerPersonalny.Controllers
 
         private async Task<Plans> CreatePlanAsync(int persId)
         {
-           // var persId = await _context.Person.Where(i => i.Client.UserName == User.Identity.Name).Select(o => o.Id).FirstOrDefaultAsync();
-            var plan = new Plans { PersonId = persId };
+            // var persId = await _context.Person.Where(i => i.Client.UserName == User.Identity.Name).Select(o => o.Id).FirstOrDefaultAsync();
+            var trainerId = await _context.Person.Where(i => i.Client.UserName == User.Identity.Name).Select(i => i.TrainerId).FirstOrDefaultAsync();
+            var plan = new Plans {
+
+                PersonId = persId,
+                TrainerId = (int)trainerId            
+            };
             _context.Plans.Add(plan);
             return plan;
         }

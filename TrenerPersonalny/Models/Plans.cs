@@ -19,5 +19,15 @@ namespace TrenerPersonalny.Models
 
         public List<PlanDetails> PlanDetails { get; set; } = new();
         public DateTime UpdatedDate { get; set; } = DateTime.Now.Date;
+
+        public void AddDetail(int excerciseId, int repeats, int manyInWeek)
+        {
+            PlanDetails.Add(new PlanDetails
+            {
+                ExcerciseId = excerciseId,
+                Repeats = repeats,
+                ManyInWeek = manyInWeek
+            });
+        }
     }
 }
