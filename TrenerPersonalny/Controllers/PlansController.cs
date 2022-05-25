@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TrenerPersonalny.Data;
 using TrenerPersonalny.Models;
+using TrenerPersonalny.Models.DTOs.Plans;
 
 namespace TrenerPersonalny.Controllers
 {
@@ -97,6 +98,25 @@ namespace TrenerPersonalny.Controllers
         }
 
         [Authorize(Roles = "Trainer")]
+        [HttpPut("AddPlanDet")]
+        public async Task<ActionResult<Plans>> AddPlanDet(int personId, [FromForm] PlanDetailsDTO planDetailsDto)
+        {
+            var plan = await RetrievePlan(personId);
+
+            if (plan == null || !plan.UpdatedDate.Equals(DateTime.Now.Date))
+            {
+                var planNew = await CreatePlanAsync(personId);
+            }
+
+            plan.AddDetail(planDetailsDto.ExcerciseId, planDetailsDto.Repeats, planDetailsDto.ManyInWeek);
+            var result = await _context.SaveChangesAsync() > 0;
+
+            if (result) return CreatedAtRoute("GetPlan", new { Id = plan.Id }, plan);
+
+            return BadRequest(new ProblemDetails { Title = "Problem z dodaniem ćwiczenia do rozpiski" });
+        }
+
+        [Authorize(Roles = "Trainer")]
         [HttpGet("PlansHistory/{personId}")]
         public async Task<ActionResult<List<Plans>>> GetPlansClient(int personId)
         {
@@ -109,35 +129,6 @@ namespace TrenerPersonalny.Controllers
                 .Where(o => o.PersonId == personId).ToListAsync();
             if (plan == null) return NotFound();
             return Ok(plan);
-        }
-
-        [Authorize(Roles = "Trainer")]
-        [HttpPut("updatePlan")]
-        public async Task<ActionResult<Plans>> AddDetails(int excerciseId, int personId, int manyInWeek, int repeats)
-        {
-            var plan = await RetrievePlan(personId);
-            if (plan == null || !plan.UpdatedDate.Equals(DateTime.Now.Date))
-            {
-                var planNew = await CreatePlanAsync(personId);
-            }
-
-            plan.AddDetail(excerciseId, repeats, manyInWeek);
-
-         /*   var planDet = await _context.PlanDetails
-                .Where(o => o.PlansId == plan.Id)
-                .Where(t => t.ExcerciseTypeId == excerciseTypeId)
-                .FirstOrDefaultAsync();
-
-            if (sizeDet.SizeCm < 0)
-            {
-                sizeDet.SizeCm = 0;
-            }
-         */
-            var result = await _context.SaveChangesAsync() > 0;
-
-            if (result) return CreatedAtRoute("GetPlan", new { Id = plan.Id }, plan);
-
-            return BadRequest(new ProblemDetails { Title = "Rozmiar nie może być mniejszy niż 0" });
         }
 
         private async Task<Plans> RetrievePlan(int persId)

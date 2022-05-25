@@ -1,7 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace TrenerPersonalny.Models
 {
@@ -22,6 +24,11 @@ namespace TrenerPersonalny.Models
 
         public void AddDetail(int excerciseId, int repeats, int manyInWeek)
         {
+            var detail = PlanDetails
+                .Where(o => o.ExcerciseId == excerciseId)
+                .FirstOrDefault();
+            if (detail != null) return;
+
             PlanDetails.Add(new PlanDetails
             {
                 ExcerciseId = excerciseId,

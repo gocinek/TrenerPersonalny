@@ -24,7 +24,6 @@ namespace TrenerPersonalny.Controllers
             _mapper = mapper;
         }
 
-
         [HttpGet]
         public async Task<ActionResult<List<SizesDTO>>> GetSizes()
         {
@@ -77,7 +76,6 @@ namespace TrenerPersonalny.Controllers
             return Ok(sizes);
         }
 
-
         [HttpGet("{id}", Name = "GetSize")]
         public async Task<ActionResult<SizesDTO>> GetSize(int id)
         {
@@ -103,7 +101,7 @@ namespace TrenerPersonalny.Controllers
             return Ok(sizeDet);
         }
 
-        [Authorize(Roles = "Client")]
+        [Authorize(Roles = "Client")] /// chyba wurzucic
         [HttpPut]
         public async Task<ActionResult<SizesDTO>> UpdateSizeDetail([FromForm] SizeDetailsDTO sizeDetailsDto)
         {
