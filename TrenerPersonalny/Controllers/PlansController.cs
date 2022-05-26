@@ -99,21 +99,20 @@ namespace TrenerPersonalny.Controllers
 
         [Authorize(Roles = "Trainer")]
         [HttpPut("AddPlanDet")]
-        public async Task<ActionResult<Plans>> AddPlanDet(int personId, [FromForm] PlanDetailsDTO planDetailsDto)
+        public async Task<ActionResult<Plans>> AddPlanDet([FromForm] PlanDetailsDTO planDetailsDto)
         {
+            var personId = planDetailsDto.PersonId;
             var plan = await RetrievePlan(personId);
 
             if (plan == null || !plan.UpdatedDate.Equals(DateTime.Now.Date))
             {
                 var planNew = await CreatePlanAsync(personId);
             }
-
             plan.AddDetail(planDetailsDto.ExcerciseId, planDetailsDto.Repeats, planDetailsDto.ManyInWeek);
             var result = await _context.SaveChangesAsync() > 0;
 
             if (result) return CreatedAtRoute("GetPlan", new { Id = plan.Id }, plan);
-
-            return BadRequest(new ProblemDetails { Title = "Problem z dodaniem ćwiczenia do rozpiski" });
+            return BadRequest(new ProblemDetails { Title = "Ćwiczenie już istnieje, dodaj inny rodzaj" });
         }
 
         [Authorize(Roles = "Trainer")]

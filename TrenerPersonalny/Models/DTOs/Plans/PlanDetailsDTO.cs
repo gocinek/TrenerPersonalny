@@ -16,5 +16,7 @@ namespace TrenerPersonalny.Models.DTOs.Plans
         public int Repeats { get; set; }
         [Required]
         public int ManyInWeek { get; set; }
+        [Required]
+        public int PersonId { get; set; }
     }
 }
