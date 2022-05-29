@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace TrenerPersonalny.Models.DTOs.Plans
         public int Repeats { get; set; }
         [Required]
         public int ManyInWeek { get; set; }
-        [Required]
-        public int PersonId { get; set; }
+       // [Required]
+       // public int PersonId { get; set; }
     }
 }

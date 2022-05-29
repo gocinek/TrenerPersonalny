@@ -99,9 +99,9 @@ namespace TrenerPersonalny.Controllers
 
         [Authorize(Roles = "Trainer")]
         [HttpPut("AddPlanDet")]
-        public async Task<ActionResult<Plans>> AddPlanDet([FromForm] PlanDetailsDTO planDetailsDto)
+        public async Task<ActionResult<Plans>> AddPlanDet([FromForm] PlanDetailsDTO planDetailsDto, int personId)
         {
-            var personId = planDetailsDto.PersonId;
+          //  var personId = planDetailsDto.PersonId;
             var plan = await RetrievePlan(personId);
 
             if (plan == null || !plan.UpdatedDate.Equals(DateTime.Now.Date))
