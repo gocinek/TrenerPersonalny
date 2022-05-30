@@ -27,14 +27,29 @@ namespace TrenerPersonalny.Models
             var detail = PlanDetails
                 .Where(o => o.ExcerciseId == excerciseId)
                 .FirstOrDefault();
-            if (detail != null) return;
-
-            PlanDetails.Add(new PlanDetails
+            if (detail == null)
             {
-                ExcerciseId = excerciseId,
-                Repeats = repeats,
-                ManyInWeek = manyInWeek
-            });
+                PlanDetails.Add(new PlanDetails
+                {
+                    ExcerciseId = excerciseId,
+                    Repeats = repeats,
+                    ManyInWeek = manyInWeek
+                });
+            } else
+            {
+                detail.ManyInWeek = manyInWeek;
+                detail.Repeats = repeats;
+            }
+                        
+          
+        }
+
+        public void RemoveDetail(int excerciseId)
+        {
+            var plan = PlanDetails
+                .FirstOrDefault(d => d.ExcerciseId == excerciseId);
+            if (plan == null) return;
+            PlanDetails.Remove(plan);
         }
     }
 }

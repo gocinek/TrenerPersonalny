@@ -81,7 +81,7 @@ namespace TrenerPersonalny.Controllers
             return Ok(plan);
         }
 
-        [Authorize(Roles = "Trainer")]
+      /*  [Authorize(Roles = "Trainer")]
         [HttpPost]
         public async Task<ActionResult<Plans>> AddPlan(int personId)
         {
@@ -95,24 +95,32 @@ namespace TrenerPersonalny.Controllers
                 if (result) return CreatedAtRoute("GetPlan", new { Id =  planNew.Id }, planNew);
             }
             return BadRequest(new ProblemDetails { Title = "Dzisiaj już istnieje dodany Plan" });
-        }
+        }*/
 
         [Authorize(Roles = "Trainer")]
         [HttpPut("AddPlanDet")]
         public async Task<ActionResult<Plans>> AddPlanDet([FromForm] PlanDetailsDTO planDetailsDto, int personId)
         {
-          //  var personId = planDetailsDto.PersonId;
             var plan = await RetrievePlan(personId);
 
             if (plan == null || !plan.UpdatedDate.Equals(DateTime.Now.Date))
             {
-                var planNew = await CreatePlanAsync(personId);
-            }
+                plan = await CreatePlanAsync(personId);
+               
+            } //   var result = await _context.SaveChangesAsync() > 0;
+
+            //  if (result) return CreatedAtRoute("GetPlan", new { Id = planNew.Id }, planNew);
+            if (planDetailsDto.ManyInWeek < 1) planDetailsDto.ManyInWeek = 1;
+            if (planDetailsDto.ManyInWeek > 7) planDetailsDto.ManyInWeek = 7;
+            if (planDetailsDto.Repeats < 1) planDetailsDto.ManyInWeek = 1;
+            if (planDetailsDto.Repeats > 200) planDetailsDto.ManyInWeek = 200;
+
             plan.AddDetail(planDetailsDto.ExcerciseId, planDetailsDto.Repeats, planDetailsDto.ManyInWeek);
             var result = await _context.SaveChangesAsync() > 0;
 
             if (result) return CreatedAtRoute("GetPlan", new { Id = plan.Id }, plan);
-            return BadRequest(new ProblemDetails { Title = "Ćwiczenie już istnieje, dodaj inny rodzaj" });
+            
+            return BadRequest(new ProblemDetails { Title = "Problem z dodaniem/aktualizacją ćwiczenia" });
         }
 
         [Authorize(Roles = "Trainer")]
@@ -130,6 +138,31 @@ namespace TrenerPersonalny.Controllers
             return Ok(plan);
         }
 
+        [Authorize(Roles = "Trainer")]
+        [HttpDelete("RemovePlanDetail")]
+        public async Task<ActionResult> RemovePlanDetail(int excerciseId, int personId)
+        {
+            var plan = await _context.Plans
+                .Include(p => p.PlanDetails)
+                .OrderBy(d => d.UpdatedDate)
+                .LastOrDefaultAsync(x => x.PersonId == personId);
+          //  Console.WriteLine(plan.Id);
+            if (plan == null || !plan.UpdatedDate.Equals(DateTime.Now.Date)) return NotFound();
+
+            plan.RemoveDetail(excerciseId);
+                if (plan.PlanDetails.Count == 0)
+                {
+                  //  Console.WriteLine("dodanie planu");
+                    _context.Plans.Remove(plan);
+                }
+
+            var result = await _context.SaveChangesAsync() > 0;
+
+            if (result) return Ok();
+
+            return BadRequest(new ProblemDetails { Title = "Problem removing plan detail from the PlanDetails" });
+        }
+        
         private async Task<Plans> RetrievePlan(int persId)
         {
            // var persId = await _context.Person.Where(i => i.Client.UserName == User.Identity.Name).Select(o => o.Id).FirstOrDefaultAsync();

@@ -201,7 +201,7 @@ namespace TrenerPersonalny.Controllers
             size.RemoveDetail(excerciseTypeId);
             if (size.SizeDetails.Count == 0)
             {
-                Console.WriteLine("jestem tutaj");
+              //  Console.WriteLine("jestem tutaj");
                 _context.Sizes.Remove(size);
             }
 
@@ -211,26 +211,6 @@ namespace TrenerPersonalny.Controllers
 
             return BadRequest(new ProblemDetails { Title = "Problem removing size detail from the SizesDetails" });
         }
-
-        [Authorize(Roles = "Client")]   /// do usuniecia????? lub admin
-        [HttpDelete("all")]
-        public async Task<ActionResult> RemoveSize(int sizesId)
-        {
-            var size = await RetrieveSizes();
-
-            if (size == null) return NotFound();
-
-            //size.RemoveDetail(sizesId);
-
-            _context.Sizes.Remove(size);
-
-            var result = await _context.SaveChangesAsync() > 0;
-
-            if (result) return Ok();
-
-            return BadRequest(new ProblemDetails { Title = "Problem removing size" });
-        }
-
 
         private async Task<Sizes> RetrieveSizes()
         {          
