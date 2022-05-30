@@ -116,5 +116,16 @@ namespace TrenerPersonalny.Controllers
             }
            return Ok(person);
         }
+
+        [Authorize]
+        [HttpGet("MyProfile")]
+        public async Task<ActionResult<List<Person>>> GetProfile()
+        {
+            var user = await _context.Person
+                .Where(o => o.Client.UserName == User.Identity.Name)
+                .FirstOrDefaultAsync();
+            if (user == null) return NotFound();
+            return Ok(user);
+        }
     }
 }
