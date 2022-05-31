@@ -12,8 +12,6 @@ namespace TrenerPersonalny.Models.DTOs.Profile
         public string LastName { get; set; }
         [MaxLength(50)]
         public string FirstName { get; set; }
-        [MaxLength(50)]
-        public string Gender { get; set; }
         public IFormFile File { get; set; }
         public int PhoneNumber { get; set; }
     }
