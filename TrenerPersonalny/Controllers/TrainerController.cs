@@ -61,23 +61,20 @@ namespace TrenerPersonalny.Controllers
                  .Where(o => o.Person.Client.UserName == User.Identity.Name)
                  .FirstOrDefaultAsync();
             if (trainer == null) return NotFound();
-            if (trainerDTO.Description != null) trainer.Description = trainerDTO.Description;
-            trainer.Description = trainerDTO.Description;
+            if (trainerDTO.Description != null && trainer.Description != trainerDTO.Description) trainer.Description = trainerDTO.Description;
+           // trainer.Description = trainerDTO.Description;
 
-            if (trainerDTO.Price != null)
+            if (trainerDTO.Price != null && trainer.Price != trainerDTO.Price)
             {
                 if (trainerDTO.Price < 0)
                 {
                     trainerDTO.Price = 0;
                 }
                 trainer.Price = trainerDTO.Price;
-            }   
+            }
 
-            var result = await _context.SaveChangesAsync() > 0;
-
-            if (result) return Ok(trainer);
-
-            return BadRequest(new ProblemDetails { Title = "Problem updating trainer profile" });
+            await _context.SaveChangesAsync();
+            return Ok(trainer);
         }
     }
 }

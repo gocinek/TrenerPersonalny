@@ -63,7 +63,7 @@ namespace TrenerPersonalny.Controllers
                 .Where(o => o.PersonId.Equals(userDto.Id))
                 .FirstOrDefaultAsync();
             if (user == null) return NotFound();
-            
+
             _mapper.Map(userDto, user);
 
             var result = await _context.SaveChangesAsync() > 0;
@@ -77,7 +77,7 @@ namespace TrenerPersonalny.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteUser(int id)
         {
-            var user = await _context.Users.Include(p => p.Person).Where(i =>i.Id == id).FirstOrDefaultAsync();
+            var user = await _context.Users.Include(p => p.Person).Where(i => i.Id == id).FirstOrDefaultAsync();
 
             if (user == null) return NotFound();
 
@@ -107,12 +107,12 @@ namespace TrenerPersonalny.Controllers
                 .ToListAsync();
 
             List<Person> person = new List<Person>();
-            foreach(string t in test)
+            foreach (string t in test)
             {
                 var ti = await _context.Person.Where(o => o.Client.UserName == t).FirstOrDefaultAsync();  //.Select(o => string.Concat(o.LastName, " ", o.FirstName))
-                person.Add(ti);  
+                person.Add(ti);
             }
-           return Ok(person);
+            return Ok(person);
         }
 
         [Authorize]
@@ -128,15 +128,28 @@ namespace TrenerPersonalny.Controllers
 
         [Authorize]
         [HttpPut("MyProfileUpdate")]
-        public async Task<ActionResult<List<Person>>> UpdateProfile([FromForm] UpdatePersonDTO updatePersonTdo)
+        public async Task<ActionResult<Person>> UpdateProfile([FromForm] UpdatePersonDTO updatePersonTdo)
         {
             var user = await _context.Person
                 .Where(o => o.Client.UserName == User.Identity.Name)
                 .FirstOrDefaultAsync();
             if (user == null) return NotFound();
-            if (updatePersonTdo.FirstName != null) user.FirstName = updatePersonTdo.FirstName;
-            if (updatePersonTdo.LastName != null) user.LastName = updatePersonTdo.LastName;
-           
+
+            if (!String.IsNullOrEmpty(updatePersonTdo.FirstName) && updatePersonTdo.FirstName != user.FirstName)
+            {
+                user.FirstName = updatePersonTdo.FirstName;
+            }
+            else {
+                user.FirstName = user.FirstName;
+            }
+
+            if (!String.IsNullOrEmpty(updatePersonTdo.LastName) && user.LastName != updatePersonTdo.LastName) {
+                user.LastName = updatePersonTdo.LastName;
+            } else
+            {
+                user.LastName = user.LastName;
+            }
+
             if (updatePersonTdo.File != null)
             {
                 var imageResult = await _imageService.AddImageAsync(updatePersonTdo.File);
@@ -149,13 +162,15 @@ namespace TrenerPersonalny.Controllers
 
                 user.ProfileImg = imageResult.SecureUrl.ToString();
                 user.PublicId = imageResult.PublicId;
+            } else
+            {
+                user.ProfileImg = user.ProfileImg;
             }
 
-            var result = await _context.SaveChangesAsync() > 0;
+            await _context.SaveChangesAsync();
+            return Ok(user);
 
-            if (result) return Ok(user);
-
-            return BadRequest(new ProblemDetails { Title = "Problem updating profile" });
+          //  return BadRequest(new ProblemDetails { Title = "Problem updating profile" });
         }
 
     }
