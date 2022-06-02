@@ -4,15 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TrenerPersonalny.Data;
-using TrenerPersonalny.Models.Orders;
 using Microsoft.EntityFrameworkCore;
-using TrenerPersonalny.Models.DTOs.Orders;
-using TrenerPersonalny.Extensions;
 using TrenerPersonalny.Models;
 using Microsoft.AspNetCore.Authorization;
 using TrenerPersonalny.Models.DTOs.Users;
 using AutoMapper;
 using TrenerPersonalny.Services;
+using TrenerPersonalny.Models.DTOs.Profile;
 
 namespace TrenerPersonalny.Controllers
 {
@@ -127,5 +125,38 @@ namespace TrenerPersonalny.Controllers
             if (user == null) return NotFound();
             return Ok(user);
         }
+
+        [Authorize]
+        [HttpPut("MyProfileUpdate")]
+        public async Task<ActionResult<List<Person>>> UpdateProfile([FromForm] UpdatePersonDTO updatePersonTdo)
+        {
+            var user = await _context.Person
+                .Where(o => o.Client.UserName == User.Identity.Name)
+                .FirstOrDefaultAsync();
+            if (user == null) return NotFound();
+            if (updatePersonTdo.FirstName != null) user.FirstName = updatePersonTdo.FirstName;
+            if (updatePersonTdo.LastName != null) user.LastName = updatePersonTdo.LastName;
+           
+            if (updatePersonTdo.File != null)
+            {
+                var imageResult = await _imageService.AddImageAsync(updatePersonTdo.File);
+
+                if (imageResult.Error != null)
+                    return BadRequest(new ProblemDetails { Title = imageResult.Error.Message });
+
+                if (!string.IsNullOrEmpty(user.PublicId))
+                    await _imageService.DeleteImageAsync(user.PublicId);
+
+                user.ProfileImg = imageResult.SecureUrl.ToString();
+                user.PublicId = imageResult.PublicId;
+            }
+
+            var result = await _context.SaveChangesAsync() > 0;
+
+            if (result) return Ok(user);
+
+            return BadRequest(new ProblemDetails { Title = "Problem updating profile" });
+        }
+
     }
 }

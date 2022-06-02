@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TrenerPersonalny.Migrations
 {
-    public partial class Plans : Migration
+    public partial class MigProfile : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -156,12 +156,10 @@ namespace TrenerPersonalny.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    LastName = table.Column<string>(type: "TEXT", maxLength: 50, nullable: true),
-                    FirstName = table.Column<string>(type: "TEXT", maxLength: 50, nullable: true),
-                    Gender = table.Column<string>(type: "TEXT", maxLength: 50, nullable: true),
-                    ProfileImg = table.Column<string>(type: "TEXT", maxLength: 255, nullable: true),
+                    LastName = table.Column<string>(type: "TEXT", nullable: true),
+                    FirstName = table.Column<string>(type: "TEXT", nullable: true),
+                    ProfileImg = table.Column<string>(type: "TEXT", nullable: true),
                     PublicId = table.Column<string>(type: "TEXT", nullable: true),
-                    PhoneNumber = table.Column<int>(type: "INTEGER", nullable: false),
                     TrainerId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
@@ -187,9 +185,16 @@ namespace TrenerPersonalny.Migrations
                     NormalizedUserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
                     NormalizedEmail = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "INTEGER", nullable: false),
                     PasswordHash = table.Column<string>(type: "TEXT", nullable: true),
                     SecurityStamp = table.Column<string>(type: "TEXT", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "TEXT", nullable: true)
+                    ConcurrencyStamp = table.Column<string>(type: "TEXT", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "TEXT", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "INTEGER", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "INTEGER", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "TEXT", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "INTEGER", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -343,7 +348,7 @@ namespace TrenerPersonalny.Migrations
                     ExcerciseId = table.Column<int>(type: "INTEGER", nullable: false),
                     Repeats = table.Column<int>(type: "INTEGER", nullable: false),
                     ManyInWeek = table.Column<int>(type: "INTEGER", nullable: false),
-                    PlansId = table.Column<int>(type: "INTEGER", nullable: true)
+                    PlansId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -359,7 +364,7 @@ namespace TrenerPersonalny.Migrations
                         column: x => x.PlansId,
                         principalTable: "Plans",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -392,17 +397,17 @@ namespace TrenerPersonalny.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { 1, "aa56e9da-4930-4977-be7b-6a4e5d099a40", "Admin", "ADMIN" });
+                values: new object[] { 1, "36c7d022-05de-41e0-ad9d-eb2368a1770a", "Admin", "ADMIN" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { 2, "ba1a0a97-8dc8-46a1-aac9-0bdf6f41365b", "Trainer", "TRAINER" });
+                values: new object[] { 2, "7a595df5-d3e4-4ce1-ab43-8dd9e38f6f61", "Trainer", "TRAINER" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { 3, "d0ea003b-0e0b-4ede-adc9-0465e37f162a", "Client", "CLIENT" });
+                values: new object[] { 3, "e93fa87a-110e-48e5-876d-e6f0bd35efcd", "Client", "CLIENT" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

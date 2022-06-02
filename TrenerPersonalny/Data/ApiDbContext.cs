@@ -36,15 +36,6 @@ namespace TrenerPersonalny.Data
         {
             base.OnModelCreating(builder);
 
-            builder.Entity<User>()
-                                           .Ignore(c => c.EmailConfirmed)
-                                           .Ignore(c => c.PhoneNumberConfirmed)
-                                           .Ignore(c => c.TwoFactorEnabled)
-                                           .Ignore(c => c.LockoutEnd)
-                                           .Ignore(c => c.LockoutEnabled)
-                                           .Ignore(c => c.AccessFailedCount)
-                                           .Ignore(c => c.PhoneNumber);
-
             builder.Entity<Role>().HasData(
                     new Role {Id = 1, Name = "Admin", NormalizedName = "ADMIN"},
                     new Role {Id = 2, Name = "Trainer", NormalizedName = "TRAINER"},

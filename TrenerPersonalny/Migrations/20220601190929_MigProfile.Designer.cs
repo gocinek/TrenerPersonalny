@@ -9,8 +9,8 @@ using TrenerPersonalny.Data;
 namespace TrenerPersonalny.Migrations
 {
     [DbContext(typeof(ApiDbContext))]
-    [Migration("20220522130405_Plans")]
-    partial class Plans
+    [Migration("20220601190929_MigProfile")]
+    partial class MigProfile
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -237,22 +237,12 @@ namespace TrenerPersonalny.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("FirstName")
-                        .HasMaxLength(50)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Gender")
-                        .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("LastName")
-                        .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("PhoneNumber")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("ProfileImg")
-                        .HasMaxLength(255)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("PublicId")
@@ -281,7 +271,7 @@ namespace TrenerPersonalny.Migrations
                     b.Property<int>("ManyInWeek")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("PlansId")
+                    b.Property<int>("PlansId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("Repeats")
@@ -350,21 +340,21 @@ namespace TrenerPersonalny.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "aa56e9da-4930-4977-be7b-6a4e5d099a40",
+                            ConcurrencyStamp = "36c7d022-05de-41e0-ad9d-eb2368a1770a",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "ba1a0a97-8dc8-46a1-aac9-0bdf6f41365b",
+                            ConcurrencyStamp = "7a595df5-d3e4-4ce1-ab43-8dd9e38f6f61",
                             Name = "Trainer",
                             NormalizedName = "TRAINER"
                         },
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "d0ea003b-0e0b-4ede-adc9-0465e37f162a",
+                            ConcurrencyStamp = "e93fa87a-110e-48e5-876d-e6f0bd35efcd",
                             Name = "Client",
                             NormalizedName = "CLIENT"
                         });
@@ -437,12 +427,24 @@ namespace TrenerPersonalny.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("NormalizedEmail")
@@ -459,12 +461,21 @@ namespace TrenerPersonalny.Migrations
                     b.Property<int>("PersonId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("INTEGER");
+
                     b.Property<DateTime>("Registered")
                         .HasMaxLength(10)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("TEXT");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
@@ -595,11 +606,15 @@ namespace TrenerPersonalny.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TrenerPersonalny.Models.Plans", null)
+                    b.HasOne("TrenerPersonalny.Models.Plans", "Plans")
                         .WithMany("PlanDetails")
-                        .HasForeignKey("PlansId");
+                        .HasForeignKey("PlansId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Excercise");
+
+                    b.Navigation("Plans");
                 });
 
             modelBuilder.Entity("TrenerPersonalny.Models.Plans", b =>
